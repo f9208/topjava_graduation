@@ -4,16 +4,19 @@ INSERT INTO users (name, email, password)
 VALUES ('User', 'user@yandex.ru', 'password'),
        ('Admin', 'admin@gmail.com', 'admin');
 
-INSERT INTO restaurant(name, id)
-values ('tea_home', 10010),
-       ('home_sweat_home', 10020);
+INSERT INTO restaurant(name)
+values ('tea_home'),
+       ('home_sweat_home');
 
 INSERT INTO dishes (name, price, restaurant_id)
-VALUES ('borsch', 40, 10010),
-       ('cutlet_kiev', 120, 10020),
-       ('compote', 20, 10020),
-       ('pasta', 100, 10010),
-       ('muffin', 55, 10010);
+VALUES ('borsch', 40, 10002),
+       ('cutlet_kiev', 120, 10003),
+       ('compote', 20, 10003),
+       ('pasta', 100, 10003),
+       ('muffin', 55, 10002);
 
--- INSERT INTO restaurant (name, menu)
---     VALUE ('tea_House', 10004)
+INSERT INTO user_roles (role, user_id)
+VALUES ('USER', 10000),
+       ('ADMIN', 10001),
+       ('USER', 10001);
+

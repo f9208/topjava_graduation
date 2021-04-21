@@ -1,6 +1,7 @@
 DROP TABLE dishes IF EXISTS;
-DROP TABLE users IF EXISTS;
+DROP TABLE users IF EXISTS cascade ;
 DROP TABLE restaurant IF EXISTS;
+DROP TABLE user_roles IF EXISTS;
 DROP SEQUENCE global_seq IF EXISTS;
 
 CREATE SEQUENCE GLOBAL_SEQ AS INTEGER START WITH 10000;
@@ -15,7 +16,7 @@ CREATE TABLE users
 );
 CREATE
     UNIQUE INDEX users_unique_email_idx
-    ON USERS (email);
+    ON users (email);
 
 CREATE TABLE restaurant
 (
@@ -32,3 +33,10 @@ CREATE TABLE dishes
     FOREIGN KEY (restaurant_id) REFERENCES restaurant (id) ON DELETE CASCADE
 );
 
+CREATE TABLE user_roles
+(
+    user_id INTEGER NOT NULL,
+    role    VARCHAR(255),
+    CONSTRAINT user_roles_idx UNIQUE (user_id, role),
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);

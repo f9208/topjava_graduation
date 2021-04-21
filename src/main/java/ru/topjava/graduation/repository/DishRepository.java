@@ -30,6 +30,7 @@ public class DishRepository {
     }
 
     public int delete(int id, int restaurantId) {
+        log.info("delete dish {} for restaurant {}", id, restaurantId);
         return crudDishRepository.delete(id, restaurantId);
     }
 
