@@ -1,19 +1,19 @@
 package ru.topjava.graduation.model.entities;
 
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "restaurant")
 public class Restaurant extends AbstractNamedEntity {
-    @Column(name = "menu")
-
-    @ManyToMany
-    private Set<Dish> menu;
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER )
+    @JsonManagedReference
+    private List<Dish> menu;
 
     public Restaurant() {
     }
@@ -22,12 +22,21 @@ public class Restaurant extends AbstractNamedEntity {
         super(id, name);
     }
 
-    public Set<Dish> getMenu() {
+    public List<Dish> getMenu() {
         return menu;
     }
 
-    public void setMenu(Set<Dish> menu) {
+    public void setMenu(List<Dish> menu) {
         this.menu = menu;
+    }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", menu=" + menu +
+                '}';
     }
 }
 /*
