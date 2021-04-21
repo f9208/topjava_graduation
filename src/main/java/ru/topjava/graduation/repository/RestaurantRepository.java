@@ -13,16 +13,23 @@ public class RestaurantRepository {
         this.crudRestaurantRepository = crudRestaurantRepository;
     }
 
-    List<Restaurant> getAll() {
+    public Restaurant save(Restaurant restaurant) {
+        return crudRestaurantRepository.save(restaurant);
+    }
+
+    public List<Restaurant> getAll() {
         return crudRestaurantRepository.findAll();
     }
 
-    Restaurant getOne(int id) {
+    public Restaurant get(int id) {
         return crudRestaurantRepository.findById(id).orElse(null);
     }
-//    Restaurant getWithDish(Integer id) {
-//        Restaurant r=crudRestaurantRepository.getWithDish(10010);
-//        System.out.println(r);
-//        return r;
-//    }
+
+    public Restaurant getWithDish(Integer id) {
+        return crudRestaurantRepository.getOneWithDish(id);
+    }
+
+    public void delete(int id) {
+        crudRestaurantRepository.deleteById(id);
+    }
 }

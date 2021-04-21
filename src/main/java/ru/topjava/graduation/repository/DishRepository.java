@@ -13,35 +13,35 @@ public class DishRepository {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final CrudDishRepository crudDishRepository;
+    private final CrudRestaurantRepository crudRestaurantRepository;
 
-    public DishRepository(CrudDishRepository crudDishRepository) {
+    public DishRepository(CrudDishRepository crudDishRepository, CrudRestaurantRepository crudRestaurantRepository) {
         this.crudDishRepository = crudDishRepository;
+        this.crudRestaurantRepository = crudRestaurantRepository;
     }
 
     @Transactional
-    public Dish create(Dish dish) {
-        log.info("save dish");
+    public Dish save(Dish dish, int restaurantId) {
+        log.info("save dish for restaurant {}", restaurantId);
+        if (!dish.isNew() && get(dish.getId(), restaurantId) == null)
+            return null;
+        dish.setRestaurant(crudRestaurantRepository.getOne(restaurantId));
         return crudDishRepository.save(dish);
     }
 
-    public Dish get(Integer id) {
-        log.info("get dish {}", id);
-        return crudDishRepository.findDishById(id);
+    public int delete(int id, int restaurantId) {
+        return crudDishRepository.delete(id, restaurantId);
     }
 
-    public List<Dish> getAll() {
-        log.info("empty getAll");
-        return crudDishRepository.findAll();
+    public Dish get(Integer id, int restaurantId) {
+        log.info("get dish {} for restaurant {}", id, restaurantId);
+        return crudDishRepository.findById(id)
+                .filter(dish -> dish.getRestaurant().getId() == restaurantId)
+                .orElse(null);
     }
 
-    public boolean delete(int id) {
-        return crudDishRepository.deleteDishById(id);
+    public List<Dish> getAllByRestaurantId(int restaurantId) {
+        log.info("getAll");
+        return crudDishRepository.findAllByRestaurantId(restaurantId);
     }
-
-    @Transactional
-    public void update(Dish dish) {
-        log.info("update dish {}", dish.getId());
-        crudDishRepository.save(dish);
-    }
-
 }
