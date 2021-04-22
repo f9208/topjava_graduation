@@ -20,3 +20,7 @@ VALUES ('USER', 10000),
        ('ADMIN', 10001),
        ('USER', 10001);
 
+INSERT INTO vote (restaurant_id, user_id)
+VALUES (10002, 10000),
+       (10003, 10001);
+

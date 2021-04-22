@@ -17,12 +17,14 @@ class RestaurantRepositoryTest extends AbstractStarterTest {
 
     @Test
     void getOne() {
-        Restaurant r = restaurantRepository.get(10002);
+        Restaurant r = restaurantRepository.getOne(10002);
     }
 
     @Test
     void getWithDish() {
-        Restaurant r = restaurantRepository.getWithDish(10002);
+        Restaurant r = restaurantRepository.getOneWithMenu(10002);
         System.out.println(r.getMenu());
     }
+
+
 }

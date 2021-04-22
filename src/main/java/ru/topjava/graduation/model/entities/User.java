@@ -1,6 +1,7 @@
 package ru.topjava.graduation.model.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -41,6 +42,18 @@ public class User extends AbstractNamedEntity {
     @JoinColumn(name = "user_id") //https://stackoverflow.com/a/62848296/548473
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
+
+    @JsonBackReference
+    @OneToOne(mappedBy = "restaurant", fetch = FetchType.LAZY)
+    private Vote vote; //todo один юзер может голосовать много раз - много vote
+
+    public void setVote(Vote vote) {
+        this.vote = vote;
+    }
+
+    public Vote getVote() {
+        return vote;
+    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -83,6 +96,7 @@ public class User extends AbstractNamedEntity {
                 ", password='" + password + '\'' +
                 ", registered=" + registered +
                 ", roles=" + roles +
+                ", vote=" + vote +
                 '}';
     }
 }

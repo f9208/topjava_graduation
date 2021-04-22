@@ -11,46 +11,42 @@ import ru.topjava.graduation.repository.DishRepository;
 import ru.topjava.graduation.repository.RestaurantRepository;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
-@RequestMapping(value = DishController.PATH, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = DishController.RESTAURANT_ID_MENU, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishController {
-    static final String PATH = "/restaurants/{restaurant_id}/dishes";
+    static final String RESTAURANT_ID_MENU = "/restaurants/{restaurant_id}/menu";
 
     @Autowired
     DishRepository dishRepository;
     @Autowired
     RestaurantRepository restaurantRepository;
 
-    @GetMapping
-    List<Dish> get(@PathVariable(name = "restaurant_id") int id) {
-        return dishRepository.getAllByRestaurantId(id);
+    @GetMapping("/{dish_id}")
+    Dish getOneDish(@PathVariable("dish_id") int dish_id, @PathVariable("restaurant_id") int restaurantId) {
+        return dishRepository.get(dish_id, restaurantId);
     }
 
-    @GetMapping("/{id}")
-    Dish getOne(@PathVariable("id") int id, @PathVariable("restaurant_id") int restaurantId) {
-        return dishRepository.get(id, restaurantId);
-    }
-
-    //todo как здесь сделать аутентификацию?
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Dish> addDish(@RequestBody Dish dish, @PathVariable("restaurant_id") int restaurantId) {
         Dish created = dishRepository.save(dish, restaurantId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(PATH + "/{id}")
+                .path(RESTAURANT_ID_MENU + "/{dish_id}")
                 .buildAndExpand(created.getId()).toUri();
 
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    //todo как здесь сделать аутентификацию?
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Dish dish, @PathVariable("restaurant_id") int restaurantId) {
-        dishRepository.save(dish, restaurantId);
+    void updateDish(@PathVariable(name = "restaurant_id") int restaurant_id, @RequestBody Dish dish) {
+        dishRepository.save(dish, restaurant_id);
     }
 
-
+    @DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void deleteDish(@PathVariable(name = "restaurant_id") int restaurant_id, @RequestBody Dish dish) {
+        dishRepository.delete(dish.getId(), restaurant_id);
+    }
 }

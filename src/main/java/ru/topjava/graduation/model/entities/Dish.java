@@ -13,7 +13,7 @@ public class Dish extends AbstractNamedEntity {
     @NumberFormat
     @NotNull
     private Integer price;
- // todo сделать имя уникальным
+ // todo сделать уникальным название + дата (даты нет пока, даа)
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false) //название колонки в таблице

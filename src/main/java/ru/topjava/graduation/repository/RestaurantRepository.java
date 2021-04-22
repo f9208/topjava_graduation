@@ -17,19 +17,25 @@ public class RestaurantRepository {
         return crudRestaurantRepository.save(restaurant);
     }
 
+    public void delete(int id) {
+        crudRestaurantRepository.deleteById(id);
+    }
+
+    public Restaurant getOne(int id) {
+        return crudRestaurantRepository.findById(id).orElse(null);
+    }
+
+    public Restaurant getOneWithMenu(Integer id) {
+        return crudRestaurantRepository.getOneWithMenu(id);
+    }
+
     public List<Restaurant> getAll() {
         return crudRestaurantRepository.findAll();
     }
 
-    public Restaurant get(int id) {
-        return crudRestaurantRepository.findById(id).orElse(null);
+    public List<Restaurant> getAllWithMenu() {
+        return crudRestaurantRepository.getAllWithMenu();
     }
 
-    public Restaurant getWithDish(Integer id) {
-        return crudRestaurantRepository.getOneWithDish(id);
-    }
 
-    public void delete(int id) {
-        crudRestaurantRepository.deleteById(id);
-    }
 }

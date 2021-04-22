@@ -5,6 +5,7 @@ import ru.topjava.graduation.model.HasId;
 import javax.persistence.*;
 
 @MappedSuperclass
+@Access(AccessType.FIELD) // говорит, что есть доступ ко всем полям без геттеров-сеттеров
 public abstract class AbstractBaseEntity implements HasId {
     public static final int START_SEQ = 10_000;
     @Id

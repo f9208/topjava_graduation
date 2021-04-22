@@ -3,7 +3,6 @@ package ru.topjava.graduation.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
 class UserRepositoryTest extends AbstractStarterTest {
 
     @Autowired
