@@ -1,10 +1,10 @@
 ## *****Methods RestaurantController*****
 
-get /topjava_graduation/restaurants - список ресторанов без еды get /topjava_graduation/restaurants/with-menu - вывод
-списка ресторанов вместе с меню get /topjava_graduation/restaurants/{id} - вывод называния ресторана, его id (без меню)
-get /topjava_graduation/restaurants/{id}/menu - вывод меню для указанного в {id} ресторана
+get /topjava_graduation/restaurants - список ресторанов без еды 
+get /topjava_graduation/restaurants/with-menu - вывод списка ресторанов вместе с меню 
+get /topjava_graduation/restaurants/{id} - вывод называния ресторана (без меню)
 
-следующие методы должны делать только пользователи с ролью админ
+//todo следующие методы должны делать только пользователи с ролью админ
 
 post post /topjava_graduation/restaurants - добавлять новый ресторан. возвращается {id} нового ресторана
 
@@ -16,7 +16,8 @@ put /topjava_graduation/restaurants/{id} - можно внести изменение в название рес
 
 ## **Methods DishController**
 
-get /restaurants/{restaurant_id}/menu/{dish_id} - возвращает запись указанного блюда в меню
+get /topjava_graduation/restaurants/{restaurant_id}/menu - вывод меню для указанного в {restaurant_id} ресторана 
+get /topjava_graduation/restaurants/{restaurant_id}/menu/{dish_id} - возвращает запись указанного блюда в меню
 
 сделать здесь доступ только пользователям с ролью Админ
 post /restaurants/{restaurant_id}/menu - добавляет dish в меню

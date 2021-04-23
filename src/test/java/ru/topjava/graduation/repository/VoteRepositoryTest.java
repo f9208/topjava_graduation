@@ -6,7 +6,6 @@ import ru.topjava.graduation.model.entities.to.VoteTo;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 
 class VoteRepositoryTest extends AbstractStarterTest {
     @Autowired
@@ -32,7 +31,7 @@ class VoteRepositoryTest extends AbstractStarterTest {
 
     @Test
     void getVoteWithRestaurantAndUser() {
-        System.out.println(voteRepository.getVoteWithRestaurantAndUser(10010));
+        System.out.println(voteRepository.getOneWithRestaurantAndUser(10010));
     }
 
     @Test

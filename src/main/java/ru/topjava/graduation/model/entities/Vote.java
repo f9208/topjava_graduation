@@ -1,14 +1,13 @@
 package ru.topjava.graduation.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import ru.topjava.graduation.model.entities.to.VoteTo;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "vote")
+@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"})})
 public class Vote extends AbstractBaseEntity {
     @Column(name = "date", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
@@ -22,7 +21,7 @@ public class Vote extends AbstractBaseEntity {
     @JoinColumn(name = "restaurant_id")
     Restaurant restaurant;
 
-    int getRestaurantId (){
+    int getRestaurantId() {
         return restaurant.getId();
     }
 
@@ -51,6 +50,12 @@ public class Vote extends AbstractBaseEntity {
     }
 
     public Vote() {
+    }
+
+    public Vote(VoteTo voteTo, User user) {
+        this.user = user;
+        this.date = voteTo.getLocalDateTime();
+//        this.restaurant = voteTo.getRestaurant();
     }
 
     public Vote(Integer id, @NotNull LocalDateTime date, User user, Restaurant restaurant) {

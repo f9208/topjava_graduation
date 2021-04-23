@@ -12,5 +12,9 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     @EntityGraph(attributePaths = {"restaurant","user"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("Select v From Vote v where v.id=?1")
      Vote getVoteWithRestaurantAndUser(int id);
+
+    @EntityGraph(attributePaths = {"restaurant","user"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("Select v From Vote v")
+    List <Vote> getAllWithRestaurantAndUser();
 }
 

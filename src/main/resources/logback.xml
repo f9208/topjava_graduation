@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="30 seconds">
+    <jmxConfigurator/>
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-<!--        it seems like  <file>-property unnecessary http://logback.qos.ch/codes.html#renamingError-->
+        <!--        it seems like  <file>-property unnecessary http://logback.qos.ch/codes.html#renamingError-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${catalina.base}/logs/topjava_graduation/logs.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
@@ -24,7 +25,7 @@
     <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver"
             level="debug"/>
     <!--    <logger name="org.springframework.security" level="debug"/>-->
-    <logger name="org.hibernate.SQL" level="debug"/>
+    <!--    <logger name="org.hibernate.SQL" level="debug"/>-->
 
     <root level="info">
         <appender-ref ref="file"/>

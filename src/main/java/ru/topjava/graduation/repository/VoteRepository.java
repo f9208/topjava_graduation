@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.topjava.graduation.SecurityUtil;
 import ru.topjava.graduation.model.entities.Restaurant;
 import ru.topjava.graduation.model.entities.User;
 import ru.topjava.graduation.model.entities.Vote;
@@ -53,8 +54,20 @@ public class VoteRepository {
         return crudVoteRepository.findById(id).orElse(null);
     }
 
-    public Vote getVoteWithRestaurantAndUser(int id) {
+    public List<Vote> getAllWithRestaurantAndUser() {
+        return crudVoteRepository.getAllWithRestaurantAndUser();
+    }
+
+    public Vote getOneWithRestaurantAndUser(int id) {
         log.info("get vote {} with restaurant and user ", id);
         return crudVoteRepository.getVoteWithRestaurantAndUser(id);
+    }
+
+    public Vote save(Vote vote) {
+        log.info("save voteTo");
+        //todo где то здесь должен быть слой проверки возможности голосовать один раз
+//        crudVoteRepository.getVoteWithRestaurantAndUser(voteTo.getId());
+//        Vote created = new Vote(voteTo, SecurityUtil.getAuthUser());
+        return crudVoteRepository.save(vote);
     }
 }

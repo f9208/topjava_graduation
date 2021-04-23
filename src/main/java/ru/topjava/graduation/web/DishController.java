@@ -8,19 +8,25 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.graduation.model.entities.Dish;
 import ru.topjava.graduation.repository.DishRepository;
-import ru.topjava.graduation.repository.RestaurantRepository;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = DishController.RESTAURANT_ID_MENU, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishController {
     static final String RESTAURANT_ID_MENU = "/restaurants/{restaurant_id}/menu";
-
     @Autowired
     DishRepository dishRepository;
-    @Autowired
-    RestaurantRepository restaurantRepository;
+
+    @GetMapping
+    List<Dish> getMenu(@PathVariable("restaurant_id") int restaurantId) {
+        return dishRepository.getActualMenu(restaurantId);
+    }
+    @GetMapping("/full")
+    List<Dish> getFullMenu(@PathVariable("restaurant_id") int restaurantId) {
+        return dishRepository.getFullMenu(restaurantId);
+    }
 
     @GetMapping("/{dish_id}")
     Dish getOneDish(@PathVariable("dish_id") int dish_id, @PathVariable("restaurant_id") int restaurantId) {

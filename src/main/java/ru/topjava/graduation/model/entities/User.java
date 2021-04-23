@@ -11,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
@@ -30,7 +31,7 @@ public class User extends AbstractNamedEntity {
 
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
-    private Date registered = new Date();
+    private LocalDateTime registered;
 
     //    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @Enumerated(EnumType.STRING)
@@ -46,6 +47,16 @@ public class User extends AbstractNamedEntity {
     @JsonBackReference
     @OneToOne(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private Vote vote; //todo один юзер может голосовать много раз - много vote
+
+    public User() {
+    }
+
+    public User(Integer id, String name, @Email @NotBlank @Size(max = 100) String email, @NotBlank @Size(min = 5, max = 100) String password, @NotNull LocalDateTime registered) {
+        super(id, name);
+        this.email = email;
+        this.password = password;
+        this.registered = registered;
+    }
 
     public void setVote(Vote vote) {
         this.vote = vote;
@@ -63,7 +74,7 @@ public class User extends AbstractNamedEntity {
         this.password = password;
     }
 
-    public void setRegistered(Date registered) {
+    public void setRegistered(LocalDateTime registered) {
         this.registered = registered;
     }
 
@@ -79,7 +90,7 @@ public class User extends AbstractNamedEntity {
         return password;
     }
 
-    public Date getRegistered() {
+    public LocalDateTime getRegistered() {
         return registered;
     }
 

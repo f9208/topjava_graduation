@@ -31,20 +31,38 @@ public class DishRepository {
         return crudDishRepository.save(dish);
     }
 
-    public int delete(int id, int restaurantId) {
-        log.info("delete dish {} for restaurant {}", id, restaurantId);
-        return crudDishRepository.delete(id, restaurantId);
+    @Transactional
+    public int delete(int dishId, int restaurantId) {
+        log.info("delete dish {} for restaurant {}", dishId, restaurantId);
+        return crudDishRepository.delete(dishId, restaurantId);
     }
 
-    public Dish get(Integer id, int restaurantId) {
-        log.info("get dish {} for restaurant {}", id, restaurantId);
-        return crudDishRepository.findById(id)
+    public Dish get(Integer dishId, int restaurantId) {
+        log.info("get dish {} for restaurant {}", dishId, restaurantId);
+        return crudDishRepository.findById(dishId)
                 .filter(dish -> dish.getRestaurant().getId() == restaurantId)
                 .orElse(null);
     }
 
-    public List<Dish> getMenu(int restaurantId) {
-        log.info("getAllDish (menu) for restaurant {} ", restaurantId);
+    public List<Dish> getActualMenu(int restaurantId) {
+        log.info("getActualMenu for restaurant {} ", restaurantId);
+        return crudDishRepository.findAllByRestaurantIdAndEnabledIsTrue(restaurantId);
+    }
+    public List<Dish> getFullMenu(int restaurantId) {
+        log.info("getFullMenu for restaurant {} ", restaurantId);
         return crudDishRepository.findAllByRestaurantId(restaurantId);
+    }
+
+    public void setVisibility(int dishId, int restaurantId, boolean state) {
+        Dish d = get(dishId, restaurantId);
+        if (d == null) return;
+
+        if (d.isEnabled() == state) {
+            log.info("dish {} for restaurant {} is already {}", dishId, restaurantId, state ? "enable" : "disable");
+            return;
+        }
+        log.info("dish {} for restaurant {} is {}", dishId, restaurantId, state ? "enable" : "disable");
+        d.setEnabled(state);
+        crudDishRepository.save(d);
     }
 }

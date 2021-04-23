@@ -19,8 +19,6 @@ public class RestaurantsController {
     static final String RESTAURANT_ROOT = "/";
     static final String RESTAURANTS = "restaurants";
     @Autowired
-    DishRepository dishRepository;
-    @Autowired
     RestaurantRepository restaurantRepository;
 
     @GetMapping
@@ -34,13 +32,8 @@ public class RestaurantsController {
     }
 
     @GetMapping(RESTAURANTS + "/{id}")
-    public Restaurant getRestaurant(@PathVariable("id") int id) {
-        return restaurantRepository.getOne(id);
-    }
-
-    @GetMapping(RESTAURANTS + "/{id}/menu")
     public Restaurant getRestaurantWithMenu(@PathVariable("id") int id) {
-        return restaurantRepository.getOneWithMenu(id);
+        return restaurantRepository.getOne(id);
     }
 
     @GetMapping(RESTAURANTS + "/with-menu")
