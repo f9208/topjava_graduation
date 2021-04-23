@@ -30,7 +30,7 @@ class DishRepositoryTest extends AbstractStarterTest {
     @Test
     void getAll() {
         Integer restaurant_id = 10002;
-        System.out.println(dishRepository.getAllByRestaurantId(restaurant_id));
+        System.out.println(dishRepository.getMenu(restaurant_id));
     }
 
     @Test

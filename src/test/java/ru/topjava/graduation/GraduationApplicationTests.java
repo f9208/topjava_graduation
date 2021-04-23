@@ -10,7 +10,6 @@ class GraduationApplicationTests {
                      new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml")) {
 //            System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             DishRepository dishRepository = appCtx.getBean(DishRepository.class);
-            System.out.println(dishRepository.getAllByRestaurantId(10010));
         }
     }
 }

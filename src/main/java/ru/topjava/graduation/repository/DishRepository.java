@@ -43,8 +43,8 @@ public class DishRepository {
                 .orElse(null);
     }
 
-    public List<Dish> getAllByRestaurantId(int restaurantId) {
-        log.info("getAll");
+    public List<Dish> getMenu(int restaurantId) {
+        log.info("getAllDish (menu) for restaurant {} ", restaurantId);
         return crudDishRepository.findAllByRestaurantId(restaurantId);
     }
 }
