@@ -44,10 +44,6 @@ public class User extends AbstractNamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
 
-    @JsonBackReference
-    @OneToOne(mappedBy = "restaurant", fetch = FetchType.LAZY)
-    private Vote vote; //todo один юзер может голосовать много раз - много vote
-
     public User() {
     }
 
@@ -56,14 +52,6 @@ public class User extends AbstractNamedEntity {
         this.email = email;
         this.password = password;
         this.registered = registered;
-    }
-
-    public void setVote(Vote vote) {
-        this.vote = vote;
-    }
-
-    public Vote getVote() {
-        return vote;
     }
 
     public void setEmail(String email) {
@@ -107,7 +95,6 @@ public class User extends AbstractNamedEntity {
                 ", password='" + password + '\'' +
                 ", registered=" + registered +
                 ", roles=" + roles +
-                ", vote=" + vote +
                 '}';
     }
 }

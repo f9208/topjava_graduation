@@ -2,8 +2,8 @@ package ru.topjava.graduation.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.topjava.graduation.model.entities.to.VoteTo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -17,25 +17,17 @@ class VoteRepositoryTest extends AbstractStarterTest {
 
     @Test
     void toVote() {
-        LocalDateTime date = LocalDateTime.now();
-        LocalTime time = LocalTime.from(date);
-        System.out.println(time.isAfter(LocalTime.parse("11:00:00")));
+        LocalDate date = LocalDateTime.now().toLocalDate();
         voteRepository.toVote(date, 10000, 10002);
-        System.out.println(VoteTo.getListVoteTo(voteRepository.findAll()));
     }
 
     @Test
-    void transferObject() {
-        System.out.println(VoteTo.getListVoteTo(voteRepository.findAll()));
+    void getVote() {
+        System.out.println(voteRepository.get(10012));
     }
 
     @Test
-    void getVoteWithRestaurantAndUser() {
-        System.out.println(voteRepository.getOneWithRestaurantAndUser(10010));
-    }
-
-    @Test
-    void getVote(){
-        System.out.println(voteRepository.get(10010));
+    void getAll() {
+        System.out.println(voteRepository.findAll());
     }
 }

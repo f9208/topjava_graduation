@@ -1,77 +1,71 @@
 package ru.topjava.graduation.model.entities;
 
-import ru.topjava.graduation.model.entities.to.VoteTo;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"})})
 public class Vote extends AbstractBaseEntity {
-    @Column(name = "date", nullable = false, columnDefinition = "timestamp default now()")
+    @Column(name = "date", nullable = false, columnDefinition = "DATE DEFAULT CURRENT_DATE")
     @NotNull
-    private LocalDateTime date;
+    private LocalDate date;
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    User user;
+    @Column(name = "user_id")
+    int userId;
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id")
-    Restaurant restaurant;
+    @Column(name = "restaurant_id")
+    int restaurantId;
 
-    int getRestaurantId() {
-        return restaurant.getId();
+
+    ///////////////////////
+//    возмжно сделать трансфер обжект по факту учитывания голоса или нет. в базу сохранять все голоса подряд
+
+
+    public int getRestaurantId() {
+        return restaurantId;
     }
 
-    public void setDate(LocalDateTime dateTime) {
-        this.date = dateTime;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(int user) {
+        this.userId = user;
     }
 
-    public void setRestaurant(Restaurant restaurant) {
-        this.restaurant = restaurant;
+    public void setRestaurantId(int restaurant) {
+        this.restaurantId = restaurant;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public Restaurant getRestaurant() {
-        return restaurant;
+    public int getUserId() {
+        return userId;
     }
 
     public Vote() {
     }
 
-    public Vote(VoteTo voteTo, User user) {
-        this.user = user;
-        this.date = voteTo.getLocalDateTime();
-//        this.restaurant = voteTo.getRestaurant();
-    }
-
-    public Vote(Integer id, @NotNull LocalDateTime date, User user, Restaurant restaurant) {
+    public Vote(Integer id, @NotNull LocalDate date, int userId, int restaurantId) {
         super(id);
         this.date = date;
-        this.user = user;
-        this.restaurant = restaurant;
+        this.userId = userId;
+        this.restaurantId = restaurantId;
     }
 
     @Override
     public String toString() {
         return "Vote{" +
                 "Id=" + id +
-                ", dateTime=" + date +
-                ", userId=" + user.getId() +
-                ", restaurantId=" + restaurant.getId() +
+                ", date=" + date +
+                ", userId=" + userId +
+                ", restaurantId=" + restaurantId +
                 '}';
     }
 }
