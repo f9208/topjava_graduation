@@ -1,7 +1,6 @@
 package ru.topjava.graduation.model.entities;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -12,7 +11,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.EnumSet;
 import java.util.Set;
 
 @Entity
@@ -47,11 +46,12 @@ public class User extends AbstractNamedEntity {
     public User() {
     }
 
-    public User(Integer id, String name, @Email @NotBlank @Size(max = 100) String email, @NotBlank @Size(min = 5, max = 100) String password, @NotNull LocalDateTime registered) {
+    public User(Integer id, String name, @Email @NotBlank @Size(max = 100) String email, @NotBlank @Size(min = 5, max = 100) String password, @NotNull LocalDateTime registered, Role role, Role... roles) {
         super(id, name);
         this.email = email;
         this.password = password;
         this.registered = registered;
+        this.roles = EnumSet.of(role, roles);
     }
 
     public void setEmail(String email) {

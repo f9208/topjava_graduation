@@ -23,6 +23,7 @@ public class DishController {
     List<Dish> getMenu(@PathVariable("restaurant_id") int restaurantId) {
         return dishRepository.getActualMenu(restaurantId);
     }
+
     @GetMapping("/full")
     List<Dish> getFullMenu(@PathVariable("restaurant_id") int restaurantId) {
         return dishRepository.getFullMenu(restaurantId);
@@ -44,6 +45,7 @@ public class DishController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
+    //todo patch or put?
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void updateDish(@PathVariable(name = "restaurant_id") int restaurant_id, @RequestBody Dish dish) {

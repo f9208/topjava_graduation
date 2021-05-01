@@ -5,5 +5,4 @@ import ru.topjava.graduation.model.entities.User;
 
 public interface CrudUserRepository extends JpaRepository<User, Integer> {
 
-
 }
