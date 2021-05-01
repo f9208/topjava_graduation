@@ -2,8 +2,12 @@ package ru.topjava.graduation.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import ru.topjava.graduation.Exceptions.NotFoundException;
+import ru.topjava.graduation.model.entities.Role;
 import ru.topjava.graduation.model.entities.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,8 +33,7 @@ class UserRepositoryTest extends AbstractStarterTest {
 
     @Test
     void getNotFound() {
-//        assertThrows(NotFoundException.class, () -> userRepository.findById(NOT_FOUND));
-//        экспешены создаются в валидаторе, т.е. вначале надо создать его.
+        assertThrows(NotFoundException.class, () -> userRepository.findById(NOT_FOUND));
     }
 
     @Test
@@ -44,10 +47,31 @@ class UserRepositoryTest extends AbstractStarterTest {
     }
 
     @Test
-    void delete() {
-        userRepository.deleteUser(USER_KET_ID);
-        //        экспешены создаются в валидаторе, т.е. вначале надо создать его.
+    void createDuplicateEmail() {
+        assertThrows(DataAccessException.class, () -> userRepository.create(
+                new User(null, "Filly", "admin@gmail.com", "12345", LocalDateTime.now(), Role.USER)));
+    }
 
-//        assertThrows(NotFoundException.class, () -> userRepository.findById(USER_KET_ID));
+    @Test
+    void update() {
+        User updated = getUpdated();
+        userRepository.update(updated);
+        USER_MATCHER.assertMatch(userRepository.findById(USER_JONNY_ID), getUpdated());
+    }
+
+    @Test
+    void delete() {
+        userRepository.delete(USER_KET_ID);
+        assertThrows(NotFoundException.class, () -> userRepository.findById(USER_KET_ID));
+    }
+
+    @Test
+    void deleteNotFound() {
+        assertThrows(NotFoundException.class, () -> userRepository.delete(NOT_FOUND));
+    }
+
+    @Test
+    void getByEmail() {
+        USER_MATCHER.assertMatch(admin, userRepository.getByEmail("admin@gmail.com"));
     }
 }

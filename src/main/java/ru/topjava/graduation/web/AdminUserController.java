@@ -44,6 +44,6 @@ public class AdminUserController {
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteUser(@RequestBody int id) {
-        userRepository.deleteUser(id);
+        userRepository.delete(id);
     }
 }

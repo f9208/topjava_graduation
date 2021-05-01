@@ -5,6 +5,8 @@ import ru.topjava.graduation.model.entities.User;
 import ru.topjava.graduation.repository.TestMatcher;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Set;
 
 import static ru.topjava.graduation.model.entities.AbstractBaseEntity.START_SEQ;
 
@@ -26,5 +28,13 @@ public class UserTestData {
         return new User(null, "novichok", "novichok@kgb.ru", "1234567", LocalDateTime.now(), Role.USER);
     }
 
+    public static User getUpdated() {
+        User updated = new User(userJonny);
+        updated.setEmail("updateUser@gmail.com");
+        updated.setName("viktor");
+        updated.setPassword("4834309572");
+        updated.setRoles(Set.of(Role.ADMIN, Role.USER));
+        return updated;
+    }
 
 }

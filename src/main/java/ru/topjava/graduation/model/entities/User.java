@@ -4,6 +4,7 @@ package ru.topjava.graduation.model.entities;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -46,12 +48,20 @@ public class User extends AbstractNamedEntity {
     public User() {
     }
 
-    public User(Integer id, String name, @Email @NotBlank @Size(max = 100) String email, @NotBlank @Size(min = 5, max = 100) String password, @NotNull LocalDateTime registered, Role role, Role... roles) {
+    public User(User user) {
+        this(user.getId(), user.getName(), user.getEmail(), user.getPassword(), user.getRegistered(), user.getRoles());
+    }
+
+    public User(Integer id, String name, String email, String password, LocalDateTime registered, Role role, Role... roles) {
+        this(id, name, email, password, registered, EnumSet.of(role, roles));
+    }
+
+    public User(Integer id, String name, String email, String password, LocalDateTime registered, Collection<Role> roles) {
         super(id, name);
         this.email = email;
         this.password = password;
         this.registered = registered;
-        this.roles = EnumSet.of(role, roles);
+        setRoles(roles);
     }
 
     public void setEmail(String email) {
@@ -66,8 +76,8 @@ public class User extends AbstractNamedEntity {
         this.registered = registered;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRoles(Collection<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
 
     public String getEmail() {

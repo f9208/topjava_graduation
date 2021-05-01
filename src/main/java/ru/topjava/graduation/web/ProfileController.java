@@ -8,8 +8,6 @@ import ru.topjava.graduation.model.entities.User;
 import ru.topjava.graduation.repository.UserRepository;
 import ru.topjava.graduation.utils.SecurityUtil;
 
-import javax.print.attribute.standard.Media;
-
 @RestController
 @RequestMapping(value = ProfileController.HEAD_URL)
 public class ProfileController {
@@ -31,7 +29,7 @@ public class ProfileController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteYourself(@RequestBody int id) {
         if (SecurityUtil.getAuthUser().getId() == id) {
-            userRepository.deleteUser(id);
+            userRepository.delete(id);
         }
     }
 
