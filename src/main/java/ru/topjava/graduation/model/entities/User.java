@@ -19,6 +19,11 @@ import java.util.Set;
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
 public class User extends AbstractNamedEntity {
+    @Id
+    @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_SEQ", allocationSize = 1, initialValue = START_SEQ)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ")
+    Integer id;
+
     @Column(name = "email", nullable = false, unique = true)
     @Email
     @NotBlank
@@ -57,7 +62,8 @@ public class User extends AbstractNamedEntity {
     }
 
     public User(Integer id, String name, String email, String password, LocalDateTime registered, Collection<Role> roles) {
-        super(id, name);
+        super(name);
+        this.id = id;
         this.email = email;
         this.password = password;
         this.registered = registered;
@@ -80,6 +86,11 @@ public class User extends AbstractNamedEntity {
         this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
 
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -94,6 +105,11 @@ public class User extends AbstractNamedEntity {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
     }
 
     @Override

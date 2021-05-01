@@ -7,11 +7,15 @@ import org.springframework.format.annotation.NumberFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "dishes")
 public class Dish extends AbstractNamedEntity {
+    @Id
+    @SequenceGenerator(name = "dish_seq", sequenceName = "dish_seq", allocationSize = 1, initialValue = START_SEQ)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dish_seq")
+    protected Integer id;
+
     //todo сделать прайс валидным прайсом
     @NumberFormat
     @NotNull
@@ -35,7 +39,7 @@ public class Dish extends AbstractNamedEntity {
     }
 
     public Dish(Integer id, String name, @NotNull Integer price, LocalDateTime dateTime) {
-        super(id, name);
+        super(name);
         this.price = price;
         this.dateTime = dateTime;
     }
@@ -64,12 +68,22 @@ public class Dish extends AbstractNamedEntity {
         this.enabled = enabled;
     }
 
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }
 
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @Override
+    public Integer getId() {
+        return id;
     }
 
     @Override

@@ -2,15 +2,16 @@ package ru.topjava.graduation.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "restaurant")
 public class Restaurant extends AbstractNamedEntity {
+    @Id
+    @SequenceGenerator(name = "restaurant_seq", sequenceName = "restaurant_seq", allocationSize = 1, initialValue = START_SEQ)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restaurant_seq")
+    private Integer id;
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<Dish> menu;
@@ -23,15 +24,25 @@ public class Restaurant extends AbstractNamedEntity {
     }
 
     public Restaurant(Integer id, String name) {
-        super(id, name);
+        super(name);
     }
 
     public List<Dish> getMenu() {
         return menu;
     }
 
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
     public void setMenu(List<Dish> menu) {
         this.menu = menu;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     @Override

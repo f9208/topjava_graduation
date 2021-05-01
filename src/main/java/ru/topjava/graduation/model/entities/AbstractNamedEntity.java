@@ -1,5 +1,7 @@
 package ru.topjava.graduation.model.entities;
 
+import ru.topjava.graduation.model.HasId;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
@@ -8,7 +10,10 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @MappedSuperclass
-public abstract class AbstractNamedEntity extends AbstractBaseEntity {
+@Access(AccessType.FIELD)
+public abstract class AbstractNamedEntity implements HasId {
+    public static final int START_SEQ = 10_000;
+
     @NotBlank
     @Size(min = 2, max = 100)
     @Column(name = "name", nullable = false)
@@ -17,8 +22,7 @@ public abstract class AbstractNamedEntity extends AbstractBaseEntity {
     public AbstractNamedEntity() {
     }
 
-    protected AbstractNamedEntity(Integer id, String name) {
-        super(id);
+    protected AbstractNamedEntity(String name) {
         this.name = name;
     }
 

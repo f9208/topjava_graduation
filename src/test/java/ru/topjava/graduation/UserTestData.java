@@ -5,10 +5,9 @@ import ru.topjava.graduation.model.entities.User;
 import ru.topjava.graduation.repository.TestMatcher;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.Set;
 
-import static ru.topjava.graduation.model.entities.AbstractBaseEntity.START_SEQ;
+import static ru.topjava.graduation.model.entities.AbstractNamedEntity.START_SEQ;
 
 public class UserTestData {
     public static final TestMatcher<User> USER_MATCHER = TestMatcher.usingIgnoreFieldsComparator("registered", "password");
