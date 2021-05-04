@@ -1,4 +1,4 @@
-package ru.topjava.graduation;
+package ru.topjava.graduation.repository.testData;
 
 import ru.topjava.graduation.model.entities.Role;
 import ru.topjava.graduation.model.entities.User;

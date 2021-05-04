@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "dishes")
+@Table(name = "dishes",uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "name"}, name = "dish_unique_restaurant_dishName_idx")})
 public class Dish extends AbstractNamedEntity {
     @Id
     @SequenceGenerator(name = "dish_seq", sequenceName = "dish_seq", allocationSize = 1, initialValue = START_SEQ)
@@ -20,7 +20,7 @@ public class Dish extends AbstractNamedEntity {
     @NumberFormat
     @NotNull
     private Integer price;
-    // todo сделать уникальным название + дата (даты нет пока, даа)
+
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false) //название колонки в таблице
@@ -38,11 +38,23 @@ public class Dish extends AbstractNamedEntity {
     public Dish() {
     }
 
-    public Dish(Integer id, String name, @NotNull Integer price, LocalDateTime dateTime) {
-        super(name);
-        this.price = price;
-        this.dateTime = dateTime;
+    public Dish(Dish dish) {
+        this(dish.getId(), dish.getName(), dish.getPrice(), dish.getRestaurant(), dish.getDateTime(), dish.isEnabled());
     }
+
+    public Dish(Integer id, String name, Integer price, Restaurant restaurant, LocalDateTime dateTime, boolean enabled) {
+        super(name);
+        this.id = id;
+        this.price = price;
+        this.restaurant = restaurant;
+        this.dateTime = dateTime;
+        this.enabled = enabled;
+    }
+
+    public Dish(Integer id, String name, Integer price) {
+        this(id, name, price, null, LocalDateTime.now(), true);
+    }
+
 
     public Restaurant getRestaurant() {
         return restaurant;

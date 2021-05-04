@@ -5,12 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.topjava.graduation.model.entities.Vote;
-import ru.topjava.graduation.utils.SecurityUtil;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import static ru.topjava.graduation.utils.ValidatorUtil.*;
+
 
 @Repository
 public class VoteRepository {
@@ -42,27 +44,40 @@ public class VoteRepository {
 
     public Vote get(int id) {
         log.info("get vote {}", id);
-        return crudVoteRepository.findById(id).orElse(null);
+        return checkNotFoundWithId(crudVoteRepository.findById(id).orElse(null), id);
+    }
+
+    public Vote getVoteByIdAndUserId(int voteId, int userId) {
+        return checkNotFoundWithId(crudVoteRepository.findByIdAndUserId(voteId, userId), voteId);
     }
 
     public List<Vote> getAllBetween(LocalDate start, LocalDate end) {
-        return crudVoteRepository.getAllByDateBetween(start, end);
+        return checkNotFoundForDate(crudVoteRepository.getAllByDateBetween(start, end), start, end);
     }
 
     public List<Vote> getAllForUser(int userId) {
-        return crudVoteRepository.getAllByUserId(userId);
+        return checkNotFoundWithId(crudVoteRepository.getAllByUserId(userId).orElse(null), userId);
     }
 
     public List<Vote> getAllForUserBetween(LocalDate start, LocalDate end, int userId) {
         return crudVoteRepository.getAllByDateBetweenAndUserId(start, end, userId);
     }
 
-    public void deleteVote(int id) {
-        crudVoteRepository.deleteById(id);
+    public Vote getVoteForUserOnDate(int userId, LocalDate date) {
+        return crudVoteRepository.getVoteByUserIdAndDate(userId, date);
     }
 
     @Transactional
-    public void deleteVoteForUser(int voteId, int userId) {
-        crudVoteRepository.deleteVoteByIdAndUserId(voteId, userId);
+    public boolean deleteVote(int id) {
+        boolean result = crudVoteRepository.delete(id) != 0;
+        checkNotFoundWithId(result, id);
+        return result;
+    }
+
+    @Transactional
+    public boolean deleteVoteForUser(int voteId, int userId) {
+        boolean result = crudVoteRepository.deleteVoteByIdAndUserId(voteId, userId) != 0;
+        checkNotFoundWithId(result, voteId);
+        return result;
     }
 }

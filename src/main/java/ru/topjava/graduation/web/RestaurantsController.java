@@ -43,7 +43,7 @@ public class RestaurantsController {
 
     @PostMapping(value = RESTAURANTS, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> create(@RequestBody Restaurant restaurant) {
-        Restaurant created = restaurantRepository.save(restaurant);
+        Restaurant created = restaurantRepository.create(restaurant);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(RESTAURANTS + "/{id}")
@@ -68,6 +68,6 @@ public class RestaurantsController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable(name = "id") int id, @RequestBody Restaurant restaurant) {
         restaurant.setId(id);
-        restaurantRepository.save(restaurant);
+        restaurantRepository.update(restaurant);
     }
 }

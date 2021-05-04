@@ -4,9 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import ru.topjava.graduation.model.entities.Dish;
 
 import java.util.List;
+
+import static ru.topjava.graduation.utils.ValidatorUtil.checkNotFoundWithId;
 
 @Repository
 public class DishRepository {
@@ -21,7 +24,8 @@ public class DishRepository {
     }
 
     @Transactional
-    public Dish save(Dish dish, int restaurantId) {
+    protected Dish save(Dish dish, int restaurantId) {
+        Assert.notNull(dish, "Dish must not be null");
         log.info("save dish for restaurant {}", restaurantId);
         if (!dish.isNew() && get(dish.getId(), restaurantId) == null)
             return null;
@@ -31,38 +35,52 @@ public class DishRepository {
         return crudDishRepository.save(dish);
     }
 
-    @Transactional
-    public int delete(int dishId, int restaurantId) {
+    public Dish create(Dish dish, int restaurantId) {
+        Assert.notNull(dish, "dish must not be null");
+        log.info("create dish for restaurant {}", restaurantId);
+        return save(dish, restaurantId);
+    }
+
+    public void update(Dish dish, int restaurantId) {
+        Assert.notNull(dish, "dish must not be null");
+        log.info("update dish for restaurant {}", restaurantId);
+        checkNotFoundWithId(save(dish, restaurantId), restaurantId);
+    }
+
+    public boolean delete(int dishId, int restaurantId) {
         log.info("delete dish {} for restaurant {}", dishId, restaurantId);
-        return crudDishRepository.delete(dishId, restaurantId);
+        boolean result = crudDishRepository.delete(dishId, restaurantId) != 0;
+        checkNotFoundWithId(result, restaurantId);
+        return result;
     }
 
     public Dish get(Integer dishId, int restaurantId) {
         log.info("get dish {} for restaurant {}", dishId, restaurantId);
-        return crudDishRepository.findById(dishId)
+        Dish resultDish = crudDishRepository.findById(dishId)
                 .filter(dish -> dish.getRestaurant().getId() == restaurantId)
                 .orElse(null);
+        return checkNotFoundWithId(resultDish, restaurantId);
     }
 
     public List<Dish> getActualMenu(int restaurantId) {
         log.info("getActualMenu for restaurant {} ", restaurantId);
         return crudDishRepository.findAllByRestaurantIdAndEnabledIsTrue(restaurantId);
     }
+
     public List<Dish> getFullMenu(int restaurantId) {
         log.info("getFullMenu for restaurant {} ", restaurantId);
         return crudDishRepository.findAllByRestaurantId(restaurantId);
     }
 
+    @Transactional
     public void setVisibility(int dishId, int restaurantId, boolean state) {
         Dish d = get(dishId, restaurantId);
-        if (d == null) return;
-
+        checkNotFoundWithId(d, restaurantId);
         if (d.isEnabled() == state) {
             log.info("dish {} for restaurant {} is already {}", dishId, restaurantId, state ? "enable" : "disable");
             return;
         }
         log.info("dish {} for restaurant {} is {}", dishId, restaurantId, state ? "enable" : "disable");
         d.setEnabled(state);
-        crudDishRepository.save(d);
     }
 }

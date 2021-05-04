@@ -38,7 +38,6 @@ public class UserRepository {
         return crudUserRepository.save(user);
     }
 
-    @Transactional
     public boolean delete(int id) {
         log.info("delete user {}", id);
         boolean result = crudUserRepository.delete(id) != 0;

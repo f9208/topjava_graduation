@@ -36,7 +36,7 @@ public class DishController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Dish> addDish(@RequestBody Dish dish, @PathVariable("restaurant_id") int restaurantId) {
-        Dish created = dishRepository.save(dish, restaurantId);
+        Dish created = dishRepository.create(dish, restaurantId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(RESTAURANT_ID_MENU + "/{dish_id}")
@@ -49,7 +49,7 @@ public class DishController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void updateDish(@PathVariable(name = "restaurant_id") int restaurant_id, @RequestBody Dish dish) {
-        dishRepository.save(dish, restaurant_id);
+        dishRepository.update(dish, restaurant_id);
     }
 
     @DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

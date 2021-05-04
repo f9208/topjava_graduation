@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static ru.topjava.graduation.UserTestData.*;
+import static ru.topjava.graduation.repository.testData.UserTestData.*;
 
 class UserRepositoryTest extends AbstractStarterTest {
     TestMatcher<User> userMatcher = USER_MATCHER;

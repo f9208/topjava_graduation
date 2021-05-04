@@ -22,6 +22,11 @@ public class TestMatcher<T> {
                         .ignoringFields(ignoringFields).isEqualTo(e));
     }
 
+    public static <T> TestMatcher<T> usingEqualsComparator() {
+        return new TestMatcher<>((a, e) -> assertThat(a).isEqualTo(e),
+                (a, e) -> assertThat(a).isEqualTo(e));
+    }
+
     public void assertMatch(T actual, T expected) {
         assertion.accept(actual, expected);
     }
@@ -29,4 +34,9 @@ public class TestMatcher<T> {
     public void assertMatch(Iterable<T> actual, T... expected) {
         iterableAssertion.accept(actual, List.of(expected));
     }
+
+    public void assertMatch(Iterable<T> actual, Iterable<T> expected) {
+        iterableAssertion.accept(actual, expected);
+    }
+
 }

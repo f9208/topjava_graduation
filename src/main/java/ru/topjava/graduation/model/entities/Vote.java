@@ -29,7 +29,8 @@ public class Vote implements HasId {
     public Vote() {
     }
 
-    public Vote(Integer id, @NotNull LocalDate date, int userId, int restaurantId) {
+    public Vote(Integer id, LocalDate date, int userId, int restaurantId) {
+        this.id=id;
         this.date = date;
         this.userId = userId;
         this.restaurantId = restaurantId;
