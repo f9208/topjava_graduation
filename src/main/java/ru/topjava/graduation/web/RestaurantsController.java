@@ -14,34 +14,33 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = RestaurantsController.RESTAURANT_ROOT, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = RestaurantsController.RESTAURANTS, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantsController {
-    static final String RESTAURANT_ROOT = "/";
-    static final String RESTAURANTS = "restaurants";
+    static final String RESTAURANTS = "/restaurants";
     @Autowired
     RestaurantRepository restaurantRepository;
 
     @GetMapping
-    public String getRootPage() {
-        return "hello! this is main page";
-    }
-
-    @GetMapping(RESTAURANTS)
     public List<Restaurant> getAll() {
         return restaurantRepository.getAll();
     }
 
-    @GetMapping(RESTAURANTS + "/{id}")
-    public Restaurant getRestaurantWithMenu(@PathVariable("id") int id) {
-        return restaurantRepository.getOne(id);
-    }
-
-    @GetMapping(RESTAURANTS + "/with-menu")
+    @GetMapping("/with-menu")
     public List<Restaurant> getAllWithMenu() {
         return restaurantRepository.getAllWithMenu();
     }
 
-    @PostMapping(value = RESTAURANTS, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/{id}")
+    public Restaurant getOneRestaurant(@PathVariable("id") int id) {
+        return restaurantRepository.getOne(id);
+    }
+
+    @GetMapping("/with-menu/{id}")
+    public Restaurant getOneRestaurantWithMenu(@PathVariable("id") int id) {
+        return restaurantRepository.getOneWithMenu(id);
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> create(@RequestBody Restaurant restaurant) {
         Restaurant created = restaurantRepository.create(restaurant);
 
@@ -52,19 +51,13 @@ public class RestaurantsController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @DeleteMapping(RESTAURANTS + "/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id) {
-        restaurantRepository.delete(id);
-    }
-
-    @DeleteMapping(RESTAURANTS)
+    @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBy(@RequestParam(name = "id") int id) {
         restaurantRepository.delete(id);
     }
 
-    @PutMapping(value = RESTAURANTS + "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable(name = "id") int id, @RequestBody Restaurant restaurant) {
         restaurant.setId(id);

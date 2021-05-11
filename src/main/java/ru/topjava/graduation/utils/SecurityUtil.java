@@ -15,10 +15,10 @@ public class SecurityUtil {
     }
 
     public static User getAuthUser() {
-        return new User(10000, "user", "user@yandex.ru", "password", LocalDateTime.of(2021, 04, 23, 10, 56, 0), Role.USER);
+        return new User(10001, "user", "user@yandex.ru", "password", LocalDateTime.of(2021, 04, 23, 10, 56, 0), Role.USER);
     }
 
     public static User getAuthAdmin() {
-        return new User(10001, "Admin", "admin@ya.ru", "12345", LocalDateTime.now(), Role.ADMIN);
+        return new User(10000, "Admin", "admin@ya.ru", "12345", LocalDateTime.now(), Role.ADMIN);
     }
 }

@@ -5,9 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import ru.topjava.graduation.model.entities.Role;
 import ru.topjava.graduation.model.entities.User;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import static ru.topjava.graduation.utils.ValidatorUtil.*;
 
@@ -26,7 +29,6 @@ public class UserRepository {
     }
 
     public User findById(int id) {
-        Assert.notNull(id, "id must not be null");
         log.info("get user {}", id);
         return checkNotFound(crudUserRepository.findById(id).orElse(null), String.valueOf(id));
     }
@@ -56,5 +58,13 @@ public class UserRepository {
         Assert.notNull(user, "user must not be null");
         log.info("update user with id {}", user.getId());
         return crudUserRepository.save(user);
+    }
+
+    @Transactional
+    public User update(int userId, Set<Role> role) {
+        log.info("update Role for user with id {}. New roles: {}", userId, role);
+        User result = crudUserRepository.findById(userId).orElseThrow();
+        result.setRoles(role);
+        return result;
     }
 }

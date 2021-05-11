@@ -21,9 +21,9 @@ import java.time.LocalTime;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = VoteController.PATH, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = VoteController.VOTES, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteController {
-    static final String PATH = "/votes";
+    static final String VOTES = "/votes";
     @Autowired
     VoteRepository voteRepository;
 
@@ -53,7 +53,8 @@ public class VoteController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Vote> toVote(@RequestBody Integer restaurantId, BindingResult result) {
+    @ResponseStatus(HttpStatus.CREATED)
+    ResponseEntity<Vote> toVote(@RequestBody int restaurantId, BindingResult result) {
         if (result.hasErrors()) {
             // TODO change to exception handler для невалидного ресторана, например
         }
@@ -61,7 +62,7 @@ public class VoteController {
         if (currentTime.isBefore(LocalTime.of(23, 30, 00))) {
             Vote created = voteRepository.toVote(LocalDate.now(), SecurityUtil.getAuthUser().getId(), restaurantId);
             URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path(PATH + "/{vote_id}")
+                    .path(VOTES + "/{vote_id}")
                     .buildAndExpand(created.getId()).toUri();
             return ResponseEntity.created(uriOfNewResource).body(created);
         } else {
@@ -69,7 +70,7 @@ public class VoteController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteVote(@RequestBody int id) {
         voteRepository.deleteVoteForUser(id, SecurityUtil.getAuthUser().getId());

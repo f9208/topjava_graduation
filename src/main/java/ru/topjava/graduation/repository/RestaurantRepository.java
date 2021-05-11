@@ -50,10 +50,12 @@ public class RestaurantRepository {
         return checkNotFoundWithId(crudRestaurantRepository.findById(id).orElse(null), id);
     }
 
-//    public Restaurant getOneWithMenu(Integer id) {
-//        log.info("get restaurant {} with menu", id);
-//        return crudRestaurantRepository.getOneWithMenu(id);
-//    }
+    public Restaurant getOneWithMenu(Integer id) {
+        log.info("get restaurant {} with menu", id);
+        Restaurant result = crudRestaurantRepository.getOneWithMenu(id);
+        System.out.println(result);
+        return checkNotFoundWithId(crudRestaurantRepository.getOneWithMenu(id), id);
+    }
 
     public List<Restaurant> getAll() {
         log.info("getAll restaurants");

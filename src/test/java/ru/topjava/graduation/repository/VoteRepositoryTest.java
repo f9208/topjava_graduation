@@ -106,6 +106,6 @@ class VoteRepositoryTest extends AbstractStarterTest {
 
     @Test
     void getDateNotFound() {
-        assertThrows(NotFoundException.class, () -> voteRepository.getAllBetween(TODAY, TODAY));
+        assertThrows(NotFoundException.class, () -> voteRepository.getAllBetween(DATE_NOT_FOUND, DATE_NOT_FOUND));
     }
 }

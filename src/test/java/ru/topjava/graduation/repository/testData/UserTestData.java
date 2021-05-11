@@ -10,7 +10,7 @@ import java.util.Set;
 import static ru.topjava.graduation.model.entities.AbstractNamedEntity.START_SEQ;
 
 public class UserTestData {
-    public static final TestMatcher<User> USER_MATCHER = TestMatcher.usingIgnoreFieldsComparator("registered", "password");
+    public static final TestMatcher<User> USER_MATCHER = TestMatcher.usingIgnoreFieldsComparator(User.class, "registered", "password");
 
     public static final int ADMIN_ID = START_SEQ;
     public static final int USER_JONNY_ID = START_SEQ + 1;

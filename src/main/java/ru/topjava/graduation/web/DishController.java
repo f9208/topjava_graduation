@@ -12,10 +12,12 @@ import ru.topjava.graduation.repository.DishRepository;
 import java.net.URI;
 import java.util.List;
 
+import static ru.topjava.graduation.web.RestaurantsController.RESTAURANTS;
+
 @RestController
 @RequestMapping(value = DishController.RESTAURANT_ID_MENU, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishController {
-    static final String RESTAURANT_ID_MENU = "/restaurants/{restaurant_id}/menu";
+    static final String RESTAURANT_ID_MENU = RESTAURANTS + "/{restaurant_id}/menu";
     @Autowired
     DishRepository dishRepository;
 
@@ -39,22 +41,29 @@ public class DishController {
         Dish created = dishRepository.create(dish, restaurantId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(RESTAURANT_ID_MENU + "/{dish_id}")
+                .path(RESTAURANTS + "/" + restaurantId + "/menu" + "/{dish_id}")
                 .buildAndExpand(created.getId()).toUri();
 
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    //todo patch or put?
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void updateDish(@PathVariable(name = "restaurant_id") int restaurant_id, @RequestBody Dish dish) {
         dishRepository.update(dish, restaurant_id);
     }
 
-    @DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{dish_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteDish(@PathVariable(name = "restaurant_id") int restaurant_id, @RequestBody Dish dish) {
-        dishRepository.delete(dish.getId(), restaurant_id);
+    void deleteDish(@PathVariable(name = "restaurant_id") int restaurant_id, @PathVariable(name = "dish_id") int dish_id) {
+        dishRepository.delete(dish_id, restaurant_id);
+    }
+
+    @PatchMapping(value = "/{dish_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    void enabled(@PathVariable(name = "restaurant_id") int restaurant_id,
+                 @PathVariable(name = "dish_id") int dish_id,
+                 @RequestParam boolean enabled) {
+        dishRepository.setVisibility(dish_id, restaurant_id, enabled);
     }
 }

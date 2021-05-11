@@ -73,10 +73,10 @@ public class Vote implements HasId {
     @Override
     public String toString() {
         return "Vote{" +
-                "Id=" + id +
+                "id=" + id +
                 ", date=" + date +
-                ", userId=" + userId +
-                ", restaurantId=" + restaurantId +
+                ", user_id=" + userId +
+                ", restaurant_id=" + restaurantId +
                 '}';
     }
 }

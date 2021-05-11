@@ -21,7 +21,7 @@ public class AdminVoteController {
     VoteRepository voteRepository;
 
     @GetMapping
-    public List<Vote> getAll(@RequestParam @Nullable Integer userId) {
+    public List<Vote> getAll(@RequestParam(name = "user_id") @Nullable Integer userId) {
         return userId == null ? voteRepository.findAll() : voteRepository.getAllForUser(userId);
     }
 
@@ -48,9 +48,9 @@ public class AdminVoteController {
                 LocalDate.now());
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{vote_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteVote(@RequestBody int id) {
+    public void deleteVote(@PathVariable(name="vote_id") int id) {
         voteRepository.deleteVote(id);
     }
 }
