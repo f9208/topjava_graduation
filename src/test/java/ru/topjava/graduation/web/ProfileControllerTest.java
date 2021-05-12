@@ -12,21 +12,25 @@ import ru.topjava.graduation.repository.UserRepository;
 import ru.topjava.graduation.repository.testData.UserTestData;
 import ru.topjava.graduation.web.json.JsonUtil;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.topjava.graduation.TestUtil.userHttpBasic;
 import static ru.topjava.graduation.repository.testData.UserTestData.*;
-import static ru.topjava.graduation.web.ProfileController.HEAD_URL;
+import static ru.topjava.graduation.web.ProfileController.PROFILE;
 
 class ProfileControllerTest extends AbstractRestControllerTest {
     @Autowired
     UserRepository userRepository;
 
-    private static final String REST_URL = HEAD_URL;
+    private static final String REST_URL = PROFILE;
 
     @Test
     void getProfile() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL))
+        perform(MockMvcRequestBuilders.get(REST_URL)
+                .with(userHttpBasic(userJonny)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(USER_MATCHER.contentJson(userJonny));
@@ -35,7 +39,7 @@ class ProfileControllerTest extends AbstractRestControllerTest {
     @Test
     void createProfile() throws Exception {
         User newUser = UserTestData.getNew();
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newUser)))
                 .andDo(print())
@@ -50,11 +54,9 @@ class ProfileControllerTest extends AbstractRestControllerTest {
     @Test
     void deleteProfile() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(String.valueOf(USER_JONNY_ID)))
-                .andDo(print())
+                .with(userHttpBasic(userJonny)))
                 .andExpect(status().isNoContent());
-        assertThrows(NotFoundException.class, () -> userRepository.findById(USER_JONNY_ID));
+        USER_MATCHER.assertMatch(userRepository.getAll(), List.of(admin,userKet,userLeo));
     }
 
     @Test
@@ -62,7 +64,8 @@ class ProfileControllerTest extends AbstractRestControllerTest {
         User updated = getUpdated();
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(JsonUtil.writeValue(updated)))
+                .content(JsonUtil.writeValue(updated))
+                .with(userHttpBasic(userJonny)))
                 .andExpect(status().isNoContent());
         USER_MATCHER.assertMatch(updated, userRepository.findById(getUpdated().getId()));
     }

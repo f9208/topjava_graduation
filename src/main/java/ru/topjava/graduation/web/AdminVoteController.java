@@ -14,9 +14,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = AdminVoteController.PATH, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = AdminVoteController.ADMIN_VOTES, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminVoteController {
-    static final String PATH = "/admin/votes";
+    static final String ADMIN_VOTES = "/admin/votes";
     @Autowired
     VoteRepository voteRepository;
 

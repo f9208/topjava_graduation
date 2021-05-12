@@ -8,11 +8,11 @@ import org.springframework.util.Assert;
 import ru.topjava.graduation.model.entities.Role;
 import ru.topjava.graduation.model.entities.User;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static ru.topjava.graduation.utils.ValidatorUtil.*;
+import static ru.topjava.graduation.utils.ValidatorUtil.checkNotFound;
+import static ru.topjava.graduation.utils.ValidatorUtil.checkNotFoundWithId;
 
 @Repository
 public class UserRepository {
@@ -40,6 +40,7 @@ public class UserRepository {
         return crudUserRepository.save(user);
     }
 
+    @Transactional
     public boolean delete(int id) {
         log.info("delete user {}", id);
         boolean result = crudUserRepository.delete(id) != 0;
@@ -66,5 +67,10 @@ public class UserRepository {
         User result = crudUserRepository.findById(userId).orElseThrow();
         result.setRoles(role);
         return result;
+    }
+
+    @Transactional //todo слишком много дублирующих - update, save, create - исправить под один
+    public User save(User user) {
+        return crudUserRepository.save(user);
     }
 }

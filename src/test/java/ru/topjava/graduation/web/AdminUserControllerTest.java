@@ -1,6 +1,5 @@
 package ru.topjava.graduation.web;
 
-import org.ehcache.core.util.CollectionUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -18,16 +17,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.topjava.graduation.TestUtil.userHttpBasic;
 import static ru.topjava.graduation.repository.testData.UserTestData.*;
+import static ru.topjava.graduation.web.AdminUserController.ADMIN_USERS;
 
 class AdminUserControllerTest extends AbstractRestControllerTest {
-    private static final String REST_URL = AdminUserController.ADMIN_USERS + '/';
+    private static final String REST_URL = ADMIN_USERS + '/';
     @Autowired
     UserRepository userRepository;
 
     @Test
     void get() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID)
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -36,7 +38,8 @@ class AdminUserControllerTest extends AbstractRestControllerTest {
 
     @Test
     void getAll() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL))
+        perform(MockMvcRequestBuilders.get(REST_URL)
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -44,12 +47,28 @@ class AdminUserControllerTest extends AbstractRestControllerTest {
     }
 
     @Test
+    void getUnAuth() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL))
+                .andExpect(status().isUnauthorized())
+                .andDo(print());
+    }
+
+    @Test
+    void getForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL)
+                .with(userHttpBasic(userJonny)))
+                .andExpect(status().isForbidden())
+                .andDo(print());
+    }
+
+    @Test
     void deleteUser() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + userJonny.getId())
-                .contentType(MediaType.APPLICATION_JSON))
+        perform(MockMvcRequestBuilders.delete(REST_URL + USER_JONNY_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertThrows(NotFoundException.class, () -> userRepository.findById(userJonny.getId()));
+        assertThrows(NotFoundException.class, () -> userRepository.findById(USER_JONNY_ID));
     }
 
     @Test
@@ -57,9 +76,21 @@ class AdminUserControllerTest extends AbstractRestControllerTest {
         User updated = getUpdated();
         perform(MockMvcRequestBuilders.put(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated)))
+                .content(JsonUtil.writeValue(updated))
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isNoContent());
         USER_MATCHER.assertMatch(userRepository.findById(USER_JONNY_ID), getUpdated());
+    }
+
+    @Test
+    void updateUserIsForbidden() throws Exception {
+        User updated = getUpdated();
+        perform(MockMvcRequestBuilders.put(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated))
+                .with(userHttpBasic(userJonny)))
+                .andExpect(status().isForbidden());
+        USER_MATCHER.assertMatch(userRepository.findById(USER_JONNY_ID), userJonny);
     }
 
     @Test
@@ -68,8 +99,22 @@ class AdminUserControllerTest extends AbstractRestControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("id", String.valueOf(USER_JONNY_ID))
                 .param("role", String.valueOf(Role.ADMIN))
-                .param("role", String.valueOf(Role.USER)))
+                .param("role", String.valueOf(Role.USER))
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isNoContent());
         assertEquals(userRepository.findById(USER_JONNY_ID).getRoles(), Set.of(Role.USER, Role.ADMIN));
+    }
+
+    @Test
+    void changeRoleIsForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.patch(REST_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("id", String.valueOf(USER_JONNY_ID))
+                .param("role", String.valueOf(Role.ADMIN))
+                .param("role", String.valueOf(Role.USER))
+                .with(userHttpBasic(userJonny)))
+                .andExpect(status().isForbidden())
+                .andDo(print());
+        assertEquals(userRepository.findById(USER_JONNY_ID).getRoles(), Set.of(Role.USER));
     }
 }

@@ -6,6 +6,7 @@ import ru.topjava.graduation.Exceptions.NotFoundException;
 import ru.topjava.graduation.model.entities.Vote;
 import ru.topjava.graduation.repository.testData.UserTestData;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ru.topjava.graduation.repository.testData.VoteTestData.*;
@@ -62,7 +63,7 @@ class VoteRepositoryTest extends AbstractStarterTest {
 
     @Test
     void getNoOwner() {
-        assertThrows(NotFoundException.class, () ->voteRepository.getVoteByIdAndUserId(VOTE_3_ID, ADMIN_ID));
+        assertThrows(NotFoundException.class, () -> voteRepository.getVoteByIdAndUserId(VOTE_3_ID, ADMIN_ID));
     }
 
 
@@ -107,5 +108,10 @@ class VoteRepositoryTest extends AbstractStarterTest {
     @Test
     void getDateNotFound() {
         assertThrows(NotFoundException.class, () -> voteRepository.getAllBetween(DATE_NOT_FOUND, DATE_NOT_FOUND));
+    }
+
+    @Test
+    void getVotesForDay() {
+        System.out.println(voteRepository.getVoteForDate(LocalDate.now()));
     }
 }

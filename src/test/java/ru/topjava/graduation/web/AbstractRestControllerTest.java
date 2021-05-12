@@ -41,7 +41,7 @@ abstract public class AbstractRestControllerTest {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .addFilter(CHARACTER_ENCODING_FILTER)
-// todo     delete after adding security      .apply(springSecurity())
+                .apply(springSecurity())
                 .build();
     }
 

@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.graduation.model.entities.Restaurant;
-import ru.topjava.graduation.repository.DishRepository;
 import ru.topjava.graduation.repository.RestaurantRepository;
 
 import java.net.URI;
@@ -38,6 +37,16 @@ public class RestaurantsController {
     @GetMapping("/with-menu/{id}")
     public Restaurant getOneRestaurantWithMenu(@PathVariable("id") int id) {
         return restaurantRepository.getOneWithMenu(id);
+    }
+
+    @GetMapping("/winner")
+    public List<Restaurant> getWinner() {
+        return null;
+    }
+    @GetMapping("/vote_results")
+    public List<Restaurant> getVoteResults() {
+
+        return null;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

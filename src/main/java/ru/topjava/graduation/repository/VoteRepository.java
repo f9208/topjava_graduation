@@ -67,6 +67,10 @@ public class VoteRepository {
         return crudVoteRepository.getVoteByUserIdAndDate(userId, date);
     }
 
+    public Vote getOneForUser(int voteId, int userId) {
+        return crudVoteRepository.findByIdAndUserId(voteId, userId);
+    }
+
     @Transactional
     public boolean deleteVote(int id) {
         boolean result = crudVoteRepository.delete(id) != 0;
@@ -80,4 +84,10 @@ public class VoteRepository {
         checkNotFoundWithId(result, voteId);
         return result;
     }
+
+    public List<Vote> getVoteForDate(LocalDate date) {
+        return crudVoteRepository.getVoteByDate(date);
+    }
+
+
 }

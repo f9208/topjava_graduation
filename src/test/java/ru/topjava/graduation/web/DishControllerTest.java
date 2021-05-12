@@ -18,23 +18,28 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.topjava.graduation.TestUtil.userHttpBasic;
 import static ru.topjava.graduation.repository.testData.DishTestData.*;
 import static ru.topjava.graduation.repository.testData.RestaurantTestData.*;
+import static ru.topjava.graduation.repository.testData.UserTestData.admin;
+import static ru.topjava.graduation.repository.testData.UserTestData.userJonny;
 import static ru.topjava.graduation.web.RestaurantsController.RESTAURANTS;
 
 public class DishControllerTest extends AbstractRestControllerTest {
     private static final String REST_URL = RESTAURANTS + "/";
+    private static final String MENU = "/menu/";
+
     @Autowired
     DishRepository dishRepository;
 
     @BeforeAll
     static void init() {
-        bearGrizzly.getName();
+        meatHome.getName();
     }
 
     @Test
-    void getMenu() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + "/menu"))
+    void getMenuUnAuth() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + MENU))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -43,7 +48,8 @@ public class DishControllerTest extends AbstractRestControllerTest {
 
     @Test
     void getFullMenu() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + "/menu/full"))
+        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + MENU + "full")
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -51,8 +57,23 @@ public class DishControllerTest extends AbstractRestControllerTest {
     }
 
     @Test
+    void getFullMenuIsForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + MENU + "full")
+                .with(userHttpBasic(userJonny)))
+                .andExpect(status().isForbidden())
+                .andDo(print());
+    }
+
+    @Test
+    void getFullMenuUnAuth() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + MENU + "full"))
+                .andExpect(status().isUnauthorized())
+                .andDo(print());
+    }
+
+    @Test
     void getOneDish() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + "/menu/" + POTATO_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + MENU + POTATO_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
@@ -62,9 +83,10 @@ public class DishControllerTest extends AbstractRestControllerTest {
     @Test
     void addDish() throws Exception {
         Dish newDish = getNew();
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + MEAT_HOME_ID + "/menu")
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + MEAT_HOME_ID + MENU)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newDish)))
+                .content(JsonUtil.writeValue(newDish))
+                .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isCreated());
 
@@ -74,30 +96,65 @@ public class DishControllerTest extends AbstractRestControllerTest {
     }
 
     @Test
+    void addDishIsForbidden() throws Exception {
+        Dish newDish = getNew();
+        perform(MockMvcRequestBuilders.post(REST_URL + MEAT_HOME_ID + MENU)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(newDish))
+                .with(userHttpBasic(userJonny)))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     void updateDish() throws Exception {
         Dish updated = getUpdated();
-        perform(MockMvcRequestBuilders.put(REST_URL + BEAR_GRIZZLY_ID + "/menu")
+        perform(MockMvcRequestBuilders.put(REST_URL + BEAR_GRIZZLY_ID + MENU)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated)))
+                .content(JsonUtil.writeValue(updated))
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isNoContent());
         DISH_MATCHER.assertMatch(updated, dishRepository.get(PASTA_ID, BEAR_GRIZZLY_ID));
     }
 
     @Test
+    void updateDishIsForbidden() throws Exception {
+        Dish updated = getUpdated();
+        perform(MockMvcRequestBuilders.put(REST_URL + BEAR_GRIZZLY_ID + MENU)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated))
+                .with(userHttpBasic(userJonny)))
+                .andExpect(status().isForbidden());
+        DISH_MATCHER.assertMatch(PASTA, dishRepository.get(PASTA_ID, BEAR_GRIZZLY_ID));
+    }
+
+    @Test
     void deleteDish() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + MEAT_HOME_ID + "/menu" + "/" + SOUP_ID)
-                .contentType(MediaType.APPLICATION_JSON))
+        perform(MockMvcRequestBuilders.delete(REST_URL + MEAT_HOME_ID + MENU + SOUP_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertThrows(NotFoundException.class, () -> dishRepository.get(SOUP_ID, MEAT_HOME_ID));
     }
 
     @Test
+    void deleteDishIsForbidden() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL + MEAT_HOME_ID + MENU + SOUP_ID)
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(userJonny)))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+        DISH_MATCHER.assertMatch(SOUP, dishRepository.get(SOUP_ID, MEAT_HOME_ID));
+    }
+
+    @Test
     void disable() throws Exception {
         assertTrue(dishRepository.get(FISH_ID, MEAT_HOME_ID).isEnabled());
-        perform(MockMvcRequestBuilders.patch(REST_URL + MEAT_HOME_ID + "/menu/" + FISH_ID)
+        perform(MockMvcRequestBuilders.patch(REST_URL + MEAT_HOME_ID + MENU + FISH_ID)
                 .param("enabled", "false")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertFalse(dishRepository.get(FISH_ID, MEAT_HOME_ID).isEnabled());
@@ -106,11 +163,24 @@ public class DishControllerTest extends AbstractRestControllerTest {
     @Test
     void enable() throws Exception {
         assertFalse(dishRepository.get(SOUP_ID, MEAT_HOME_ID).isEnabled());
-        perform(MockMvcRequestBuilders.patch(REST_URL + MEAT_HOME_ID + "/menu/" + SOUP_ID)
+        perform(MockMvcRequestBuilders.patch(REST_URL + MEAT_HOME_ID + MENU + SOUP_ID)
                 .param("enabled", "true")
-                .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertTrue(dishRepository.get(SOUP_ID, MEAT_HOME_ID).isEnabled());
+    }
+
+    @Test
+    void enableIsForbidden() throws Exception {
+        assertFalse(dishRepository.get(SOUP_ID, MEAT_HOME_ID).isEnabled());
+        perform(MockMvcRequestBuilders.patch(REST_URL + MEAT_HOME_ID + MENU + SOUP_ID)
+                .param("enabled", "true")
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(userJonny)))
+                .andDo(print())
+                .andExpect(status().isForbidden());
+        assertFalse(dishRepository.get(SOUP_ID, MEAT_HOME_ID).isEnabled());
     }
 }

@@ -9,40 +9,41 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.graduation.model.entities.User;
 import ru.topjava.graduation.repository.UserRepository;
+import ru.topjava.graduation.repository.UserService;
 import ru.topjava.graduation.utils.SecurityUtil;
 
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = ProfileController.HEAD_URL)
+@RequestMapping(value = ProfileController.PROFILE)
 public class ProfileController {
-    static final String HEAD_URL = "/profile";
+    static final String PROFILE = "/profile";
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserService userService;
 
     @GetMapping()
     User getProfile() {
-        return userRepository.findById(SecurityUtil.getAuthUser().getId());
+        return userRepository.findById(SecurityUtil.getAuthUserId());
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> createUser(@RequestBody User user, BindingResult result) {
         if (result.hasErrors()) {
         }
-        User created = userRepository.create(user);
+        User created = userService.prepareAndSave(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(HEAD_URL + "/{id}")
+                .path(PROFILE + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteProfile(@RequestBody int id) { //todo тут поидее не нужен id
-        if (SecurityUtil.getAuthUser().getId() == id) {
-            userRepository.delete(id);
-        }
+    void deleteProfile() {
+        userRepository.delete(SecurityUtil.getAuthUserId());
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -52,5 +53,8 @@ public class ProfileController {
     }
 
     //    @PatchMapping
+
+//    @GetMapping("/votes")
+
 
 }

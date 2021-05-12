@@ -1,24 +1,34 @@
 package ru.topjava.graduation.utils;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import ru.topjava.graduation.model.AuthorizedUser;
 import ru.topjava.graduation.model.entities.Role;
 import ru.topjava.graduation.model.entities.User;
 
 import java.time.LocalDateTime;
+
+import static java.util.Objects.requireNonNull;
 
 public class SecurityUtil {
 
     private SecurityUtil() {
     }
 
-    public static int authRestaurantId() {
-        return 10010;
+    public static AuthorizedUser safeGet() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            return null;
+        }
+        Object principal = auth.getPrincipal();
+        return (principal instanceof AuthorizedUser) ? (AuthorizedUser) principal : null;
     }
 
-    public static User getAuthUser() {
-        return new User(10001, "user", "user@yandex.ru", "password", LocalDateTime.of(2021, 04, 23, 10, 56, 0), Role.USER);
+    public static AuthorizedUser get() {
+        return requireNonNull(safeGet(), "No authorized user found");
     }
 
-    public static User getAuthAdmin() {
-        return new User(10000, "Admin", "admin@ya.ru", "12345", LocalDateTime.now(), Role.ADMIN);
+    public static int getAuthUserId() {
+        return get().getUser().getId();
     }
 }

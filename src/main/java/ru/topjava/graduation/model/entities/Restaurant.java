@@ -16,10 +16,6 @@ public class Restaurant extends AbstractNamedEntity {
     @JsonManagedReference
     private List<Dish> menu;
 
-//    @OneToOne(mappedBy = "restaurant",fetch = FetchType.LAZY)
-//    @JsonBackReference
-//    private Vote vote;
-
     public Restaurant() {
     }
 

@@ -4,10 +4,10 @@ ALTER SEQUENCE RESTAURANT_SEQ RESTART WITH 10000;
 ALTER SEQUENCE VOTE_SEQ RESTART WITH 10000;
 
 INSERT INTO users (name, email, password)
-VALUES ('Admin', 'admin@gmail.com', '123456789'),
-       ('Jonny', 'jonny@gmail.com', 'passvordJonny'),
-       ('Ket', 'kety@gmail.com', 'passvordKety'),
-       ('leo', 'Leonard@gmail.com', 'passvordLeon');
+VALUES ('Admin', 'admin@gmail.com', '{noop}123456789'),
+       ('Jonny', 'jonny@gmail.com', '{noop}passwordJonny'),
+       ('Ket', 'kety@gmail.com', '{noop}passwordKety'),
+       ('leo', 'Leonard@gmail.com', '{noop}passwordLeon');
 
 INSERT INTO restaurant(name)
 values ('Bear Grizzly'),
@@ -17,7 +17,7 @@ INSERT INTO dishes (name, price, restaurant_id, added, enabled)
 VALUES ('borscht', 40, 10000, '2020-04-10 10:00:00', true),
        ('cutlet', 120, 10000, '2020-04-10 10:00:00', true),
        ('compote', 20, 10000, '2020-04-10 10:00:00', true),
-       ('pasta', 100, 10000, '2020-04-10 10:00:00', true),
+       ('pasta', 100, 10000, '2020-04-10 10:00:00', false),
        ('pancake', 30, 10000, '2020-04-10 10:00:00', true),
        ('soup', 120, 10001, '2020-04-10 10:00:00', false),
        ('fish', 160, 10001, '2020-04-10 10:00:00', true),
