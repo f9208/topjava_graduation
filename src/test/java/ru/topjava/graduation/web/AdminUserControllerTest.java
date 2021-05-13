@@ -1,9 +1,11 @@
 package ru.topjava.graduation.web;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.bind.annotation.GetMapping;
 import ru.topjava.graduation.Exceptions.NotFoundException;
 import ru.topjava.graduation.model.entities.Role;
 import ru.topjava.graduation.model.entities.User;
@@ -18,7 +20,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.TestUtil.userHttpBasic;
+import static ru.topjava.graduation.model.entities.to.VoteTo.convert;
+import static ru.topjava.graduation.repository.testData.RestaurantTestData.meatHome;
 import static ru.topjava.graduation.repository.testData.UserTestData.*;
+import static ru.topjava.graduation.repository.testData.VoteTestData.VOTE_TO_TEST_MATCHER;
+import static ru.topjava.graduation.repository.testData.VoteTestData.allVotesOfJonny;
 import static ru.topjava.graduation.web.AdminUserController.ADMIN_USERS;
 
 class AdminUserControllerTest extends AbstractRestControllerTest {
@@ -26,14 +32,37 @@ class AdminUserControllerTest extends AbstractRestControllerTest {
     @Autowired
     UserRepository userRepository;
 
+    @BeforeAll
+    static void init() {
+        meatHome.getName();
+    }
+
     @Test
-    void get() throws Exception {
+    void getAdminByAdmin() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(USER_MATCHER.contentJson(admin));
+    }
+
+    @Test
+    void getUserByAdmin() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + USER_JONNY_ID)
+                .with(userHttpBasic(admin)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(USER_MATCHER.contentJson(userJonny));
+    }
+
+    @Test
+    void getUserByUser() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + USER_JONNY_ID)
+                .with(userHttpBasic(userJonny)))
+                .andDo(print())
+                .andExpect(status().isForbidden());
     }
 
     @Test
@@ -44,6 +73,16 @@ class AdminUserControllerTest extends AbstractRestControllerTest {
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(USER_MATCHER.contentJson(admin, userJonny, userKet, userLeo));
+    }
+
+    @Test
+    void getVotesForUser() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + USER_JONNY_ID + "/votes")
+                .with(userHttpBasic(admin)))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(VOTE_TO_TEST_MATCHER.contentJson(convert(allVotesOfJonny)));
     }
 
     @Test

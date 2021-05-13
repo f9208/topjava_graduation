@@ -1,9 +1,11 @@
-package ru.topjava.graduation.model;
+package ru.topjava.graduation.model.entities.to;
+
+import java.beans.ConstructorProperties;
 
 public class VoteResults {
     int restaurantId;
     long voteCount;
-
+    @ConstructorProperties({"restaurantId", "voteCount"})
     public VoteResults(int restaurantId, long voteCount) {
         this.restaurantId = restaurantId;
         this.voteCount = voteCount;

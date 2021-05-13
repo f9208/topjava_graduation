@@ -12,6 +12,7 @@ import ru.topjava.graduation.model.entities.Restaurant;
 import ru.topjava.graduation.model.entities.Vote;
 import ru.topjava.graduation.repository.RestaurantRepository;
 import ru.topjava.graduation.repository.VoteRepository;
+import ru.topjava.graduation.utils.DateTimeUtils;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -46,13 +47,18 @@ public class RestaurantsController {
         return restaurantRepository.getOne(id);
     }
 
-    @GetMapping("/{id}/votes")
+    @GetMapping("/{id}/votes/filter")
     public List<Vote> getVotes(@RequestParam(name = "start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate start,
                                @RequestParam(name = "end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate end,
                                @PathVariable("id") int id) {
-        if (start == null) start = LocalDate.now();
-        if (end == null) end = LocalDate.now();
+        if (start == null) start = DateTimeUtils.MIN_DATE;
+        if (end == null) end = DateTimeUtils.MAX_DATE;
         return voteRepository.getAllForRestaurantBetween(start, end, id);
+    }
+
+    @GetMapping("/{id}/votes/today")
+    public List<Vote> getVotesToday(@PathVariable("id") int id) {
+        return voteRepository.getAllForRestaurantBetween(LocalDate.now(), LocalDate.now(), id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -77,5 +83,10 @@ public class RestaurantsController {
     public void update(@PathVariable(name = "id") int id, @RequestBody Restaurant restaurant) {
         restaurant.setId(id);
         restaurantRepository.update(restaurant);
+    }
+
+    @GetMapping("/{id}/votes")
+    public Restaurant getRestaurantWithVotes(@PathVariable("id") int id) {
+        return restaurantRepository.getOneWithVotes(id);
     }
 }

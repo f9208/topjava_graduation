@@ -1,7 +1,6 @@
 package ru.topjava.graduation.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
@@ -51,11 +50,6 @@ public class Dish extends AbstractNamedEntity {
         this.dateTime = dateTime;
         this.enabled = enabled;
     }
-
-    public Dish(Integer id, String name, Integer price) {
-        this(id, name, price, null, LocalDateTime.now(), true);
-    }
-
 
     public Restaurant getRestaurant() {
         return restaurant;

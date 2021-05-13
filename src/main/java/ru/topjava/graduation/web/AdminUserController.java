@@ -3,17 +3,17 @@ package ru.topjava.graduation.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.graduation.model.entities.Role;
 import ru.topjava.graduation.model.entities.User;
+import ru.topjava.graduation.model.entities.to.VoteTo;
 import ru.topjava.graduation.repository.UserRepository;
+import ru.topjava.graduation.repository.VoteRepository;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Set;
+
+import static ru.topjava.graduation.model.entities.to.VoteTo.convert;
 
 @RestController
 @RequestMapping(AdminUserController.ADMIN_USERS)
@@ -21,6 +21,8 @@ public class AdminUserController {
     static final String ADMIN_USERS = "/admin/users";
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    VoteRepository voteRepository;
 
     @GetMapping("/{id}")
     public User get(@PathVariable int id) {
@@ -30,6 +32,11 @@ public class AdminUserController {
     @GetMapping
     public List<User> getAll() {
         return userRepository.getAll();
+    }
+
+    @GetMapping("/{id}/votes")
+    public List<VoteTo> getVotesForUser(@PathVariable("id") int userId) {
+        return convert(voteRepository.getAllForUser(userId));
     }
 
     @DeleteMapping("/{id}")

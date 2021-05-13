@@ -1,6 +1,6 @@
-package ru.topjava.graduation.model.entities;
+package ru.topjava.graduation.model.entities.to;
 
-import ru.topjava.graduation.utils.SecurityUtil;
+import ru.topjava.graduation.model.entities.Vote;
 
 import java.beans.ConstructorProperties;
 import java.time.LocalDate;

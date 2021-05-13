@@ -1,7 +1,8 @@
 package ru.topjava.graduation.repository.testData;
 
 import ru.topjava.graduation.model.entities.Vote;
-import ru.topjava.graduation.model.entities.VoteTo;
+import ru.topjava.graduation.model.entities.to.VoteResults;
+import ru.topjava.graduation.model.entities.to.VoteTo;
 import ru.topjava.graduation.repository.TestMatcher;
 
 import java.time.LocalDate;
@@ -12,8 +13,9 @@ import static ru.topjava.graduation.repository.testData.RestaurantTestData.*;
 import static ru.topjava.graduation.repository.testData.UserTestData.*;
 
 public class VoteTestData {
-    public static final TestMatcher<Vote> VOTE_TEST_MATCHER = TestMatcher.usingIgnoreFieldsComparator(Vote.class, "restaurant.name", "restaurant.menu", "restaurant.vote");
+    public static final TestMatcher<Vote> VOTE_TEST_MATCHER = TestMatcher.usingIgnoreFieldsComparator(Vote.class, "restaurant");
     public static final TestMatcher<VoteTo> VOTE_TO_TEST_MATCHER = TestMatcher.usingIgnoreFieldsComparator(VoteTo.class);
+    public static final TestMatcher<VoteResults> VOTE_RESULTS_TEST_MATCHER = TestMatcher.usingIgnoreFieldsComparator(VoteResults.class);
 
     public static final LocalDate START = LocalDate.parse("2020-04-09");
     public static final LocalDate END = LocalDate.parse("2020-04-10");
@@ -37,7 +39,6 @@ public class VoteTestData {
     public static final int VOTE_15_ID = START_SEQ + 14;
     public static final int VOTE_NOT_FOUND_ID = 10;
 
-
     public static Vote VOTE1 = new Vote(VOTE_1_ID, END, ADMIN_ID, bearGrizzly);
     public static Vote VOTE2 = new Vote(VOTE_2_ID, START, ADMIN_ID, bearGrizzly);
     public static Vote VOTE3 = new Vote(VOTE_3_ID, START, USER_JONNY_ID, bearGrizzly);
@@ -58,5 +59,8 @@ public class VoteTestData {
             VOTE9, VOTE10, VOTE11, VOTE12, VOTE13, VOTE14_TODAY, VOTE15_TODAY);
     public static List<Vote> allVotesOfAdmin = List.of(VOTE1, VOTE2, VOTE6, VOTE8, VOTE10, VOTE12, VOTE15_TODAY);
     public static List<Vote> allVotesOfJonny = List.of(VOTE3, VOTE7, VOTE11, VOTE14_TODAY);
+
+    public static VoteResults resultMeatHome = new VoteResults(MEAT_HOME_ID, 1);
+    public static VoteResults resultBearGrizzly = new VoteResults(BEAR_GRIZZLY_ID, 1);
 }
 

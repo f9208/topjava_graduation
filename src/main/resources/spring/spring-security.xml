@@ -20,7 +20,7 @@
         <intercept-url pattern="/restaurants/**/menu/**" access="hasRole('ADMIN')" method="DELETE"/>
         <intercept-url pattern="/restaurants/**/menu/**" access="hasRole('ADMIN')" method="PATCH"/>
         <intercept-url pattern="/restaurants/**/menu/" access="permitAll()" method="GET"/>
-        <intercept-url pattern="/restaurants/**/votes/" access="hasRole('ADMIN')" method="GET"/>
+        <intercept-url pattern="/restaurants/**/votes/**" access="hasRole('ADMIN')" method="GET"/>
 
         <intercept-url pattern="/profile/register" access="isAnonymous()" method="POST"/>
         <intercept-url pattern="/profile/**" access="isAuthenticated()"/>

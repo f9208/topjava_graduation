@@ -60,19 +60,19 @@ public class VoteRepository {
     }
 
     public List<Vote> getAllForUser(int userId) {
-        return crudVoteRepository.getAllByUserId(userId);
+        return checkNotFoundWithId(crudVoteRepository.getAllByUserId(userId), userId);
     }
 
     public List<Vote> getAllForRestaurantBetween(LocalDate start, LocalDate end, int userId) {
-        return crudVoteRepository.getAllByDateBetweenAndRestaurantId(start, end, userId);
+        return checkNotFoundForDate(crudVoteRepository.getAllByDateBetweenAndRestaurantId(start, end, userId), start, end);
     }
 
     public Vote getVoteForUserOnDate(int userId, LocalDate date) {
-        return crudVoteRepository.getVoteByUserIdAndDate(userId, date);
+        return checkNotFoundWithId(crudVoteRepository.getVoteByUserIdAndDate(userId, date), userId);
     }
 
     public Vote getOneForUser(int voteId, int userId) {
-        return crudVoteRepository.getFullByVoteIdAndUserId(voteId, userId);
+        return checkNotFoundWithId(crudVoteRepository.getFullByVoteIdAndUserId(voteId, userId), voteId);
     }
 
     @Transactional
@@ -90,13 +90,14 @@ public class VoteRepository {
     }
 
     public List<Vote> getAllByDateBetweenAndUserId(LocalDate start, LocalDate end, int userId) {
-        return crudVoteRepository.getAllByDateBetweenAndUserId(start, end, userId);
+        return checkNotFoundForDate(crudVoteRepository.getAllByDateBetweenAndUserId(start, end, userId), start, end);
     }
 
     public long countResultVote(LocalDate day, int restaurantId) {
         return crudVoteRepository.countVoteByDateAndRestaurantId(day, restaurantId);
     }
-    public Vote getMyVoteForDay(LocalDate day, int userId){
-        return crudVoteRepository.getVoteByDateAndUserId(day,userId);
+
+    public Vote getMyVoteForDay(LocalDate day, int userId) {
+        return checkNotFoundWithId(crudVoteRepository.getVoteByDateAndUserId(day, userId), userId);
     }
 }

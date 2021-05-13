@@ -18,9 +18,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.TestUtil.userHttpBasic;
+import static ru.topjava.graduation.model.entities.to.VoteTo.convert;
 import static ru.topjava.graduation.repository.testData.RestaurantTestData.*;
 import static ru.topjava.graduation.repository.testData.UserTestData.admin;
 import static ru.topjava.graduation.repository.testData.UserTestData.userJonny;
+import static ru.topjava.graduation.repository.testData.VoteTestData.*;
 import static ru.topjava.graduation.web.RestaurantsController.RESTAURANTS;
 
 class RestaurantsControllerTest extends AbstractRestControllerTest {
@@ -39,7 +41,7 @@ class RestaurantsControllerTest extends AbstractRestControllerTest {
     }
 
     @Test
-    void getOneUnAuth() throws Exception {
+    void getUnAuth() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -54,7 +56,7 @@ class RestaurantsControllerTest extends AbstractRestControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(RESTAURANT_MATCHER.contentJson(List.of(meatHome, bearGrizzly)));
+                .andExpect(RESTAURANT_MATCHER_WITHOUT_VOTE.contentJson(List.of(bearGrizzly, meatHome)));
     }
 
     @Test
@@ -75,7 +77,7 @@ class RestaurantsControllerTest extends AbstractRestControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())
-                .andExpect(RESTAURANT_MATCHER.contentJson(meatHome));
+                .andExpect(RESTAURANT_MATCHER_WITHOUT_VOTE.contentJson(meatHome));
     }
 
     @Test
@@ -145,5 +147,37 @@ class RestaurantsControllerTest extends AbstractRestControllerTest {
                 .andDo(print())
                 .andExpect(status().isUnauthorized());
         RESTAURANT_MATCHER.assertMatch(restaurantRepository.getAll(), List.of(meatHome, bearGrizzly));
+    }
+
+    @Test
+    void getVotesForRestaurantWithFilter() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + "/votes/filter")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("start", "2021-04-20")
+                .param("end", "2021-04-26")
+                .with(userHttpBasic(admin)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(VOTE_TEST_MATCHER.contentJson(List.of(VOTE6, VOTE7, VOTE11, VOTE8, VOTE9)));
+    }
+
+    @Test
+    void getVotesForRestaurantForToday() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + "/votes/today")
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(VOTE_TEST_MATCHER.contentJson(List.of(VOTE15_TODAY)));
+    }
+
+    @Test
+    void getRestaurantWithVotes() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + "/votes")
+                .contentType(MediaType.APPLICATION_JSON)
+                .with(userHttpBasic(admin)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(RESTAURANT_MATCHER_WITHOUT_MENU.contentJson(meatHome));
     }
 }

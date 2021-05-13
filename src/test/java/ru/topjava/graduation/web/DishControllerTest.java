@@ -47,6 +47,13 @@ public class DishControllerTest extends AbstractRestControllerTest {
     }
 
     @Test
+    void getFullMenuUnAuth() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + MENU + "full"))
+                .andExpect(status().isUnauthorized())
+                .andDo(print());
+    }
+
+    @Test
     void getFullMenu() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + MENU + "full")
                 .with(userHttpBasic(admin)))
@@ -61,13 +68,6 @@ public class DishControllerTest extends AbstractRestControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + MENU + "full")
                 .with(userHttpBasic(userJonny)))
                 .andExpect(status().isForbidden())
-                .andDo(print());
-    }
-
-    @Test
-    void getFullMenuUnAuth() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + MENU + "full"))
-                .andExpect(status().isUnauthorized())
                 .andDo(print());
     }
 

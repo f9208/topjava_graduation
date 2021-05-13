@@ -13,15 +13,15 @@ import java.util.List;
 
 @Transactional(readOnly = true)
 public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
-//    @EntityGraph(attributePaths = {"restaurant"}, type = EntityGraph.EntityGraphType.LOAD)
-//    @Query("Select v From Vote v")
-//    List<Vote> getAllWithRestaurant();
-
     Vote getVoteByUserIdAndDate(Integer userId, LocalDate date);
 
     List<Vote> getAllByDateBetween(LocalDate start, LocalDate end);
 
-    List<Vote> getAllByDateBetweenAndRestaurantId(LocalDate start, LocalDate end, Integer restaurantId);
+    @EntityGraph(attributePaths = {"restaurant"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("Select v From Vote v where v.date>=:start and v.date<=:end and v.restaurant.id=:restaurantId")
+    List<Vote> getAllByDateBetweenAndRestaurantId(@Param("start") LocalDate start,
+                                                  @Param("end") LocalDate end,
+                                                  @Param("restaurantId") Integer restaurantId);
 
     Vote findByUserIdAndDate(Integer userId, LocalDate date);
 

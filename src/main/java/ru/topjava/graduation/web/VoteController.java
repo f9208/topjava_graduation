@@ -10,9 +10,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.graduation.Exceptions.TooLateVoteException;
-import ru.topjava.graduation.model.VoteResults;
+import ru.topjava.graduation.model.entities.to.VoteResults;
 import ru.topjava.graduation.model.entities.Vote;
-import ru.topjava.graduation.model.entities.VoteTo;
+import ru.topjava.graduation.model.entities.to.VoteTo;
 import ru.topjava.graduation.repository.RestaurantRepository;
 import ru.topjava.graduation.repository.VoteRepository;
 import ru.topjava.graduation.utils.DateTimeUtils;
@@ -24,48 +24,26 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.topjava.graduation.model.entities.VoteTo.convert;
+import static ru.topjava.graduation.model.entities.to.VoteTo.convert;
 import static ru.topjava.graduation.utils.VoteTimeLimit.TOO_LATE;
 
 @RestController
 @RequestMapping(value = VoteController.VOTES, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteController {
     static final String VOTES = "/votes";
+    static final String RESULTS = "/results";
     @Autowired
     VoteRepository voteRepository;
     @Autowired
     RestaurantRepository restaurantRepository;
 
-    @GetMapping
-    public List<VoteTo> getAllUserVotesWithRestaurant() {
-        return convert(voteRepository.getAllForUser(SecurityUtil.getAuthUserId()));
-    }
-
-    @GetMapping("/{vote_id}")
-    public VoteTo getVoteWithRestaurant(@PathVariable("vote_id") Integer voteId) {
-        return new VoteTo(voteRepository.getOneForUser(voteId, SecurityUtil.getAuthUserId()));
-    }
-
-    @GetMapping("/results")
+    @GetMapping(RESULTS)
     public List<VoteResults> voteResults(@RequestParam(name = "day") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate day) {
         if (day == null) day = LocalDate.now();
         LocalDate finalDay = day;
         return restaurantRepository.getAll().stream()
                 .map((r) -> new VoteResults(r.getId(), voteRepository.countResultVote(finalDay, r.getId())))
                 .collect(Collectors.toList());
-    }
-
-    @GetMapping("/today")
-    public VoteTo getMyVoteToday() {
-        return new VoteTo(voteRepository.getMyVoteForDay(LocalDate.now(), SecurityUtil.getAuthUserId()));
-    }
-
-    @GetMapping(value = "/filter")
-    public List<VoteTo> getMyVotesFiltered(@RequestParam(name = "start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate start,
-                                         @RequestParam(name = "end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate end) {
-        if (start == null) start = DateTimeUtils.MIN_DATE;
-        if (end == null) end = DateTimeUtils.MAX_DATE;
-        return convert(voteRepository.getAllByDateBetweenAndUserId(start, end, SecurityUtil.getAuthUserId()));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -82,11 +60,5 @@ public class VoteController {
         } else {
             throw new TooLateVoteException();
         }
-    }
-
-    @DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deleteVote(@RequestBody int id) {
-        voteRepository.deleteVoteForUser(id, SecurityUtil.getAuthUserId());
     }
 }
