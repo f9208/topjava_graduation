@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.topjava.graduation.model.entities.Restaurant;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ru.topjava.graduation.utils.ValidatorUtil.*;
@@ -66,4 +67,15 @@ public class RestaurantRepository {
         log.info("getAll restaurants with menu");
         return crudRestaurantRepository.getAllWithMenu();
     }
+
+    public List<Restaurant> getAllWithVotes() {
+        log.info("get all restaurants with votes");
+        return crudRestaurantRepository.getAllWithVote();
+    }
+
+    public Restaurant getOneWithVotes(int id) {
+        log.info("get one restaurant with votes by id = {}", id);
+        return crudRestaurantRepository.getOneWithVote(id);
+    }
+
 }

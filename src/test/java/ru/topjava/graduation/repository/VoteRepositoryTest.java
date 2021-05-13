@@ -6,7 +6,6 @@ import ru.topjava.graduation.Exceptions.NotFoundException;
 import ru.topjava.graduation.model.entities.Vote;
 import ru.topjava.graduation.repository.testData.UserTestData;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static ru.topjava.graduation.repository.testData.VoteTestData.*;
@@ -22,14 +21,15 @@ class VoteRepositoryTest extends AbstractStarterTest {
     @Test
     void toVote() {
         Vote voted = voteRepository.toVote(TODAY, ADMIN_ID, MEAT_HOME_ID);
-        VOTE_TEST_MATCHER.assertMatch(voteRepository.getAllForUserBetween(TODAY, TODAY, ADMIN_ID), voted);
-        VOTE_TEST_MATCHER.assertMatch(voteRepository.get(voted.getId()), voted);
+        int id = voted.getId();
+        VOTE_TEST_MATCHER.assertMatch(VOTE15_TODAY, voted);
+        VOTE_TEST_MATCHER.assertMatch(VOTE15_TODAY, voteRepository.get(id));
     }
 
     @Test
     void reVote() {
         Vote alter = voteRepository.getVoteForUserOnDate(ADMIN_ID, START);
-        VOTE_TEST_MATCHER.assertMatch(alter, VOTE2);
+        VOTE_TEST_MATCHER.assertMatch(VOTE2, alter);
         Vote revote = voteRepository.toVote(START, ADMIN_ID, MEAT_HOME_ID);
         VOTE_TEST_MATCHER.assertMatch(revote, voteRepository.getVoteForUserOnDate(ADMIN_ID, START));
     }
@@ -41,7 +41,7 @@ class VoteRepositoryTest extends AbstractStarterTest {
 
     @Test
     void getAll() {
-        VOTE_TEST_MATCHER.assertMatch(voteRepository.findAll(), allVotesOfEveryone);
+        VOTE_TEST_MATCHER.assertMatch(allVotesOfEveryone, voteRepository.findAll());
     }
 
     @Test
@@ -66,7 +66,6 @@ class VoteRepositoryTest extends AbstractStarterTest {
         assertThrows(NotFoundException.class, () -> voteRepository.getVoteByIdAndUserId(VOTE_3_ID, ADMIN_ID));
     }
 
-
     @Test
     void getAllForUser() {
         VOTE_TEST_MATCHER.assertMatch(allVotesOfAdmin, voteRepository.getAllForUser(ADMIN_ID));
@@ -74,7 +73,7 @@ class VoteRepositoryTest extends AbstractStarterTest {
 
     @Test
     void getAllForUserBetween() {
-        VOTE_TEST_MATCHER.assertMatch(List.of(VOTE1, VOTE2), voteRepository.getAllForUserBetween(START, END, ADMIN_ID));
+        VOTE_TEST_MATCHER.assertMatch(List.of(VOTE1, VOTE2), voteRepository.getAllByDateBetweenAndUserId(START, END, ADMIN_ID));
     }
 
     @Test
@@ -108,10 +107,5 @@ class VoteRepositoryTest extends AbstractStarterTest {
     @Test
     void getDateNotFound() {
         assertThrows(NotFoundException.class, () -> voteRepository.getAllBetween(DATE_NOT_FOUND, DATE_NOT_FOUND));
-    }
-
-    @Test
-    void getVotesForDay() {
-        System.out.println(voteRepository.getVoteForDate(LocalDate.now()));
     }
 }

@@ -7,16 +7,14 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.topjava.graduation.Exceptions.NotFoundException;
 import ru.topjava.graduation.TestUtil;
-import ru.topjava.graduation.model.entities.Vote;
+import ru.topjava.graduation.model.entities.VoteTo;
 import ru.topjava.graduation.repository.VoteRepository;
-import ru.topjava.graduation.utils.SecurityUtil;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.TestUtil.userHttpBasic;
+import static ru.topjava.graduation.model.entities.VoteTo.convert;
 import static ru.topjava.graduation.repository.testData.RestaurantTestData.BEAR_GRIZZLY_ID;
 import static ru.topjava.graduation.repository.testData.RestaurantTestData.MEAT_HOME_ID;
 import static ru.topjava.graduation.repository.testData.UserTestData.USER_JONNY_ID;
@@ -36,7 +34,7 @@ public class VoteControllerTest extends AbstractRestControllerTest {
                 .with(userHttpBasic(userJonny)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(VOTE_TEST_MATCHER.contentJson(allVotesOfJonny));
+                .andExpect(VOTE_TO_TEST_MATCHER.contentJson(convert(allVotesOfJonny)));
     }
 
     @Test
@@ -46,7 +44,7 @@ public class VoteControllerTest extends AbstractRestControllerTest {
                 .with(userHttpBasic(userJonny)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(VOTE_TEST_MATCHER.contentJson(VOTE3));
+                .andExpect(VOTE_TO_TEST_MATCHER.contentJson(new VoteTo(VOTE3)));
     }
 
     @Test
@@ -56,7 +54,7 @@ public class VoteControllerTest extends AbstractRestControllerTest {
                 .with(userHttpBasic(userJonny)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(VOTE_TEST_MATCHER.contentJson(List.of(VOTE14_TODAY)));
+                .andExpect(VOTE_TO_TEST_MATCHER.contentJson(new VoteTo(VOTE14_TODAY)));
     }
 
     @Test
@@ -68,7 +66,7 @@ public class VoteControllerTest extends AbstractRestControllerTest {
                 .with(userHttpBasic(userJonny)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(VOTE_TEST_MATCHER.contentJson(List.of(VOTE11, VOTE7)));
+                .andExpect(VOTE_TO_TEST_MATCHER.contentJson(convert(VOTE11, VOTE7)));
     }
 
     @Test
@@ -79,8 +77,8 @@ public class VoteControllerTest extends AbstractRestControllerTest {
                 .with(userHttpBasic(userJonny)))
                 .andDo(print())
                 .andExpect(status().isCreated());
-        Vote created = TestUtil.readFromJson(action, Vote.class);
-        VOTE_TEST_MATCHER.assertMatch(created, voteRepository.getVoteByIdAndUserId(created.getId(), USER_JONNY_ID));
+        VoteTo created = TestUtil.readFromJson(action, VoteTo.class);
+        VOTE_TO_TEST_MATCHER.assertMatch(created, new VoteTo(voteRepository.getVoteByIdAndUserId(created.getVoteId(), USER_JONNY_ID)));
 
         ResultActions action2 = perform(MockMvcRequestBuilders.post(REST_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -88,8 +86,8 @@ public class VoteControllerTest extends AbstractRestControllerTest {
                 .with(userHttpBasic(userJonny)))
                 .andDo(print())
                 .andExpect(status().isCreated());
-        Vote created2 = TestUtil.readFromJson(action2, Vote.class);
-        VOTE_TEST_MATCHER.assertMatch(created2, voteRepository.getVoteByIdAndUserId(created.getId(), USER_JONNY_ID));
+        VoteTo created2 = TestUtil.readFromJson(action2, VoteTo.class);
+        VOTE_TO_TEST_MATCHER.assertMatch(created2, new VoteTo(voteRepository.getVoteByIdAndUserId(created2.getVoteId(), USER_JONNY_ID)));
     }
 
     @Test
@@ -101,8 +99,8 @@ public class VoteControllerTest extends AbstractRestControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        Vote created = TestUtil.readFromJson(action, Vote.class);
-        VOTE_TEST_MATCHER.assertMatch(created, voteRepository.getVoteByIdAndUserId(created.getId(), USER_JONNY_ID));
+        VoteTo created = TestUtil.readFromJson(action, VoteTo.class);
+        VOTE_TO_TEST_MATCHER.assertMatch(created, new VoteTo(voteRepository.getVoteByIdAndUserId(created.getVoteId(), USER_JONNY_ID)));
     }
 
     @Test

@@ -29,8 +29,6 @@ public class DishRepository {
         log.info("save dish for restaurant {}", restaurantId);
         if (!dish.isNew() && get(dish.getId(), restaurantId) == null)
             return null;
-//        https://www.javacodemonk.com/difference-between-getone-and-findbyid-in-spring-data-jpa-3a96c3ff
-//        getOne - взять ссылку на обьект.6_01, 3:00
         dish.setRestaurant(crudRestaurantRepository.getOne(restaurantId));
         return crudDishRepository.save(dish);
     }

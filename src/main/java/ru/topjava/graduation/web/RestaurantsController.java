@@ -1,15 +1,20 @@
 package ru.topjava.graduation.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.graduation.model.entities.Restaurant;
+import ru.topjava.graduation.model.entities.Vote;
 import ru.topjava.graduation.repository.RestaurantRepository;
+import ru.topjava.graduation.repository.VoteRepository;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -18,6 +23,8 @@ public class RestaurantsController {
     static final String RESTAURANTS = "/restaurants";
     @Autowired
     RestaurantRepository restaurantRepository;
+    @Autowired
+    VoteRepository voteRepository;
 
     @GetMapping
     public List<Restaurant> getAll() {
@@ -29,24 +36,23 @@ public class RestaurantsController {
         return restaurantRepository.getAllWithMenu();
     }
 
-    @GetMapping("/{id}")
-    public Restaurant getOneRestaurant(@PathVariable("id") int id) {
-        return restaurantRepository.getOne(id);
-    }
-
     @GetMapping("/with-menu/{id}")
     public Restaurant getOneRestaurantWithMenu(@PathVariable("id") int id) {
         return restaurantRepository.getOneWithMenu(id);
     }
 
-    @GetMapping("/winner")
-    public List<Restaurant> getWinner() {
-        return null;
+    @GetMapping("/{id}")
+    public Restaurant getRestaurant(@PathVariable("id") int id) {
+        return restaurantRepository.getOne(id);
     }
-    @GetMapping("/vote_results")
-    public List<Restaurant> getVoteResults() {
 
-        return null;
+    @GetMapping("/{id}/votes")
+    public List<Vote> getVotes(@RequestParam(name = "start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate start,
+                               @RequestParam(name = "end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate end,
+                               @PathVariable("id") int id) {
+        if (start == null) start = LocalDate.now();
+        if (end == null) end = LocalDate.now();
+        return voteRepository.getAllForRestaurantBetween(start, end, id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

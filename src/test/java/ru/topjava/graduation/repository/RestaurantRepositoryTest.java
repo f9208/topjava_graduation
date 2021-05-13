@@ -57,4 +57,9 @@ class RestaurantRepositoryTest extends AbstractStarterTest {
     void deleteNotFound() {
         assertThrows(NotFoundException.class, () -> restaurantRepository.delete(NOT_FOUND));
     }
+
+    @Test
+    void getAllWithVotes() {
+        System.out.println(restaurantRepository.getAllWithVotes().get(1).getVote());
+    }
 }

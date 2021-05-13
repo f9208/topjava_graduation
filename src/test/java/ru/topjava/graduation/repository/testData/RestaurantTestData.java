@@ -10,7 +10,7 @@ import static ru.topjava.graduation.repository.testData.DishTestData.*;
 
 public class RestaurantTestData {
 
-    public static TestMatcher<Restaurant> RESTAURANT_MATCHER = TestMatcher.usingIgnoreFieldsComparator(Restaurant.class, "menu");
+    public static TestMatcher<Restaurant> RESTAURANT_MATCHER = TestMatcher.usingIgnoreFieldsComparator(Restaurant.class, "menu", "vote");
 
     public static final int BEAR_GRIZZLY_ID = START_SEQ;
     public static final int MEAT_HOME_ID = START_SEQ + 1;

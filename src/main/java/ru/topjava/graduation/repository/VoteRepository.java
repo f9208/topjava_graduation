@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.topjava.graduation.model.entities.Restaurant;
 import ru.topjava.graduation.model.entities.Vote;
 
 import java.time.LocalDate;
@@ -19,20 +20,23 @@ public class VoteRepository {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final CrudVoteRepository crudVoteRepository;
+    private final RestaurantRepository restaurantRepository;
 
-    public VoteRepository(CrudVoteRepository crudVoteRepository) {
+    public VoteRepository(CrudVoteRepository crudVoteRepository, RestaurantRepository restaurantRepository) {
         this.crudVoteRepository = crudVoteRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
     @Transactional
     public Vote toVote(LocalDate date, int userId, int restaurantId) {
         log.info("vote for restaurant {} by user {} for {}", restaurantId, userId, date.format(DateTimeFormatter.ISO_DATE));
         if (date == null) date = LocalDateTime.now().toLocalDate();
+        Restaurant currentRestaurant = restaurantRepository.getOne(restaurantId);
         Vote savedBeforeVote = crudVoteRepository.findByUserIdAndDate(userId, date);
         if (savedBeforeVote == null) {
-            return crudVoteRepository.save(new Vote(null, date, userId, restaurantId));
+            return crudVoteRepository.save(new Vote(null, date, userId, currentRestaurant));
         } else {
-            savedBeforeVote.setRestaurantId(restaurantId);
+            savedBeforeVote.setRestaurant(currentRestaurant);
             return savedBeforeVote;
         }
     }
@@ -56,11 +60,11 @@ public class VoteRepository {
     }
 
     public List<Vote> getAllForUser(int userId) {
-        return checkNotFoundWithId(crudVoteRepository.getAllByUserId(userId).orElse(null), userId);
+        return crudVoteRepository.getAllByUserId(userId);
     }
 
-    public List<Vote> getAllForUserBetween(LocalDate start, LocalDate end, int userId) {
-        return crudVoteRepository.getAllByDateBetweenAndUserId(start, end, userId);
+    public List<Vote> getAllForRestaurantBetween(LocalDate start, LocalDate end, int userId) {
+        return crudVoteRepository.getAllByDateBetweenAndRestaurantId(start, end, userId);
     }
 
     public Vote getVoteForUserOnDate(int userId, LocalDate date) {
@@ -68,7 +72,7 @@ public class VoteRepository {
     }
 
     public Vote getOneForUser(int voteId, int userId) {
-        return crudVoteRepository.findByIdAndUserId(voteId, userId);
+        return crudVoteRepository.getFullByVoteIdAndUserId(voteId, userId);
     }
 
     @Transactional
@@ -85,9 +89,14 @@ public class VoteRepository {
         return result;
     }
 
-    public List<Vote> getVoteForDate(LocalDate date) {
-        return crudVoteRepository.getVoteByDate(date);
+    public List<Vote> getAllByDateBetweenAndUserId(LocalDate start, LocalDate end, int userId) {
+        return crudVoteRepository.getAllByDateBetweenAndUserId(start, end, userId);
     }
 
-
+    public long countResultVote(LocalDate day, int restaurantId) {
+        return crudVoteRepository.countVoteByDateAndRestaurantId(day, restaurantId);
+    }
+    public Vote getMyVoteForDay(LocalDate day, int userId){
+        return crudVoteRepository.getVoteByDateAndUserId(day,userId);
+    }
 }

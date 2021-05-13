@@ -50,8 +50,8 @@ class RestaurantsControllerTest extends AbstractRestControllerTest {
     @Test
     void getAllWithMenu() throws Exception {
         perform(MockMvcRequestBuilders.get(REST_URL + "with-menu")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(RESTAURANT_MATCHER.contentJson(List.of(meatHome, bearGrizzly)));

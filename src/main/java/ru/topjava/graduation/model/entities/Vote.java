@@ -1,5 +1,6 @@
 package ru.topjava.graduation.model.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import ru.topjava.graduation.model.HasId;
 
 import javax.persistence.*;
@@ -20,20 +21,23 @@ public class Vote implements HasId {
     @NotNull
     @Column(name = "user_id")
     int userId;
-    @NotNull
-    @Column(name = "restaurant_id")
-    int restaurantId;
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false) //название колонки в таблице
+    private Restaurant restaurant;
 
-    ///////////////////////
-//    возмжно сделать трансфер обжект по факту учитывания голоса или нет. в базу сохранять все голоса подряд
     public Vote() {
     }
 
-    public Vote(Integer id, LocalDate date, int userId, int restaurantId) {
-        this.id=id;
+    public Vote(Integer id, LocalDate date, int userId, Restaurant restaurant) {
+        this.id = id;
         this.date = date;
         this.userId = userId;
-        this.restaurantId = restaurantId;
+        this.restaurant = restaurant;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -41,8 +45,8 @@ public class Vote implements HasId {
         this.id = id;
     }
 
-    public int getRestaurantId() {
-        return restaurantId;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
     public void setDate(LocalDate date) {
@@ -53,8 +57,8 @@ public class Vote implements HasId {
         this.userId = user;
     }
 
-    public void setRestaurantId(int restaurant) {
-        this.restaurantId = restaurant;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public LocalDate getDate() {
@@ -76,7 +80,7 @@ public class Vote implements HasId {
                 "id=" + id +
                 ", date=" + date +
                 ", user_id=" + userId +
-                ", restaurant_id=" + restaurantId +
+                ", restaurant_id=" + restaurant.getId() +
                 '}';
     }
 }
