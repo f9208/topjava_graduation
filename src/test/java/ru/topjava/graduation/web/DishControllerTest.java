@@ -73,11 +73,19 @@ public class DishControllerTest extends AbstractRestControllerTest {
 
     @Test
     void getOneDish() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + MENU + POTATO_ID))
+        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + MENU + POTATO_ID)
+                .with(userHttpBasic(admin)))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(DISH_MATCHER.contentJson(POTATO));
+    }
+
+    @Test
+    void getOneDishNoAdmin() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL + MEAT_HOME_ID + MENU + POTATO_ID))
+                .andExpect(status().isUnauthorized())
+                .andDo(print());
     }
 
     @Test
@@ -130,8 +138,9 @@ public class DishControllerTest extends AbstractRestControllerTest {
 
     @Test
     void deleteDish() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + MEAT_HOME_ID + MENU + SOUP_ID)
+        perform(MockMvcRequestBuilders.delete(REST_URL + MEAT_HOME_ID + MENU)
                 .contentType(MediaType.APPLICATION_JSON)
+                .content(String.valueOf(SOUP_ID))
                 .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
@@ -140,7 +149,8 @@ public class DishControllerTest extends AbstractRestControllerTest {
 
     @Test
     void deleteDishIsForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + MEAT_HOME_ID + MENU + SOUP_ID)
+        perform(MockMvcRequestBuilders.delete(REST_URL + MEAT_HOME_ID + MENU)
+                .content(String.valueOf(SOUP_ID))
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(userJonny)))
                 .andDo(print())

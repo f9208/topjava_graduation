@@ -39,9 +39,9 @@ public class AdminUserController {
         return convert(voteRepository.getAllForUser(userId));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable int id) {
+    public void deleteUser(@RequestBody int id) {
         userRepository.delete(id);
     }
 

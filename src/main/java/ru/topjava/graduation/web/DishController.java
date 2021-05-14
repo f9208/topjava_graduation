@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.graduation.model.entities.Dish;
+import ru.topjava.graduation.model.entities.Role;
 import ru.topjava.graduation.repository.DishRepository;
+import ru.topjava.graduation.utils.SecurityUtil;
 
 import java.net.URI;
 import java.util.List;
@@ -38,6 +40,7 @@ public class DishController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Dish> addDish(@RequestBody Dish dish, @PathVariable("restaurant_id") int restaurantId) {
+        System.out.println(dish);
         Dish created = dishRepository.create(dish, restaurantId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -53,13 +56,13 @@ public class DishController {
         dishRepository.update(dish, restaurant_id);
     }
 
-    @DeleteMapping(value = "/{dish_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping( consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteDish(@PathVariable(name = "restaurant_id") int restaurant_id, @PathVariable(name = "dish_id") int dish_id) {
+    void deleteDish(@PathVariable(name = "restaurant_id") int restaurant_id, @RequestBody int dish_id) {
         dishRepository.delete(dish_id, restaurant_id);
     }
 
-    @PatchMapping(value = "/{dish_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/{dish_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void enabled(@PathVariable(name = "restaurant_id") int restaurant_id,
                  @PathVariable(name = "dish_id") int dish_id,

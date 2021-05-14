@@ -102,8 +102,9 @@ class AdminUserControllerTest extends AbstractRestControllerTest {
 
     @Test
     void deleteUser() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + USER_JONNY_ID)
+        perform(MockMvcRequestBuilders.delete(REST_URL )
                 .contentType(MediaType.APPLICATION_JSON)
+                .content(String.valueOf(USER_JONNY_ID))
                 .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());

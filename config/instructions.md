@@ -1,18 +1,18 @@
 ## *****Methods RestaurantController*****
 
-get /topjava_graduation/restaurants - список ресторанов без еды 
-get /topjava_graduation/restaurants/with-menu - вывод списка ресторанов вместе с меню 
-get /topjava_graduation/restaurants/{id} - вывод называния ресторана (без меню) (..todo переделать с едой)
+[comment]: <> (get /topjava_graduation/restaurants - список ресторанов без еды )
 
-//todo следующие методы должны делать только пользователи с ролью админ
-get /topjava_graduation/restaurants/{id}/votes - список голосовавших за этот ресторан сегодня
-get /topjava_graduation/restaurants/{id}/votes?start&end - список голосов за этот ресторан с start по end
+[comment]: <> (get /topjava_graduation/restaurants/with-menu - вывод списка ресторанов вместе с меню )
+
+[comment]: <> (get /topjava_graduation/restaurants/{id} - вывод называния ресторана &#40;без меню&#41; &#40;..todo переделать с едой&#41;)
+
+[comment]: <> (//todo следующие методы должны делать только пользователи с ролью админ)
+
+[comment]: <> (get /topjava_graduation/restaurants/{id}/votes - список голосовавших за этот ресторан сегодня)
+
+[comment]: <> (get /topjava_graduation/restaurants/{id}/votes?start&end - список голосов за этот ресторан с start по end)
 
 post post /topjava_graduation/restaurants - добавлять новый ресторан. возвращается {id} нового ресторана
-
-delete удалить указанный ресторан можно двумя способами:
-delete /topjava_graduation/restaurants/{id} - удалит ресторан {id} delete /topjava_graduation/restaurants?delete={id} -
-удалит ресторан {id}
 
 put /topjava_graduation/restaurants/{id} - можно внести изменение в название ресторана с указанным {id}
 

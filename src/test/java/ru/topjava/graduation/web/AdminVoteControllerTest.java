@@ -72,8 +72,9 @@ class AdminVoteControllerTest extends AbstractRestControllerTest {
 
     @Test
     void deleteVote() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + VOTE_3_ID)
+        perform(MockMvcRequestBuilders.delete(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
+                .content(String.valueOf(VOTE_3_ID))
                 .with(userHttpBasic(admin)))
                 .andDo(print())
                 .andExpect(status().isNoContent());

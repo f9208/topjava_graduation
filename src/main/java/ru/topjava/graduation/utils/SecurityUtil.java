@@ -31,4 +31,9 @@ public class SecurityUtil {
     public static int getAuthUserId() {
         return get().getUser().getId();
     }
+
+    public static boolean adminRole(User user) {
+        requireNonNull(user, "user must be not null");
+        return user.getRoles().contains(Role.ADMIN);
+    }
 }

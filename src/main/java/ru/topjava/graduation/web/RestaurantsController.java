@@ -74,7 +74,7 @@ public class RestaurantsController {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBy(@RequestParam(name = "id") int id) {
+    public void deleteBy(@RequestBody Integer id) {
         restaurantRepository.delete(id);
     }
 

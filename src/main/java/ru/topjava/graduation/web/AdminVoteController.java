@@ -52,9 +52,9 @@ public class AdminVoteController {
         return convert(voteRepository.getAllBetween(LocalDate.now(), LocalDate.now()));
     }
 
-    @DeleteMapping("/{vote_id}")
+    @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteVote(@PathVariable(name = "vote_id") int id) {
+    public void deleteVote(@RequestBody int id) {
         voteRepository.deleteVote(id);
     }
 }

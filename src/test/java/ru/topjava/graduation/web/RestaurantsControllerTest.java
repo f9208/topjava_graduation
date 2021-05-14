@@ -108,7 +108,7 @@ class RestaurantsControllerTest extends AbstractRestControllerTest {
     @Test
     void deleteBy() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL)
-                .param("id", String.valueOf(MEAT_HOME_ID))
+                .content(String.valueOf(MEAT_HOME_ID))
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(admin)))
                 .andDo(print())
@@ -119,7 +119,7 @@ class RestaurantsControllerTest extends AbstractRestControllerTest {
     @Test
     void deleteIsForbidden() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL)
-                .param("id", String.valueOf(MEAT_HOME_ID))
+                .content(String.valueOf(MEAT_HOME_ID))
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(userHttpBasic(userJonny)))
                 .andDo(print())

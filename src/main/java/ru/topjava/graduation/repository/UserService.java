@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import ru.topjava.graduation.model.AuthorizedUser;
 import ru.topjava.graduation.model.entities.User;
+import ru.topjava.graduation.utils.SecurityUtil;
 
 @Service("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)

@@ -9,8 +9,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import ru.topjava.graduation.model.entities.Role;
 import ru.topjava.graduation.model.entities.User;
-import ru.topjava.graduation.model.entities.Vote;
 import ru.topjava.graduation.model.entities.to.VoteTo;
 import ru.topjava.graduation.repository.UserRepository;
 import ru.topjava.graduation.repository.UserService;
@@ -20,9 +20,12 @@ import ru.topjava.graduation.utils.SecurityUtil;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import static ru.topjava.graduation.model.entities.to.VoteTo.convert;
+import static ru.topjava.graduation.utils.SecurityUtil.adminRole;
 
 @RestController
 @RequestMapping(value = ProfileController.PROFILE)
@@ -46,6 +49,7 @@ public class ProfileController {
     public ResponseEntity<User> createUser(@RequestBody User user, BindingResult result) {
         if (result.hasErrors()) {
         }
+        if (adminRole(user)) user.setRoles(Set.of(Role.USER));
         User created = userService.prepareAndSave(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(PROFILE + "/{id}")
