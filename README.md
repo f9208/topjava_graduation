@@ -1,3 +1,5 @@
+In order to have clickable links below setup in TomCat deploy-URL as http://localhost:8080/topjava_graduation. 
+
 ### Graduation project TopJava
 
 The task is:
