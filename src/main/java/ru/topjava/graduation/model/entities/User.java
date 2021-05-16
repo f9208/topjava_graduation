@@ -50,8 +50,6 @@ public class User extends AbstractNamedEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
 
-    //todo сделать hasVoice
-
     public User() {
     }
 

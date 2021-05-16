@@ -1,4 +1,4 @@
-package ru.topjava.graduation.Exceptions;
+package ru.topjava.graduation.web.Exceptions;
 
 public class NotFoundException extends RuntimeException {
     public NotFoundException(String message) {

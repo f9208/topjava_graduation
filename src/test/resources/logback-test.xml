@@ -20,13 +20,9 @@
         <appender-ref ref="result"/>
     </logger>
 
-<!--    <logger name="org.postgresql" level="debug"/>-->
-<!--    <logger name="org.springframework.jdbc" level="info"/>-->
     <logger name="ru.topjava.graduation" level="debug"/>
     <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver"
             level="debug"/>
-    <!--    <logger name="org.springframework.security" level="debug"/>-->
-<!--    <logger name="org.hibernate.SQL" level="debug"/>-->
 
     <root level="INFO">
         <appender-ref ref="console"/>

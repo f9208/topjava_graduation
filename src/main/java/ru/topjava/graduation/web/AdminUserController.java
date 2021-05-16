@@ -10,6 +10,7 @@ import ru.topjava.graduation.model.entities.to.VoteTo;
 import ru.topjava.graduation.repository.UserRepository;
 import ru.topjava.graduation.repository.VoteRepository;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Set;
 
@@ -47,7 +48,7 @@ public class AdminUserController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody User user) {
+    public void update(@Valid @RequestBody User user) {
         userRepository.update(user);
     }
 

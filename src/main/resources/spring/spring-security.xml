@@ -12,8 +12,6 @@
         <intercept-url pattern="/restaurants/**" access="hasRole('ADMIN')" method="DELETE"/>
         <intercept-url pattern="/restaurants/**" access="hasRole('ADMIN')" method="PUT"/>
         <intercept-url pattern="/restaurants/**" access="hasRole('ADMIN')" method="POST"/>
-
-
         <intercept-url pattern="/restaurants/**/menu/full" access="hasRole('ADMIN')" method="GET"/>
         <intercept-url pattern="/restaurants/**/menu/{**}" access="hasRole('ADMIN')" method="GET"/>
         <intercept-url pattern="/restaurants/**/menu/" access="hasRole('ADMIN')" method="POST"/>
@@ -34,23 +32,9 @@
 
     <beans:bean class="org.springframework.security.crypto.factory.PasswordEncoderFactories" id="passwordEncoder"
                 factory-method="createDelegatingPasswordEncoder"/>
-
-    <!--    <http>-->
-    <!--        <intercept-url pattern="/login" access="permitAll()"/>-->
-    <!--        <intercept-url pattern="/profile/register" access="isAnonymous()"/>-->
-
-    <!--        <intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>-->
-    <!--        <intercept-url pattern="/**" access="isAuthenticated()"/>-->
-
-    <!--        <form-login login-page="/login" default-target-url="/meals"-->
-    <!--                    authentication-failure-url="/login?error=true"-->
-    <!--                    login-processing-url="/spring_security_check"/>-->
-    <!--        <logout logout-success-url="/login"/>-->
-    <!--    </http>-->
     <authentication-manager>
         <authentication-provider user-service-ref="userService">
             <password-encoder ref="passwordEncoder"/>
-
         </authentication-provider>
     </authentication-manager>
 

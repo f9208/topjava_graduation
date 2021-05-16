@@ -1,18 +1,17 @@
 package ru.topjava.graduation.web;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.topjava.graduation.Exceptions.NotFoundException;
 import ru.topjava.graduation.TestUtil;
 import ru.topjava.graduation.model.entities.User;
 import ru.topjava.graduation.model.entities.to.VoteTo;
 import ru.topjava.graduation.repository.UserRepository;
 import ru.topjava.graduation.repository.VoteRepository;
 import ru.topjava.graduation.repository.testData.UserTestData;
+import ru.topjava.graduation.web.Exceptions.NotFoundException;
 import ru.topjava.graduation.web.json.JsonUtil;
 
 import java.util.List;
@@ -22,7 +21,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.TestUtil.userHttpBasic;
 import static ru.topjava.graduation.model.entities.to.VoteTo.convert;
-import static ru.topjava.graduation.repository.testData.RestaurantTestData.meatHome;
 import static ru.topjava.graduation.repository.testData.UserTestData.*;
 import static ru.topjava.graduation.repository.testData.VoteTestData.*;
 import static ru.topjava.graduation.web.ProfileController.PROFILE;
@@ -35,11 +33,6 @@ class ProfileControllerTest extends AbstractRestControllerTest {
     VoteRepository voteRepository;
 
     private static final String REST_URL = PROFILE;
-
-    @BeforeAll
-    static void init() {
-        meatHome.getName();
-    }
 
     @Test
     void getProfile() throws Exception {

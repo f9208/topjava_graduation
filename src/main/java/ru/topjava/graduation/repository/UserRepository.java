@@ -11,8 +11,7 @@ import ru.topjava.graduation.model.entities.User;
 import java.util.List;
 import java.util.Set;
 
-import static ru.topjava.graduation.utils.ValidatorUtil.checkNotFound;
-import static ru.topjava.graduation.utils.ValidatorUtil.checkNotFoundWithId;
+import static ru.topjava.graduation.utils.ValidatorUtil.*;
 
 @Repository
 public class UserRepository {
@@ -36,6 +35,7 @@ public class UserRepository {
     @Transactional
     public User create(User user) {
         Assert.notNull(user, "user must not be null");
+        checkNew(user);
         log.info("create new user");
         return crudUserRepository.save(user);
     }
@@ -69,7 +69,7 @@ public class UserRepository {
         return result;
     }
 
-    @Transactional //todo слишком много дублирующих - update, save, create - исправить под один
+    @Transactional
     public User save(User user) {
         return crudUserRepository.save(user);
     }

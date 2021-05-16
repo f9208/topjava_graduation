@@ -1,6 +1,6 @@
 package ru.topjava.graduation.web;
 
-import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
@@ -15,6 +15,7 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import javax.annotation.PostConstruct;
 
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static ru.topjava.graduation.repository.testData.RestaurantTestData.meatHome;
 
 @SpringJUnitWebConfig(locations = {"classpath:spring/spring-app.xml",
         "classpath:spring/spring-db.xml", "classpath:spring/spring-mvc.xml"})
@@ -35,6 +36,11 @@ abstract public class AbstractRestControllerTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
+
+    @BeforeAll
+    static void init() {
+        meatHome.getName();
+    }
 
     @PostConstruct
     private void postConstruct() {

@@ -1,6 +1,5 @@
 package ru.topjava.graduation.web;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,7 +12,8 @@ import ru.topjava.graduation.repository.VoteRepository;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.TestUtil.userHttpBasic;
-import static ru.topjava.graduation.repository.testData.RestaurantTestData.*;
+import static ru.topjava.graduation.repository.testData.RestaurantTestData.BEAR_GRIZZLY_ID;
+import static ru.topjava.graduation.repository.testData.RestaurantTestData.MEAT_HOME_ID;
 import static ru.topjava.graduation.repository.testData.UserTestData.USER_JONNY_ID;
 import static ru.topjava.graduation.repository.testData.UserTestData.userJonny;
 import static ru.topjava.graduation.repository.testData.VoteTestData.*;
@@ -24,11 +24,6 @@ public class VoteControllerTest extends AbstractRestControllerTest {
     private static final String REST_PATH = VOTES;
     @Autowired
     VoteRepository voteRepository;
-
-    @BeforeAll
-    static void init() {
-        meatHome.getName();
-    }
 
     @Test
     void toVote() throws Exception {

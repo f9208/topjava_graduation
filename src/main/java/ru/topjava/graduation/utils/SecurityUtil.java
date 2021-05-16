@@ -32,7 +32,7 @@ public class SecurityUtil {
         return get().getUser().getId();
     }
 
-    public static boolean adminRole(User user) {
+    public static boolean chekNotAdmin(User user) {
         requireNonNull(user, "user must be not null");
         return user.getRoles().contains(Role.ADMIN);
     }

@@ -14,6 +14,7 @@ import ru.topjava.graduation.repository.RestaurantRepository;
 import ru.topjava.graduation.repository.VoteRepository;
 import ru.topjava.graduation.utils.DateTimeUtils;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
@@ -62,7 +63,7 @@ public class RestaurantsController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> create(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
         Restaurant created = restaurantRepository.create(restaurant);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -80,7 +81,7 @@ public class RestaurantsController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable(name = "id") int id, @RequestBody Restaurant restaurant) {
+    public void update(@PathVariable(name = "id") int id, @Valid @RequestBody Restaurant restaurant) {
         restaurant.setId(id);
         restaurantRepository.update(restaurant);
     }

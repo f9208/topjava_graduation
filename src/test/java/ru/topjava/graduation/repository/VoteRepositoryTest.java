@@ -2,7 +2,7 @@ package ru.topjava.graduation.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.topjava.graduation.Exceptions.NotFoundException;
+import ru.topjava.graduation.web.Exceptions.NotFoundException;
 import ru.topjava.graduation.model.entities.Vote;
 import ru.topjava.graduation.repository.testData.UserTestData;
 

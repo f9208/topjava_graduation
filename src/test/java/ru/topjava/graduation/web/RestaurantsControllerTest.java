@@ -5,10 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.topjava.graduation.Exceptions.NotFoundException;
 import ru.topjava.graduation.TestUtil;
 import ru.topjava.graduation.model.entities.Restaurant;
 import ru.topjava.graduation.repository.RestaurantRepository;
+import ru.topjava.graduation.web.Exceptions.NotFoundException;
 import ru.topjava.graduation.web.json.JsonUtil;
 
 import java.util.List;
@@ -18,7 +18,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.TestUtil.userHttpBasic;
-import static ru.topjava.graduation.model.entities.to.VoteTo.convert;
 import static ru.topjava.graduation.repository.testData.RestaurantTestData.*;
 import static ru.topjava.graduation.repository.testData.UserTestData.admin;
 import static ru.topjava.graduation.repository.testData.UserTestData.userJonny;

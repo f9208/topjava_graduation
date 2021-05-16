@@ -16,7 +16,6 @@ public class Dish extends AbstractNamedEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dish_seq")
     protected Integer id;
 
-    //todo сделать прайс валидным прайсом
     @NumberFormat
     @NotNull
     private Integer price;

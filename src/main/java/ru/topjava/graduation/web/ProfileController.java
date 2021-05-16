@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.graduation.model.entities.Role;
@@ -18,14 +17,14 @@ import ru.topjava.graduation.repository.VoteRepository;
 import ru.topjava.graduation.utils.DateTimeUtils;
 import ru.topjava.graduation.utils.SecurityUtil;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
 import static ru.topjava.graduation.model.entities.to.VoteTo.convert;
-import static ru.topjava.graduation.utils.SecurityUtil.adminRole;
+import static ru.topjava.graduation.utils.SecurityUtil.chekNotAdmin;
 
 @RestController
 @RequestMapping(value = ProfileController.PROFILE)
@@ -46,10 +45,8 @@ public class ProfileController {
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<User> createUser(@RequestBody User user, BindingResult result) {
-        if (result.hasErrors()) {
-        }
-        if (adminRole(user)) user.setRoles(Set.of(Role.USER));
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
+        if (chekNotAdmin(user)) user.setRoles(Set.of(Role.USER));
         User created = userService.prepareAndSave(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(PROFILE + "/{id}")
@@ -65,7 +62,7 @@ public class ProfileController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void update(@RequestBody User user) {
+    void update(@Valid @RequestBody User user) {
         userRepository.update(user);
     }
 
@@ -83,7 +80,7 @@ public class ProfileController {
     }
 
     @GetMapping(VOTES + "/{vote_id}")
-    public VoteTo getVote(@PathVariable("vote_id") Integer voteId) {
+    public VoteTo getVote(@PathVariable("vote_id") int voteId) {
         return new VoteTo(voteRepository.getOneForUser(voteId, SecurityUtil.getAuthUserId()));
     }
 
