@@ -22,7 +22,7 @@ public class Dish extends AbstractNamedEntity {
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false) //название колонки в таблице
+    @JoinColumn(name = "restaurant_id", nullable = false)
     @NotNull
     private Restaurant restaurant;
 
@@ -31,23 +31,19 @@ public class Dish extends AbstractNamedEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime dateTime;
 
-    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
-    private boolean enabled;
-
     public Dish() {
     }
 
     public Dish(Dish dish) {
-        this(dish.getId(), dish.getName(), dish.getPrice(), dish.getRestaurant(), dish.getDateTime(), dish.isEnabled());
+        this(dish.getId(), dish.getName(), dish.getPrice(), dish.getRestaurant(), dish.getDateTime());
     }
 
-    public Dish(Integer id, String name, Integer price, Restaurant restaurant, LocalDateTime dateTime, boolean enabled) {
+    public Dish(Integer id, String name, Integer price, Restaurant restaurant, LocalDateTime dateTime) {
         super(name);
         this.id = id;
         this.price = price;
         this.restaurant = restaurant;
         this.dateTime = dateTime;
-        this.enabled = enabled;
     }
 
     public Restaurant getRestaurant() {
@@ -70,9 +66,6 @@ public class Dish extends AbstractNamedEntity {
         this.dateTime = dateTime;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
 
     @Override
     public void setId(Integer id) {
@@ -83,9 +76,6 @@ public class Dish extends AbstractNamedEntity {
         return dateTime;
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
 
     @Override
     public Integer getId() {
@@ -99,7 +89,6 @@ public class Dish extends AbstractNamedEntity {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", dateTime=" + dateTime +
-                ", in menu=" + enabled +
                 '}';
     }
 }

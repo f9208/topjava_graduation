@@ -19,11 +19,11 @@ import static ru.f9208.choiserestaurant.model.entities.to.VoteTo.convert;
 @RestController
 @RequestMapping(AdminUserController.ADMIN_USERS)
 public class AdminUserController {
-    static final String ADMIN_USERS = "/admin/users";
+    public static final String ADMIN_USERS = "/admin/users";
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    VoteRepository voteRepository;
+    private VoteRepository voteRepository;
 
     @GetMapping("/{id}")
     public User get(@PathVariable int id) {
@@ -35,14 +35,9 @@ public class AdminUserController {
         return userRepository.getAll();
     }
 
-    @GetMapping("/{id}/votes")
-    public List<VoteTo> getVotesForUser(@PathVariable("id") int userId) {
-        return convert(voteRepository.getAllForUser(userId));
-    }
-
-    @DeleteMapping
+    @DeleteMapping({"/{id}"})
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@RequestBody int id) {
+    public void deleteUser(@PathVariable int id) {
         userRepository.delete(id);
     }
 

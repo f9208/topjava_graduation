@@ -7,11 +7,13 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.f9208.choiserestaurant.model.entities.Restaurant;
 import ru.f9208.choiserestaurant.model.entities.Vote;
 import ru.f9208.choiserestaurant.utils.ValidatorUtil;
+import ru.f9208.choiserestaurant.web.exceptions.IllegalRequestDataException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import static ru.f9208.choiserestaurant.utils.ValidatorUtil.*;
 
 
 @Repository
@@ -27,26 +29,34 @@ public class VoteRepository {
     }
 
     @Transactional
-    public Vote toVote(LocalDate date, int userId, int restaurantId) {
-        log.info("vote for restaurant {} by user {} for {}", restaurantId, userId, date.format(DateTimeFormatter.ISO_DATE));
-        if (date == null) date = LocalDateTime.now().toLocalDate();
-        Restaurant currentRestaurant = restaurantRepository.getOne(restaurantId);
-        Vote savedBeforeVote = crudVoteRepository.findByUserIdAndDate(userId, date);
-        if (savedBeforeVote == null) {
-            return crudVoteRepository.save(new Vote(null, date, userId, currentRestaurant));
+    public Vote toVote(int userId, int restaurantId) {
+        log.info("voteId for restaurant {} by user {}", restaurantId, userId);
+        if (crudVoteRepository.findByUserIdAndDay(userId, LocalDate.now()) == null) {
+            Restaurant currentRestaurant = restaurantRepository.getOne(restaurantId);
+            return crudVoteRepository.save(new Vote(null, LocalDate.now(), userId, currentRestaurant));
         } else {
-            savedBeforeVote.setRestaurant(currentRestaurant);
-            return savedBeforeVote;
+            throw new IllegalRequestDataException("Failed create new vote. User with id=" + userId + " has already voted today, try re-vote");
         }
     }
 
+    @Transactional
+    public Vote reVote(int voteId, int userId, int restaurantId) {
+        log.info("re-vote for restaurant {} by user {}", restaurantId, userId);
+        Vote previous = crudVoteRepository.findById(voteId).orElseThrow();
+        checkNotFoundWithId(previous, voteId);
+        assureVoteOwner(previous, userId);
+        Restaurant currentRestaurant = restaurantRepository.getOne(restaurantId);
+        previous.setRestaurant(currentRestaurant);
+        return previous;
+    }
+
     public List<Vote> findAll() {
-        log.info("get all vote");
+        log.info("get all voteId");
         return crudVoteRepository.findAll();
     }
 
     public Vote get(int id) {
-        log.info("get vote {}", id);
+        log.info("get voteId {}", id);
         return ValidatorUtil.checkNotFoundWithId(crudVoteRepository.findById(id).orElse(null), id);
     }
 
@@ -55,7 +65,7 @@ public class VoteRepository {
     }
 
     public List<Vote> getAllBetween(LocalDate start, LocalDate end) {
-        return ValidatorUtil.checkNotFoundForDate(crudVoteRepository.getAllByDateBetween(start, end), start, end);
+        return ValidatorUtil.checkNotFoundForDate(crudVoteRepository.getAllByDayBetween(start, end), start, end);
     }
 
     public List<Vote> getAllForUser(int userId) {
@@ -63,11 +73,11 @@ public class VoteRepository {
     }
 
     public List<Vote> getAllForRestaurantBetween(LocalDate start, LocalDate end, int userId) {
-        return ValidatorUtil.checkNotFoundForDate(crudVoteRepository.getAllByDateBetweenAndRestaurantId(start, end, userId), start, end);
+        return ValidatorUtil.checkNotFoundForDate(crudVoteRepository.getAllByDatBetweenAndRestaurantId(start, end, userId), start, end);
     }
 
     public Vote getVoteForUserOnDate(int userId, LocalDate date) {
-        return ValidatorUtil.checkNotFoundWithId(crudVoteRepository.getVoteByUserIdAndDate(userId, date), userId);
+        return ValidatorUtil.checkNotFoundWithId(crudVoteRepository.getVoteByUserIdAndDay(userId, date), userId);
     }
 
     public Vote getOneForUser(int voteId, int userId) {
@@ -89,14 +99,10 @@ public class VoteRepository {
     }
 
     public List<Vote> getAllByDateBetweenAndUserId(LocalDate start, LocalDate end, int userId) {
-        return ValidatorUtil.checkNotFoundForDate(crudVoteRepository.getAllByDateBetweenAndUserId(start, end, userId), start, end);
-    }
-
-    public long countResultVote(LocalDate day, int restaurantId) {
-        return crudVoteRepository.countVoteByDateAndRestaurantId(day, restaurantId);
+        return ValidatorUtil.checkNotFoundForDate(crudVoteRepository.getAllByDayBetweenAndUserId(start, end, userId), start, end);
     }
 
     public Vote getMyVoteForDay(LocalDate day, int userId) {
-        return ValidatorUtil.checkNotFoundWithId(crudVoteRepository.getVoteByDateAndUserId(day, userId), userId);
+        return ValidatorUtil.checkNotFoundWithId(crudVoteRepository.getVoteByDayAndUserId(day, userId), userId);
     }
 }

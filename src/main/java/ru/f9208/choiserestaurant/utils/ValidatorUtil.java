@@ -3,8 +3,9 @@ package ru.f9208.choiserestaurant.utils;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
 import ru.f9208.choiserestaurant.model.HasId;
-import ru.f9208.choiserestaurant.web.Exceptions.IllegalRequestDataException;
-import ru.f9208.choiserestaurant.web.Exceptions.NotFoundException;
+import ru.f9208.choiserestaurant.model.entities.Vote;
+import ru.f9208.choiserestaurant.web.exceptions.IllegalRequestDataException;
+import ru.f9208.choiserestaurant.web.exceptions.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -51,6 +52,12 @@ public class ValidatorUtil {
     public static void checkNew(HasId bean) {
         if (!bean.isNew()) {
             throw new IllegalRequestDataException(bean + " must be new (id=null)");
+        }
+    }
+
+    public static void assureVoteOwner(Vote vote, int userId) {
+        if (vote.getUserId() != userId) {
+            throw new NotFoundException("vote " + vote + " not belong user with id=" + userId);
         }
     }
 }

@@ -8,16 +8,16 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"})})
+@Table(name = "vote", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "day"})})
 public class Vote implements HasId {
     @Id
     @SequenceGenerator(name = "vote_seq", sequenceName = "vote_seq", allocationSize = 1, initialValue = AbstractNamedEntity.START_SEQ)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "vote_seq")
     protected Integer id;
 
-    @Column(name = "date", nullable = false, columnDefinition = "DATE DEFAULT CURRENT_DATE")
+    @Column(name = "day", nullable = false, columnDefinition = "DATE DEFAULT CURRENT_DATE")
     @NotNull
-    private LocalDate date;
+    private LocalDate day;
     @NotNull
     @Column(name = "user_id")
     int userId;
@@ -31,7 +31,7 @@ public class Vote implements HasId {
 
     public Vote(Integer id, LocalDate date, int userId, Restaurant restaurant) {
         this.id = id;
-        this.date = date;
+        this.day = date;
         this.userId = userId;
         this.restaurant = restaurant;
     }
@@ -49,8 +49,8 @@ public class Vote implements HasId {
         return restaurant;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDay(LocalDate date) {
+        this.day = date;
     }
 
     public void setUser(int user) {
@@ -61,8 +61,8 @@ public class Vote implements HasId {
         this.restaurant = restaurant;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDate getDay() {
+        return day;
     }
 
     public int getUserId() {
@@ -78,7 +78,7 @@ public class Vote implements HasId {
     public String toString() {
         return "Vote{" +
                 "id=" + id +
-                ", date=" + date +
+                ", day=" + day +
                 ", user_id=" + userId +
                 ", restaurant_id=" + restaurant.getId() +
                 '}';

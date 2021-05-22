@@ -2,29 +2,21 @@
 
 ## this controller return voteTO, which inclusive userId and restaurantId
 
-#### get all votes all users for all time. Admin only
-
-`curl -s http://localhost:8080/topjava_graduation/admin/votes/ --user admin@gmail.com:123456789`
-
 #### get vote by vote_id (10005). Admin only
 
 `curl -s http://localhost:8080/topjava_graduation/admin/votes/10005 --user admin@gmail.com:123456789`
 
-#### get all votes between 2021-04-21 and 2021-04-26. Admin only
+#### get all votes between 2021-04-21 and 2021-04-26 for user 10000. Admin only
 
-`curl -s 'http://localhost:8080/topjava_graduation/admin/votes/filter?start=2021-04-21&end=2021-04-26' --user admin@gmail.com:123456789`
+`curl -s 'http://localhost:8080/topjava_graduation/admin/votes?start=2021-04-21&end=2021-04-26&userId=10000' --user admin@gmail.com:123456789`
 
-#### get all votes all users for all time (second way). Admin only
+#### get all votes all users for all time. Admin only
 
-`curl -s http://localhost:8080/topjava_graduation/admin/votes/filter --user admin@gmail.com:123456789`
+`curl -s http://localhost:8080/topjava_graduation/admin/votes --user admin@gmail.com:123456789`
 
 #### get all votes today. Admin only
 
 `curl -s http://localhost:8080/topjava_graduation/admin/votes/today --user admin@gmail.com:123456789`
-
-#### delete vote. Admin Only
-
-`curl -s -i -X DELETE -d "10001" -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/topjava_graduation/admin/votes/ --user admin@gmail.com:123456789`
 
 <<<<<<<<<<<<<<<<<<<<<<<<    AdminUserController    >>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -42,7 +34,7 @@
 
 #### delete user 10002. Admin Only
 
-`curl -s -i -X DELETE -d "10002" -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/topjava_graduation/admin/users/ --user admin@gmail.com:123456789`
+`curl -s -i -X DELETE -d -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/topjava_graduation/admin/users/10002 --user admin@gmail.com:123456789`
 
 #### update user 10003. Admin Only
 
@@ -88,7 +80,7 @@
 
 #### delete 10001 restaurant. Admin Only
 
-`curl -s -i -X DELETE -d "10001" -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/topjava_graduation/restaurants --user admin@gmail.com:123456789`
+`curl -s -i -X DELETE -d -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/topjava_graduation/restaurants/10001 --user admin@gmail.com:123456789`
 
 #### update name 10001 restaurant. Admin Only
 
@@ -118,7 +110,7 @@
 
 #### delete dish 10002 restaurant 10000. Admin Only
 
-`curl -s -i -X DELETE -d "10002" -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/topjava_graduation/restaurants/10000/menu --user admin@gmail.com:123456789`
+`curl -s -i -X DELETE -d -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/topjava_graduation/restaurants/10000/menu/10002 --user admin@gmail.com:123456789`
 
 #### set dish 10002 as disabled for restaurant 10000. Admin Only
 
@@ -157,7 +149,7 @@
 
 #### delete vote 10010
 
-`curl -i -X DELETE -d "10013" -H 'Content-Type:application/json;charset=UTF-8' 'http://localhost:8080/topjava_graduation/profile/votes' --user jonny@gmail.com:passwordJonny`
+`curl -i -X DELETE -d -H 'Content-Type:application/json;charset=UTF-8' 'http://localhost:8080/topjava_graduation/profile/votes/10013' --user jonny@gmail.com:passwordJonny`
 
 <<<<<<<<<<<<<<<<<<<<<<<<   VoteController    >>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -165,10 +157,14 @@
 
 `curl -s  'http://localhost:8080/topjava_graduation/votes/results' --user jonny@gmail.com:passwordJonny`
 
-#### to vote
+#### to vote for by difference users
 
-`curl -i -X POST -d "10000"  'http://localhost:8080/topjava_graduation/votes'  -H 'Content-Type:application/json;charset=UTF-8' --user jonny@gmail.com:passwordJonny`
+`curl -i -X POST -d "10001"  'http://localhost:8080/topjava_graduation/votes'  -H 'Content-Type:application/json;charset=UTF-8' --user kety@gmail.com:passwordKety`
+`curl -i -X POST -d "10001"  'http://localhost:8080/topjava_graduation/votes'  -H 'Content-Type:application/json;charset=UTF-8' --user leonard@gmail.com:passwordLeon`
 
+#### re-vote for vote with id=10013
+
+`curl -i -X PUT -d "10000" 'http://localhost:8080/topjava_graduation/votes/10013'  -H 'Content-Type:application/json;charset=UTF-8' --user jonny@gmail.com:passwordJonny`
 <<<<<<<<<<<<<<<<<<<<<<<<  assume with errors   >>>>>>>>>>>>>>>>>>>>>>>>
 
 ##### error:DATA_ERROR, duplicate dish name for one restaurant

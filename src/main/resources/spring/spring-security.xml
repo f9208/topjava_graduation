@@ -8,20 +8,7 @@
         <http-basic/>
         <intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
 
-        <intercept-url pattern="/restaurants/" access="permitAll()" method="GET"/>
-        <intercept-url pattern="/restaurants/**" access="hasRole('ADMIN')" method="DELETE"/>
-        <intercept-url pattern="/restaurants/**" access="hasRole('ADMIN')" method="PUT"/>
-        <intercept-url pattern="/restaurants/**" access="hasRole('ADMIN')" method="POST"/>
-        <intercept-url pattern="/restaurants/**/menu/full" access="hasRole('ADMIN')" method="GET"/>
-        <intercept-url pattern="/restaurants/**/menu/{**}" access="hasRole('ADMIN')" method="GET"/>
-        <intercept-url pattern="/restaurants/**/menu/" access="hasRole('ADMIN')" method="POST"/>
-        <intercept-url pattern="/restaurants/**/menu/" access="hasRole('ADMIN')" method="PUT"/>
-        <intercept-url pattern="/restaurants/**/menu/**" access="hasRole('ADMIN')" method="DELETE"/>
-        <intercept-url pattern="/restaurants/**/menu/**" access="hasRole('ADMIN')" method="PATCH"/>
-        <intercept-url pattern="/restaurants/**/menu/" access="permitAll()" method="GET"/>
-
-        <intercept-url pattern="/restaurants/**/votes/**" access="hasRole('ADMIN')" method="GET"/>
-
+        <intercept-url pattern="/restaurants/**" access="permitAll()" method="GET"/>
         <intercept-url pattern="/profile/register" access="isAnonymous()" method="POST"/>
         <intercept-url pattern="/profile/**" access="isAuthenticated()"/>
 

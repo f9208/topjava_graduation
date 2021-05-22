@@ -29,17 +29,17 @@ import static ru.f9208.choiserestaurant.utils.SecurityUtil.chekNotAdmin;
 @RestController
 @RequestMapping(value = ProfileController.PROFILE)
 public class ProfileController {
-    static final String PROFILE = "/profile";
-    static final String VOTES = "/votes";
+    public static final String PROFILE = "/profile";
+    public static final String VOTES = "/votes";
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    UserService userService;
+    private UserService userService;
     @Autowired
-    VoteRepository voteRepository;
+    private VoteRepository voteRepository;
 
     @GetMapping()
-    User getProfile() {
+    public User getProfile() {
         return userRepository.findById(SecurityUtil.getAuthUserId());
     }
 
@@ -49,26 +49,26 @@ public class ProfileController {
         if (chekNotAdmin(user)) user.setRoles(Set.of(Role.USER));
         User created = userService.prepareAndSave(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(PROFILE + "/{id}")
+                .path(PROFILE + "/{id}") //todo тоже ведет на несуществующий get
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteProfile() {
+    public void deleteProfile() {
         userRepository.delete(SecurityUtil.getAuthUserId());
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void update(@Valid @RequestBody User user) {
+    public void update(@Valid @RequestBody User user) {
         userRepository.update(user);
     }
 
     @GetMapping(VOTES)
-    List<VoteTo> userVotes(@RequestParam(name = "start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate start,
-                           @RequestParam(name = "end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate end) {
+    public List<VoteTo> userVotes(@RequestParam(name = "start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate start,
+                                  @RequestParam(name = "end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate end) {
         if (start == null) start = DateTimeUtils.MIN_DATE;
         if (end == null) end = DateTimeUtils.MAX_DATE;
         return convert(voteRepository.getAllByDateBetweenAndUserId(start, end, SecurityUtil.getAuthUserId()));
@@ -84,9 +84,9 @@ public class ProfileController {
         return new VoteTo(voteRepository.getOneForUser(voteId, SecurityUtil.getAuthUserId()));
     }
 
-    @DeleteMapping(value = VOTES, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = VOTES + "/{vote_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void deleteVote(@RequestBody int id) {
+    public void deleteVote(@PathVariable("vote_id") int id) {
         voteRepository.deleteVoteForUser(id, SecurityUtil.getAuthUserId());
     }
 }

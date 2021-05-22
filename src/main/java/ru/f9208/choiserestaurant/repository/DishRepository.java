@@ -65,25 +65,8 @@ public class DishRepository {
         return ValidatorUtil.checkNotFoundWithId(resultDish, restaurantId);
     }
 
-    public List<Dish> getActualMenu(int restaurantId) {
-        log.info("getActualMenu for restaurant {} ", restaurantId);
-        return ValidatorUtil.checkNotEmptyWithId(crudDishRepository.findAllByRestaurantIdAndEnabledIsTrue(restaurantId), restaurantId);
-    }
-
-    public List<Dish> getFullMenu(int restaurantId) {
-        log.info("getFullMenu for restaurant {} ", restaurantId);
+    public List<Dish> getMenu(int restaurantId) {
+        log.info("getMenu for restaurant {} ", restaurantId);
         return ValidatorUtil.checkNotEmptyWithId(crudDishRepository.findAllByRestaurantId(restaurantId), restaurantId);
     }
-    @CacheEvict(value = {"allRestaurantsWithMenu","getOneWithMenu"}, allEntries = true)
-    @Transactional
-    public void setVisibility(int dishId, int restaurantId, boolean state) {
-        Dish d = get(dishId, restaurantId);
-        ValidatorUtil.checkNotFoundWithId(d, restaurantId);
-        if (d.isEnabled() == state) {
-            log.info("dish {} for restaurant {} is already {}", dishId, restaurantId, state ? "enable" : "disable");
-            return;
-        }
-        log.info("dish {} for restaurant {} is {}", dishId, restaurantId, state ? "enable" : "disable");
-        d.setEnabled(state);
-    }
-}
+   }

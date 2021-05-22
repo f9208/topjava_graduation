@@ -23,7 +23,7 @@ public class VoteTo {
 
     public VoteTo(Vote vote) {
         this.voteId = vote.getId();
-        this.date = vote.getDate();
+        this.date = vote.getDay();
         this.userId = vote.getUserId();
         this.restaurantId = vote.getRestaurant().getId();
     }

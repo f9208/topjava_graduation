@@ -1,67 +1,34 @@
 package ru.f9208.choiserestaurant.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.f9208.choiserestaurant.model.entities.Dish;
 import ru.f9208.choiserestaurant.repository.DishRepository;
 
-import java.net.URI;
 import java.util.List;
 
+import static ru.f9208.choiserestaurant.web.RestaurantsController.RESTAURANTS;
+
 @RestController
-@RequestMapping(value = DishController.RESTAURANT_ID_MENU, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = DishController.RESTAURANT_DISHES, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishController {
-    static final String RESTAURANT_ID_MENU = RestaurantsController.RESTAURANTS + "/{restaurant_id}/menu";
+    public static final String DISHES = "/dishes";
+    public static final String RESTAURANT_DISHES = RESTAURANTS + "/{restaurant_id}" + DISHES;
+
     @Autowired
-    DishRepository dishRepository;
+    private DishRepository dishRepository;
 
     @GetMapping
-    List<Dish> getMenu(@PathVariable("restaurant_id") int restaurantId) {
-        return dishRepository.getActualMenu(restaurantId);
-    }
-
-    @GetMapping("/full")
-    List<Dish> getFullMenu(@PathVariable("restaurant_id") int restaurantId) {
-        return dishRepository.getFullMenu(restaurantId);
+    List<Dish> getDishes(@PathVariable("restaurant_id") int restaurantId) {
+        return dishRepository.getMenu(restaurantId);
     }
 
     @GetMapping("/{dish_id}")
-    Dish getOneDish(@PathVariable("dish_id") int dish_id, @PathVariable("restaurant_id") int restaurantId) {
+    Dish getOne(@PathVariable("dish_id") int dish_id, @PathVariable("restaurant_id") int restaurantId) {
         return dishRepository.get(dish_id, restaurantId);
-    }
-
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Dish> addDish(@RequestBody Dish dish, @PathVariable("restaurant_id") int restaurantId) {
-        Dish created = dishRepository.create(dish, restaurantId);
-
-        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(RestaurantsController.RESTAURANTS + "/" + restaurantId + "/menu" + "/{dish_id}")
-                .buildAndExpand(created.getId()).toUri();
-
-        return ResponseEntity.created(uriOfNewResource).body(created);
-    }
-
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    void updateDish(@PathVariable(name = "restaurant_id") int restaurant_id, @RequestBody Dish dish) {
-        dishRepository.update(dish, restaurant_id);
-    }
-
-    @DeleteMapping( consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    void deleteDish(@PathVariable(name = "restaurant_id") int restaurant_id, @RequestBody int dish_id) {
-        dishRepository.delete(dish_id, restaurant_id);
-    }
-
-    @PatchMapping(value = "/{dish_id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    void enabled(@PathVariable(name = "restaurant_id") int restaurant_id,
-                 @PathVariable(name = "dish_id") int dish_id,
-                 @RequestParam boolean enabled) {
-        dishRepository.setVisibility(dish_id, restaurant_id, enabled);
     }
 }

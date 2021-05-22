@@ -11,8 +11,6 @@ import java.util.List;
 
 @Transactional(readOnly = true)
 public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
-    List<Dish> findAllByRestaurantIdAndEnabledIsTrue(int id);
-
     List<Dish> findAllByRestaurantId(int id);
 
     @Transactional

@@ -53,11 +53,6 @@ public class RestaurantRepository {
         log.info("get restaurant {}", id);
         return ValidatorUtil.checkNotFoundWithId(crudRestaurantRepository.findById(id).orElse(null), id);
     }
-    @Cacheable(value = "getOneWithMenu", key="#id")
-    public Restaurant getOneWithMenu(int id) {
-        log.info("get restaurant {} with menu", id);
-        return ValidatorUtil.checkNotFoundWithId(crudRestaurantRepository.getOneWithMenu(id), id);
-    }
 
     @Cacheable("allRestaurants")
     public List<Restaurant> getAll() {
@@ -65,19 +60,8 @@ public class RestaurantRepository {
         return crudRestaurantRepository.findAll();
     }
 
-    @Cacheable("allRestaurantsWithMenu")
-    public List<Restaurant> getAllWithMenu() {
-        log.info("getAll restaurants with menu");
-        return crudRestaurantRepository.getAllWithMenu();
-    }
-
     public List<Restaurant> getAllWithVotes() {
         log.info("get all restaurants with votes");
         return crudRestaurantRepository.getAllWithVote();
-    }
-
-    public Restaurant getOneWithVotes(int id) {
-        log.info("get one restaurant with votes by id = {}", id);
-        return crudRestaurantRepository.getOneWithVote(id);
     }
 }

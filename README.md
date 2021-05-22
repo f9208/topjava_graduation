@@ -1,4 +1,4 @@
-In order to have clickable links below setup in TomCat deploy-URL as http://localhost:8080/topjava_graduation. 
+In order to have clickable links below setup in TomCat deploy-URL as http://localhost:8080/topjava_graduation.
 
 ### Graduation project TopJava
 
@@ -8,7 +8,7 @@ Build a voting system for deciding where to have lunch.
 ### Specification API.
 
 The task assume create a voting system for vote in which restaurant we are going to take a lunch. Everybody may watch
-the list restaurants and its **actual** menu.
+the list restaurants and its menu.
 > show restaurants http://localhost:8080/topjava_graduation/restaurants/ <br>
 > show restaurants with {restaurant-id} http://localhost:8080/topjava_graduation/restaurants/{restaurant-id}/menu
 
@@ -32,8 +32,8 @@ Add new dish in menu restaurant {restaurant-id}. Assume a dish_name and restaura
 Change menu (update an existing dish):
 > PUT {"id":10002, "name":"coca-cola","dateTime":"2021-05-05T03:04:44","price":50,"enabled":true}' http://localhost:8080/topjava_graduation/restaurants/{restaurant-id}/menu/
 
-Delete dish with dish-id
-> DELETE {"dish-id"} http://localhost:8080/topjava_graduation/restaurants/{restaurant-id}/menu
+Delete dish by dish-id
+> DELETE http://localhost:8080/topjava_graduation/restaurants/{restaurant-id}/menu/{dish-id}
 
 Take away (set invisible for regular users) from a menu:
 > PATCH http://localhost:8080/topjava_graduation/restaurants/{restaurant-id}/menu/{dish-id}?enabled=false
@@ -42,18 +42,14 @@ Show full menu by {restaurant-id}  (including disabled items)
 > http://localhost:8080/topjava_graduation/restaurants/{restaurant-id}/menu/full
 
 Show votes for a current restaurant (if value start and end is empty - show all votes for all time):
-> since date_start to date_end http://localhost:8080/topjava_graduation/restaurants/{restaurant-id}/votes/filter?start={start_date}&end={end_date}
-> today http://localhost:8080/topjava_graduation/restaurants/{restaurant-id}/votes/today
-
+> since date_start to date_end http://localhost:8080/topjava_graduation/restaurants/{restaurant-id}/votes?start={start_date}&end={end_date}
 
 Show list users:
 > http://localhost:8080/topjava_graduation/admin/users/
 
-Show votes user with {user-id}:
-> http://localhost:8080/topjava_graduation/admin/users/{user-id}/votes
-
-Show votes users since start_date to end_date. If start and end is empty = show votes for all time:
-> http://localhost:8080/topjava_graduation/admin/votes/filter?start={date}&end={date}
+Show votes user by userId since start_date to end_date. If start and end is empty - show votes for all time. 
+If value user_id is empty - show votes for all users.
+> http://localhost:8080/topjava_graduation/admin/votes?start={date}&end={date}&userId={number}
 
 Change role for {user-id}:
 > PATCH http://localhost:8080/topjava_graduation/admin/users?role=ADMIN,USER&id={user-id}
@@ -84,7 +80,7 @@ And his vote for today
 > http://localhost:8080/topjava_graduation/profile/votes/today
 
 User can delete his vote and it won't be count in voting results
-> DELETE "{vote_id}" http://localhost:8080/topjava_graduation/profile/votes
+> DELETE http://localhost:8080/topjava_graduation/profile/votes/{vote_id}
 
 User may change his profile:
 > PUT {"id": 10001,"name":"Jack","email":"jacke@gmail.com","password":"password","registered":"2021-12-15T12:33:05.947","roles":["USER"]} http://localhost:8080/topjava_graduation/profile
@@ -92,6 +88,6 @@ User may change his profile:
 And delete yourself:
 > DELETE http://localhost:8080/topjava_graduation/profile
 
-For change voting dead_line user constant ru.topjava.graduation.utils.DateTimeUtils.TOO_LATE
+For change voting dead_line user constant ru.f9208.choiserestaurant.utils.DateTimeUtils.TOO_LATE
 
 Extra curl-commands: /config/curl.md
