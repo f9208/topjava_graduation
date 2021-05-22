@@ -6,10 +6,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.topjava.graduation.TestUtil;
-import ru.topjava.graduation.model.entities.Restaurant;
-import ru.topjava.graduation.repository.RestaurantRepository;
-import ru.topjava.graduation.web.Exceptions.NotFoundException;
-import ru.topjava.graduation.web.json.JsonUtil;
+import ru.f9208.choiserestaurant.model.entities.Restaurant;
+import ru.f9208.choiserestaurant.repository.RestaurantRepository;
+import ru.f9208.choiserestaurant.web.Exceptions.NotFoundException;
+import ru.f9208.choiserestaurant.web.json.JsonUtil;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ import static ru.topjava.graduation.repository.testData.RestaurantTestData.*;
 import static ru.topjava.graduation.repository.testData.UserTestData.admin;
 import static ru.topjava.graduation.repository.testData.UserTestData.userJonny;
 import static ru.topjava.graduation.repository.testData.VoteTestData.*;
-import static ru.topjava.graduation.web.RestaurantsController.RESTAURANTS;
+import static ru.f9208.choiserestaurant.web.RestaurantsController.RESTAURANTS;
 
 class RestaurantsControllerTest extends AbstractRestControllerTest {
     @Autowired

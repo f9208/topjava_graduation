@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.topjava.graduation.model.entities.Role;
-import ru.topjava.graduation.model.entities.User;
-import ru.topjava.graduation.repository.UserRepository;
-import ru.topjava.graduation.web.Exceptions.NotFoundException;
-import ru.topjava.graduation.web.json.JsonUtil;
+import ru.f9208.choiserestaurant.model.entities.Role;
+import ru.f9208.choiserestaurant.model.entities.User;
+import ru.f9208.choiserestaurant.repository.UserRepository;
+import ru.f9208.choiserestaurant.web.Exceptions.NotFoundException;
+import ru.f9208.choiserestaurant.web.json.JsonUtil;
 
 import java.util.Set;
 
@@ -18,11 +18,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.TestUtil.userHttpBasic;
-import static ru.topjava.graduation.model.entities.to.VoteTo.convert;
+import static ru.f9208.choiserestaurant.model.entities.to.VoteTo.convert;
 import static ru.topjava.graduation.repository.testData.UserTestData.*;
 import static ru.topjava.graduation.repository.testData.VoteTestData.VOTE_TO_TEST_MATCHER;
 import static ru.topjava.graduation.repository.testData.VoteTestData.allVotesOfJonny;
-import static ru.topjava.graduation.web.AdminUserController.ADMIN_USERS;
+import static ru.f9208.choiserestaurant.web.AdminUserController.ADMIN_USERS;
 
 class AdminUserControllerTest extends AbstractRestControllerTest {
     private static final String REST_URL = ADMIN_USERS + '/';

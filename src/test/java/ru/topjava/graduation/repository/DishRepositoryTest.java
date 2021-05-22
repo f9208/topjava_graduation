@@ -4,8 +4,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import ru.topjava.graduation.web.Exceptions.NotFoundException;
-import ru.topjava.graduation.model.entities.Dish;
+import ru.f9208.choiserestaurant.repository.DishRepository;
+import ru.f9208.choiserestaurant.web.Exceptions.NotFoundException;
+import ru.f9208.choiserestaurant.model.entities.Dish;
 
 import java.time.LocalDateTime;
 import java.util.List;

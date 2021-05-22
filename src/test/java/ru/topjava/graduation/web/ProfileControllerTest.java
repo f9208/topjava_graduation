@@ -6,13 +6,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.topjava.graduation.TestUtil;
-import ru.topjava.graduation.model.entities.User;
-import ru.topjava.graduation.model.entities.to.VoteTo;
-import ru.topjava.graduation.repository.UserRepository;
-import ru.topjava.graduation.repository.VoteRepository;
+import ru.f9208.choiserestaurant.model.entities.User;
+import ru.f9208.choiserestaurant.model.entities.to.VoteTo;
+import ru.f9208.choiserestaurant.repository.UserRepository;
+import ru.f9208.choiserestaurant.repository.VoteRepository;
 import ru.topjava.graduation.repository.testData.UserTestData;
-import ru.topjava.graduation.web.Exceptions.NotFoundException;
-import ru.topjava.graduation.web.json.JsonUtil;
+import ru.f9208.choiserestaurant.web.Exceptions.NotFoundException;
+import ru.f9208.choiserestaurant.web.json.JsonUtil;
 
 import java.util.List;
 
@@ -20,11 +20,11 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.TestUtil.userHttpBasic;
-import static ru.topjava.graduation.model.entities.to.VoteTo.convert;
+import static ru.f9208.choiserestaurant.model.entities.to.VoteTo.convert;
 import static ru.topjava.graduation.repository.testData.UserTestData.*;
 import static ru.topjava.graduation.repository.testData.VoteTestData.*;
-import static ru.topjava.graduation.web.ProfileController.PROFILE;
-import static ru.topjava.graduation.web.ProfileController.VOTES;
+import static ru.f9208.choiserestaurant.web.ProfileController.PROFILE;
+import static ru.f9208.choiserestaurant.web.ProfileController.VOTES;
 
 class ProfileControllerTest extends AbstractRestControllerTest {
     @Autowired

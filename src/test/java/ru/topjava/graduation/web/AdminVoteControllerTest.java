@@ -4,19 +4,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.topjava.graduation.model.entities.to.VoteTo;
-import ru.topjava.graduation.repository.VoteRepository;
-import ru.topjava.graduation.web.Exceptions.NotFoundException;
+import ru.f9208.choiserestaurant.model.entities.to.VoteTo;
+import ru.f9208.choiserestaurant.repository.VoteRepository;
+import ru.f9208.choiserestaurant.web.Exceptions.NotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.topjava.graduation.TestUtil.userHttpBasic;
-import static ru.topjava.graduation.model.entities.to.VoteTo.convert;
+import static ru.f9208.choiserestaurant.model.entities.to.VoteTo.convert;
 import static ru.topjava.graduation.repository.testData.UserTestData.admin;
 import static ru.topjava.graduation.repository.testData.UserTestData.userJonny;
 import static ru.topjava.graduation.repository.testData.VoteTestData.*;
-import static ru.topjava.graduation.web.AdminVoteController.ADMIN_VOTES;
+import static ru.f9208.choiserestaurant.web.AdminVoteController.ADMIN_VOTES;
 
 class AdminVoteControllerTest extends AbstractRestControllerTest {
     @Autowired

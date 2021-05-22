@@ -2,7 +2,7 @@ package ru.topjava.graduation;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.topjava.graduation.repository.DishRepository;
+import ru.f9208.choiserestaurant.repository.DishRepository;
 
 class GraduationApplicationTests {
     public static void main(String[] args) {

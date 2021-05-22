@@ -6,10 +6,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.topjava.graduation.TestUtil;
-import ru.topjava.graduation.model.entities.Dish;
-import ru.topjava.graduation.repository.DishRepository;
-import ru.topjava.graduation.web.Exceptions.NotFoundException;
-import ru.topjava.graduation.web.json.JsonUtil;
+import ru.f9208.choiserestaurant.model.entities.Dish;
+import ru.f9208.choiserestaurant.repository.DishRepository;
+import ru.f9208.choiserestaurant.web.Exceptions.NotFoundException;
+import ru.f9208.choiserestaurant.web.json.JsonUtil;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ import static ru.topjava.graduation.repository.testData.RestaurantTestData.BEAR_
 import static ru.topjava.graduation.repository.testData.RestaurantTestData.MEAT_HOME_ID;
 import static ru.topjava.graduation.repository.testData.UserTestData.admin;
 import static ru.topjava.graduation.repository.testData.UserTestData.userJonny;
-import static ru.topjava.graduation.web.RestaurantsController.RESTAURANTS;
+import static ru.f9208.choiserestaurant.web.RestaurantsController.RESTAURANTS;
 
 public class DishControllerTest extends AbstractRestControllerTest {
     private static final String REST_URL = RESTAURANTS + "/";

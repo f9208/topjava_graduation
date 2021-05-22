@@ -1,13 +1,13 @@
 package ru.topjava.graduation.repository.testData;
 
-import ru.topjava.graduation.model.entities.Role;
-import ru.topjava.graduation.model.entities.User;
+import ru.f9208.choiserestaurant.model.entities.Role;
+import ru.f9208.choiserestaurant.model.entities.User;
 import ru.topjava.graduation.repository.TestMatcher;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
-import static ru.topjava.graduation.model.entities.AbstractNamedEntity.START_SEQ;
+import static ru.f9208.choiserestaurant.model.entities.AbstractNamedEntity.START_SEQ;
 
 public class UserTestData {
     public static final TestMatcher<User> USER_MATCHER = TestMatcher.usingIgnoreFieldsComparator(User.class, "registered", "password");

@@ -1,14 +1,14 @@
 package ru.topjava.graduation.repository.testData;
 
-import ru.topjava.graduation.model.entities.Vote;
-import ru.topjava.graduation.model.entities.to.VoteResults;
-import ru.topjava.graduation.model.entities.to.VoteTo;
+import ru.f9208.choiserestaurant.model.entities.Vote;
+import ru.f9208.choiserestaurant.model.entities.to.VoteResults;
+import ru.f9208.choiserestaurant.model.entities.to.VoteTo;
 import ru.topjava.graduation.repository.TestMatcher;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.topjava.graduation.model.entities.AbstractNamedEntity.START_SEQ;
+import static ru.f9208.choiserestaurant.model.entities.AbstractNamedEntity.START_SEQ;
 import static ru.topjava.graduation.repository.testData.RestaurantTestData.*;
 import static ru.topjava.graduation.repository.testData.UserTestData.*;
 

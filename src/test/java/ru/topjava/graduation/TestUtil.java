@@ -4,8 +4,8 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.RequestPostProcessor;
-import ru.topjava.graduation.model.entities.User;
-import ru.topjava.graduation.web.json.JsonUtil;
+import ru.f9208.choiserestaurant.model.entities.User;
+import ru.f9208.choiserestaurant.web.json.JsonUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;

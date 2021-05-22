@@ -1,11 +1,11 @@
 package ru.topjava.graduation.repository.testData;
 
-import ru.topjava.graduation.model.entities.Restaurant;
+import ru.f9208.choiserestaurant.model.entities.Restaurant;
 import ru.topjava.graduation.repository.TestMatcher;
 
 import java.util.List;
 
-import static ru.topjava.graduation.model.entities.AbstractNamedEntity.START_SEQ;
+import static ru.f9208.choiserestaurant.model.entities.AbstractNamedEntity.START_SEQ;
 import static ru.topjava.graduation.repository.testData.DishTestData.*;
 import static ru.topjava.graduation.repository.testData.VoteTestData.*;
 

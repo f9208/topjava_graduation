@@ -6,8 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.topjava.graduation.TestUtil;
-import ru.topjava.graduation.model.entities.to.VoteTo;
-import ru.topjava.graduation.repository.VoteRepository;
+import ru.f9208.choiserestaurant.model.entities.to.VoteTo;
+import ru.f9208.choiserestaurant.repository.VoteRepository;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -17,8 +17,8 @@ import static ru.topjava.graduation.repository.testData.RestaurantTestData.MEAT_
 import static ru.topjava.graduation.repository.testData.UserTestData.USER_JONNY_ID;
 import static ru.topjava.graduation.repository.testData.UserTestData.userJonny;
 import static ru.topjava.graduation.repository.testData.VoteTestData.*;
-import static ru.topjava.graduation.web.ProfileController.VOTES;
-import static ru.topjava.graduation.web.VoteController.RESULTS;
+import static ru.f9208.choiserestaurant.web.ProfileController.VOTES;
+import static ru.f9208.choiserestaurant.web.VoteController.RESULTS;
 
 public class VoteControllerTest extends AbstractRestControllerTest {
     private static final String REST_PATH = VOTES;

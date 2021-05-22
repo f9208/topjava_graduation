@@ -2,8 +2,9 @@ package ru.topjava.graduation.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.topjava.graduation.web.Exceptions.NotFoundException;
-import ru.topjava.graduation.model.entities.Vote;
+import ru.f9208.choiserestaurant.repository.VoteRepository;
+import ru.f9208.choiserestaurant.web.Exceptions.NotFoundException;
+import ru.f9208.choiserestaurant.model.entities.Vote;
 import ru.topjava.graduation.repository.testData.UserTestData;
 
 import java.util.List;

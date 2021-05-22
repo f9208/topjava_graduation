@@ -1,12 +1,12 @@
 package ru.topjava.graduation.repository.testData;
 
-import ru.topjava.graduation.model.entities.Dish;
+import ru.f9208.choiserestaurant.model.entities.Dish;
 import ru.topjava.graduation.repository.TestMatcher;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static ru.topjava.graduation.model.entities.AbstractNamedEntity.START_SEQ;
+import static ru.f9208.choiserestaurant.model.entities.AbstractNamedEntity.START_SEQ;
 import static ru.topjava.graduation.repository.testData.RestaurantTestData.bearGrizzly;
 import static ru.topjava.graduation.repository.testData.RestaurantTestData.meatHome;
 
