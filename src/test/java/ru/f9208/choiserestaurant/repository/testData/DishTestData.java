@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static ru.f9208.choiserestaurant.model.entities.AbstractNamedEntity.START_SEQ;
+import static ru.f9208.choiserestaurant.repository.testData.VoteTestData.TODAY;
 
 public class DishTestData {
 
@@ -22,21 +23,21 @@ public class DishTestData {
     public static final int POTATO_ID = START_SEQ + 7;
     public static final int MUFFIN_ID = START_SEQ + 8;
 
-    public static Dish BORSCHT = new Dish(BORSCHT_ID, "borscht", 40, RestaurantTestData.bearGrizzly, LocalDateTime.parse("2020-04-10T10:00:00"));
-    public static Dish CUTLET = new Dish(CUTLET_ID, "cutlet", 120, RestaurantTestData.bearGrizzly, LocalDateTime.parse("2020-04-10T10:00:00"));
-    public static Dish COMPOTE = new Dish(COMPOTE_ID, "compote", 20, RestaurantTestData.bearGrizzly, LocalDateTime.parse("2020-04-10T10:00:00"));
-    public static Dish PASTA = new Dish(PASTA_ID, "pasta", 100, RestaurantTestData.bearGrizzly, LocalDateTime.parse("2020-04-10T10:00:00"));
-    public static Dish PANCAKE = new Dish(PANCAKE_ID, "pancake", 30, RestaurantTestData.bearGrizzly, LocalDateTime.parse("2020-04-10T10:00:00"));
+    public static Dish BORSCHT = new Dish(BORSCHT_ID, "borscht", 40, RestaurantTestData.bearGrizzly, TODAY);
+    public static Dish CUTLET = new Dish(CUTLET_ID, "cutlet", 120, RestaurantTestData.bearGrizzly, TODAY);
+    public static Dish COMPOTE = new Dish(COMPOTE_ID, "compote", 20, RestaurantTestData.bearGrizzly, TODAY);
+    public static Dish PASTA = new Dish(PASTA_ID, "pasta", 100, RestaurantTestData.bearGrizzly, TODAY);
+    public static Dish PANCAKE = new Dish(PANCAKE_ID, "pancake", 30, RestaurantTestData.bearGrizzly, TODAY);
 
-    public static Dish SOUP = new Dish(SOUP_ID, "soup", 120, RestaurantTestData.meatHome, LocalDateTime.parse("2020-04-10T10:00:00"));
-    public static Dish FISH = new Dish(FISH_ID, "fish", 160, RestaurantTestData.meatHome, LocalDateTime.parse("2020-04-10T10:00:00"));
-    public static Dish POTATO = new Dish(POTATO_ID, "potato", 100, RestaurantTestData.meatHome, LocalDateTime.parse("2020-04-10T10:00:00"));
-    public static Dish MUFFIN = new Dish(MUFFIN_ID, "muffin", 55, RestaurantTestData.meatHome, LocalDateTime.parse("2020-04-10T10:00:00"));
+    public static Dish SOUP = new Dish(SOUP_ID, "soup", 120, RestaurantTestData.meatHome,TODAY);
+    public static Dish FISH = new Dish(FISH_ID, "fish", 160, RestaurantTestData.meatHome, TODAY);
+    public static Dish POTATO = new Dish(POTATO_ID, "potato", 100, RestaurantTestData.meatHome, TODAY);
+    public static Dish MUFFIN = new Dish(MUFFIN_ID, "muffin", 55, RestaurantTestData.meatHome, TODAY);
 
     public static List<Dish> MEAT_HOME_DISHES = List.of(SOUP, FISH, POTATO, MUFFIN);
 
     public static Dish getNew() {
-        return new Dish(null, "burger", 150, RestaurantTestData.meatHome, LocalDateTime.of(2020, 04, 04, 12, 33, 44));
+        return new Dish(null, "burger", 150, RestaurantTestData.meatHome, TODAY);
     }
 
     public static Dish getUpdated() {

@@ -7,7 +7,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import ru.f9208.choiserestaurant.model.entities.to.VoteTo;
 import ru.f9208.choiserestaurant.repository.VoteRepository;
-import ru.f9208.choiserestaurant.utils.DateTimeUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,8 +30,8 @@ public class AdminVoteController {
             @RequestParam(name = "start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate start,
             @RequestParam(name = "end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate end,
             @RequestParam(name = "userId") @Nullable Integer userId) {
-        if (start == null) start = DateTimeUtils.MIN_DATE;
-        if (end == null) end = DateTimeUtils.MAX_DATE;
+        if (start == null) start = LocalDate.now();
+        if (end == null) end = LocalDate.now();
         return userId == null ? convert(voteRepository.getAllBetween(start, end)) : convert(voteRepository.getAllByDateBetweenAndUserId(start, end, userId));
     }
 

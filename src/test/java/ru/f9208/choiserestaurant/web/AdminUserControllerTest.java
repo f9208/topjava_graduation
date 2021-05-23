@@ -6,12 +6,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.f9208.choiserestaurant.TestUtil;
 import ru.f9208.choiserestaurant.model.entities.Role;
-import ru.f9208.choiserestaurant.model.entities.User;
 import ru.f9208.choiserestaurant.repository.UserRepository;
-import ru.f9208.choiserestaurant.web.AbstractRestControllerTest;
-import ru.f9208.choiserestaurant.web.exceptions.NotFoundException;
-import ru.f9208.choiserestaurant.web.json.JsonUtil;
 import ru.f9208.choiserestaurant.repository.testData.UserTestData;
+import ru.f9208.choiserestaurant.web.exceptions.NotFoundException;
 
 import java.util.Set;
 
@@ -20,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.f9208.choiserestaurant.model.entities.to.VoteTo.convert;
 import static ru.f9208.choiserestaurant.web.AdminUserController.ADMIN_USERS;
 
 class AdminUserControllerTest extends AbstractRestControllerTest {
@@ -90,28 +86,6 @@ class AdminUserControllerTest extends AbstractRestControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertThrows(NotFoundException.class, () -> userRepository.findById(UserTestData.USER_JONNY_ID));
-    }
-
-    @Test
-    void updateUser() throws Exception {
-        User updated = UserTestData.getUpdated();
-        perform(MockMvcRequestBuilders.put(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated))
-                .with(TestUtil.userHttpBasic(UserTestData.admin)))
-                .andExpect(status().isNoContent());
-        UserTestData.USER_MATCHER.assertMatch(userRepository.findById(UserTestData.USER_JONNY_ID), UserTestData.getUpdated());
-    }
-
-    @Test
-    void updateUserIsForbidden() throws Exception {
-        User updated = UserTestData.getUpdated();
-        perform(MockMvcRequestBuilders.put(REST_URL)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(updated))
-                .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
-                .andExpect(status().isForbidden());
-        UserTestData.USER_MATCHER.assertMatch(userRepository.findById(UserTestData.USER_JONNY_ID), UserTestData.userJonny);
     }
 
     @Test

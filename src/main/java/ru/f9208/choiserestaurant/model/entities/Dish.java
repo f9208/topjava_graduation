@@ -6,10 +6,10 @@ import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "name"}, name = "dish_unique_restaurant_dishName_idx")})
+@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "name", "day"}, name = "dish_unique_restaurant_dishName_idx")})
 public class Dish extends AbstractNamedEntity {
     @Id
     @SequenceGenerator(name = "dish_seq", sequenceName = "dish_seq", allocationSize = 1, initialValue = START_SEQ)
@@ -26,24 +26,24 @@ public class Dish extends AbstractNamedEntity {
     @NotNull
     private Restaurant restaurant;
 
-    @Column(name = "added", nullable = false, columnDefinition = "timestamp default now()")
+    @Column(name = "day", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime dateTime;
+    private LocalDate day;
 
     public Dish() {
     }
 
     public Dish(Dish dish) {
-        this(dish.getId(), dish.getName(), dish.getPrice(), dish.getRestaurant(), dish.getDateTime());
+        this(dish.getId(), dish.getName(), dish.getPrice(), dish.getRestaurant(), dish.getDay());
     }
 
-    public Dish(Integer id, String name, Integer price, Restaurant restaurant, LocalDateTime dateTime) {
+    public Dish(Integer id, String name, Integer price, Restaurant restaurant, LocalDate day) {
         super(name);
         this.id = id;
         this.price = price;
         this.restaurant = restaurant;
-        this.dateTime = dateTime;
+        this.day = day;
     }
 
     public Restaurant getRestaurant() {
@@ -62,8 +62,8 @@ public class Dish extends AbstractNamedEntity {
         this.price = price;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDay(LocalDate dateTime) {
+        this.day = dateTime;
     }
 
 
@@ -72,8 +72,8 @@ public class Dish extends AbstractNamedEntity {
         this.id = id;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getDay() {
+        return day;
     }
 
 
@@ -88,7 +88,7 @@ public class Dish extends AbstractNamedEntity {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", dateTime=" + dateTime +
+                ", day =" + day +
                 '}';
     }
 }

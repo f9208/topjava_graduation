@@ -13,6 +13,7 @@ import ru.f9208.choiserestaurant.model.entities.Vote;
 import ru.f9208.choiserestaurant.repository.RestaurantRepository;
 import ru.f9208.choiserestaurant.repository.VoteRepository;
 import ru.f9208.choiserestaurant.utils.DateTimeUtils;
+import ru.f9208.choiserestaurant.utils.ValidatorUtil;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -37,8 +38,8 @@ public class AdminRestaurantController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) {
+        ValidatorUtil.checkNew(restaurant);
         Restaurant created = restaurantRepository.create(restaurant);
-
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(RESTAURANTS + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -55,7 +56,7 @@ public class AdminRestaurantController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable(name = "id") int id, @Valid @RequestBody Restaurant restaurant) {
-        restaurant.setId(id);
+        ValidatorUtil.assureIdConsistent(restaurant, id);
         restaurantRepository.update(restaurant);
     }
 

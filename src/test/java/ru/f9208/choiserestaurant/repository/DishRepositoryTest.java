@@ -4,14 +4,14 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import ru.f9208.choiserestaurant.web.exceptions.NotFoundException;
 import ru.f9208.choiserestaurant.model.entities.Dish;
 import ru.f9208.choiserestaurant.repository.testData.RestaurantTestData;
+import ru.f9208.choiserestaurant.web.exceptions.NotFoundException;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static ru.f9208.choiserestaurant.repository.testData.DishTestData.*;
 
 
@@ -82,6 +82,6 @@ class DishRepositoryTest extends AbstractStarterTest {
     @Test
     void createDuplicate() {
         assertThrows(DataAccessException.class,
-                () -> dishRepository.create(new Dish(null, "fish", 123, RestaurantTestData.meatHome, LocalDateTime.now()), RestaurantTestData.MEAT_HOME_ID));
+                () -> dishRepository.create(new Dish(null, "fish", 123, RestaurantTestData.meatHome, LocalDate.now()), RestaurantTestData.MEAT_HOME_ID));
     }
 }

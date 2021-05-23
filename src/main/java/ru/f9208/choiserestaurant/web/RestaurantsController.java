@@ -9,7 +9,6 @@ import ru.f9208.choiserestaurant.model.entities.Restaurant;
 import ru.f9208.choiserestaurant.model.entities.Vote;
 import ru.f9208.choiserestaurant.repository.RestaurantRepository;
 import ru.f9208.choiserestaurant.repository.VoteRepository;
-import ru.f9208.choiserestaurant.utils.DateTimeUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -37,8 +36,8 @@ public class RestaurantsController {
     public List<Vote> getVotes(@RequestParam(name = "start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate start,
                                @RequestParam(name = "end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate end,
                                @PathVariable("id") int id) {
-        if (start == null) start = DateTimeUtils.MIN_DATE;
-        if (end == null) end = DateTimeUtils.MAX_DATE;
+        if (start == null) start = LocalDate.now();
+        if (end == null) end = LocalDate.now();
         return voteRepository.getAllForRestaurantBetween(start, end, id);
     }
 }

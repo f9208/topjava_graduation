@@ -60,6 +60,5 @@ public class VoteTestData {
     public static List<Vote> allVotesOfEveryone = List.of(VOTE1, VOTE2, VOTE3, VOTE4, VOTE5, VOTE6, VOTE7, VOTE8,
             VOTE9, VOTE10, VOTE11, VOTE12, VOTE13, VOTE14_TODAY_RE_VOTE, VOTE15_TODAY);
     public static List<Vote> allVotesOfAdmin = List.of(VOTE1, VOTE2, VOTE6, VOTE8, VOTE10, VOTE12, VOTE15_TODAY);
-    public static List<Vote> allVotesOfJonny = List.of(VOTE3, VOTE7, VOTE11, VOTE14_TODAY);
 }
 

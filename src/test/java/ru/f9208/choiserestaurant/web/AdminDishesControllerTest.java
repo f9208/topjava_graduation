@@ -76,6 +76,17 @@ class AdminDishesControllerTest extends AbstractRestControllerTest {
     }
 
     @Test
+    void updateDishIsNoConsistent() throws Exception {
+        Dish updated = getUpdated();
+        perform(MockMvcRequestBuilders.put(REST_URL + MEAT_HOME_ID + DISHES)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(JsonUtil.writeValue(updated))
+                .with(TestUtil.userHttpBasic(UserTestData.admin)))
+                .andExpect(status().isUnprocessableEntity());
+        DISH_MATCHER.assertMatch(PASTA, dishRepository.get(PASTA_ID, BEAR_GRIZZLY_ID));
+    }
+
+    @Test
     void deleteDish() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + MEAT_HOME_ID + DISHES + "/" + SOUP_ID)
                 .contentType(MediaType.APPLICATION_JSON)

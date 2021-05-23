@@ -12,8 +12,11 @@ import ru.f9208.choiserestaurant.repository.testData.RestaurantTestData;
 import ru.f9208.choiserestaurant.repository.testData.UserTestData;
 import ru.f9208.choiserestaurant.repository.testData.VoteTestData;
 
+import java.time.LocalTime;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.f9208.choiserestaurant.utils.DateTimeUtils.TOO_LATE;
 import static ru.f9208.choiserestaurant.web.ProfileController.VOTES;
 
 public class VoteControllerTest extends AbstractRestControllerTest {
@@ -35,6 +38,7 @@ public class VoteControllerTest extends AbstractRestControllerTest {
 
     @Test
     void voteAndChangeMind() throws Exception {
+        if (LocalTime.now().isAfter(TOO_LATE)) return;
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(String.valueOf(RestaurantTestData.MEAT_HOME_ID))
@@ -56,6 +60,8 @@ public class VoteControllerTest extends AbstractRestControllerTest {
 
     @Test
     void changeMind() throws Exception {
+        if (LocalTime.now().isAfter(TOO_LATE)) return;
+
         VoteTestData.VOTE_TEST_MATCHER.assertMatch(VoteTestData.VOTE14_TODAY, voteRepository.get(VoteTestData.VOTE_14_ID));
         perform(MockMvcRequestBuilders.put(REST_PATH + "/" + VoteTestData.VOTE_14_ID)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -68,6 +74,7 @@ public class VoteControllerTest extends AbstractRestControllerTest {
 
     @Test
     void reVoteNotOwner() throws Exception {
+        if (LocalTime.now().isAfter(TOO_LATE)) return;
         perform(MockMvcRequestBuilders.put(REST_PATH + "/" + VoteTestData.VOTE_14_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(String.valueOf(RestaurantTestData.MEAT_HOME_ID))

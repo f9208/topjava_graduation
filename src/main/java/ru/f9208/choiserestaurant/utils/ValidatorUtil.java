@@ -28,11 +28,6 @@ public class ValidatorUtil {
         return object;
     }
 
-    public static <T> List<T> checkNotEmptyWithId(List<T> list, int id) {
-        checkNotFoundWithId(!list.isEmpty(), id);
-        return list;
-    }
-
     public static void checkNotFoundWithId(boolean found, int id) {
         checkNotFound(found, "id=" + id);
     }
@@ -59,5 +54,9 @@ public class ValidatorUtil {
         if (vote.getUserId() != userId) {
             throw new NotFoundException("vote " + vote + " not belong user with id=" + userId);
         }
+    }
+
+    public static void assureIdConsistent(HasId bean, int id) {
+        if (bean.getId() != id) throw new IllegalRequestDataException(bean + " must be with id=" + id);
     }
 }

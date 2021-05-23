@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.f9208.choiserestaurant.model.entities.Dish;
 import ru.f9208.choiserestaurant.repository.DishRepository;
+import ru.f9208.choiserestaurant.repository.RestaurantRepository;
+import ru.f9208.choiserestaurant.utils.ValidatorUtil;
 
 import java.net.URI;
+import java.time.LocalDate;
 
 import static ru.f9208.choiserestaurant.web.AdminDishesController.ADMIN_RESTAURANT_DISHES;
 import static ru.f9208.choiserestaurant.web.AdminRestaurantController.ADMIN_RESTAURANT;
@@ -34,6 +37,8 @@ public class AdminDishesController {
     ResponseEntity<Dish> add(@RequestBody Dish dish,
                              @PathVariable("restaurant_id")
                                      int restaurantId) {
+        ValidatorUtil.checkNew(dish);
+        if (dish.getDay() == null) dish.setDay(LocalDate.now());
         Dish created = dishRepository.create(dish, restaurantId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -46,10 +51,11 @@ public class AdminDishesController {
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void update(@PathVariable(name = "restaurant_id") int restaurant_id, @RequestBody Dish dish) {
+        if (dish.getDay() == null) dish.setDay(LocalDate.now());
         dishRepository.update(dish, restaurant_id);
     }
 
-    @DeleteMapping(value = "/{dish_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{dish_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void delete(@PathVariable(name = "restaurant_id") int restaurant_id, @PathVariable int dish_id) {
         dishRepository.delete(dish_id, restaurant_id);

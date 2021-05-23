@@ -17,21 +17,8 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")
     int delete(@Param("id") Integer id);
 
-    // https://stackoverflow.com/a/46013654/548473
-    @EntityGraph(attributePaths = {"menu"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
-    Restaurant getOneWithMenu(Integer id);
-
-    @EntityGraph(attributePaths = {"menu"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r")
-    List<Restaurant> getAllWithMenu();
-
     @EntityGraph(attributePaths = {"vote"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT r FROM Restaurant r")
     List<Restaurant> getAllWithVote();
-
-    @EntityGraph(attributePaths = {"vote"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
-    Restaurant getOneWithVote(Integer id);
 }
 

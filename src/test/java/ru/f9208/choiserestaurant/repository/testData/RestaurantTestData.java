@@ -11,8 +11,6 @@ import static ru.f9208.choiserestaurant.repository.testData.DishTestData.*;
 public class RestaurantTestData {
 
     public static TestMatcher<Restaurant> RESTAURANT_MATCHER = TestMatcher.usingIgnoreFieldsComparator(Restaurant.class, "menu", "vote");
-    public static TestMatcher<Restaurant> RESTAURANT_MATCHER_WITHOUT_VOTE = TestMatcher.usingIgnoreFieldsComparator(Restaurant.class, "vote", "menu.restaurant");
-    public static TestMatcher<Restaurant> RESTAURANT_MATCHER_WITHOUT_MENU = TestMatcher.usingIgnoreFieldsComparator(Restaurant.class, "menu", "vote.restaurant");
 
     public static final int BEAR_GRIZZLY_ID = START_SEQ;
     public static final int MEAT_HOME_ID = START_SEQ + 1;

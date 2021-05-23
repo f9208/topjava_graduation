@@ -9,7 +9,6 @@ import ru.f9208.choiserestaurant.model.entities.to.VoteTo;
 import ru.f9208.choiserestaurant.repository.VoteRepository;
 import ru.f9208.choiserestaurant.repository.testData.UserTestData;
 import ru.f9208.choiserestaurant.repository.testData.VoteTestData;
-import ru.f9208.choiserestaurant.web.AbstractRestControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -75,6 +74,6 @@ class AdminVoteControllerTest extends AbstractRestControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(VoteTo.convert(VoteTestData.allVotesOfJonny)));
+                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(VoteTo.convert(VoteTestData.VOTE14_TODAY)));
     }
 }

@@ -19,7 +19,7 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
 
     @EntityGraph(attributePaths = {"restaurant"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("Select v From Vote v where v.day>=:start and v.day<=:end and v.restaurant.id=:restaurantId")
-    List<Vote> getAllByDatBetweenAndRestaurantId(@Param("start") LocalDate start,
+    List<Vote> getAllByDayBetweenAndRestaurantId(@Param("start") LocalDate start,
                                                  @Param("end") LocalDate end,
                                                  @Param("restaurantId") Integer restaurantId);
 
@@ -48,6 +48,4 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     @EntityGraph(attributePaths = {"restaurant"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("Select v From Vote v where v.userId=:userId")
     List<Vote> getAllByUserId(@Param("userId") int userId);
-
-    Vote getVoteByDayAndUserId(LocalDate day, int userId);
 }

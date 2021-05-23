@@ -8,7 +8,7 @@ public class DateTimeUtils {
     public static final LocalDate MIN_DATE = LocalDate.of(1, 1, 1);
     public static final LocalDate MAX_DATE = LocalDate.of(3000, 1, 1);
 
-    public static final LocalTime TOO_LATE = LocalTime.of(23, 59, 0);
+    public static final LocalTime TOO_LATE = LocalTime.of(11, 00, 0);
 
     private DateTimeUtils() {
     }

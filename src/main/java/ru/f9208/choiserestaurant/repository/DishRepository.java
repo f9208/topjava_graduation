@@ -3,12 +3,15 @@ package ru.f9208.choiserestaurant.repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.f9208.choiserestaurant.model.entities.Dish;
+import ru.f9208.choiserestaurant.model.entities.Restaurant;
 import ru.f9208.choiserestaurant.utils.ValidatorUtil;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -23,7 +26,7 @@ public class DishRepository {
         this.crudRestaurantRepository = crudRestaurantRepository;
     }
 
-    @CacheEvict(value = {"allRestaurantsWithMenu","getOneWithMenu"}, allEntries = true)
+    @CacheEvict(value = {"getMenu"}, allEntries = true)
     @Transactional
     public Dish save(Dish dish, int restaurantId) {
         Assert.notNull(dish, "Dish must not be null");
@@ -34,22 +37,21 @@ public class DishRepository {
         return crudDishRepository.save(dish);
     }
 
-    @CacheEvict(value = {"allRestaurantsWithMenu","getOneWithMenu"}, allEntries = true)
+    @CacheEvict(value = {"getMenu"}, allEntries = true)
     public Dish create(Dish dish, int restaurantId) {
         Assert.notNull(dish, "dish must not be null");
-        ValidatorUtil.checkNew(dish);
         log.info("create dish for restaurant {}", restaurantId);
         return save(dish, restaurantId);
     }
 
-    @CacheEvict(value = {"allRestaurantsWithMenu","getOneWithMenu"}, allEntries = true)
+    @CacheEvict(value = {"getMenu"}, allEntries = true)
     public void update(Dish dish, int restaurantId) {
         Assert.notNull(dish, "dish must not be null");
         log.info("update dish for restaurant {}", restaurantId);
         ValidatorUtil.checkNotFoundWithId(save(dish, restaurantId), restaurantId);
     }
 
-    @CacheEvict(value = {"allRestaurantsWithMenu","getOneWithMenu"}, allEntries = true)
+    @CacheEvict(value = {"getMenu"}, allEntries = true)
     public boolean delete(int dishId, int restaurantId) {
         log.info("delete dish {} for restaurant {}", dishId, restaurantId);
         boolean result = crudDishRepository.delete(dishId, restaurantId) != 0;
@@ -64,9 +66,9 @@ public class DishRepository {
                 .orElse(null);
         return ValidatorUtil.checkNotFoundWithId(resultDish, restaurantId);
     }
-
+    @Cacheable(value = "getMenu", key="#restaurantId")
     public List<Dish> getMenu(int restaurantId) {
         log.info("getMenu for restaurant {} ", restaurantId);
-        return ValidatorUtil.checkNotEmptyWithId(crudDishRepository.findAllByRestaurantId(restaurantId), restaurantId);
+        return crudDishRepository.findAllByRestaurantIdAndDay(restaurantId, LocalDate.now());
     }
-   }
+}

@@ -7,11 +7,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.f9208.choiserestaurant.model.entities.Dish;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Transactional(readOnly = true)
 public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
-    List<Dish> findAllByRestaurantId(int id);
+    List<Dish> findAllByRestaurantIdAndDay(int id, LocalDate date);
 
     @Transactional
     @Modifying

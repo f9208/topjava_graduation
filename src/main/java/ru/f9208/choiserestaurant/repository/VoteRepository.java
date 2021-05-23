@@ -10,10 +10,10 @@ import ru.f9208.choiserestaurant.utils.ValidatorUtil;
 import ru.f9208.choiserestaurant.web.exceptions.IllegalRequestDataException;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static ru.f9208.choiserestaurant.utils.ValidatorUtil.*;
+import static ru.f9208.choiserestaurant.utils.ValidatorUtil.assureVoteOwner;
+import static ru.f9208.choiserestaurant.utils.ValidatorUtil.checkNotFoundWithId;
 
 
 @Repository
@@ -73,7 +73,7 @@ public class VoteRepository {
     }
 
     public List<Vote> getAllForRestaurantBetween(LocalDate start, LocalDate end, int userId) {
-        return ValidatorUtil.checkNotFoundForDate(crudVoteRepository.getAllByDatBetweenAndRestaurantId(start, end, userId), start, end);
+        return crudVoteRepository.getAllByDayBetweenAndRestaurantId(start, end, userId);
     }
 
     public Vote getVoteForUserOnDate(int userId, LocalDate date) {
@@ -100,9 +100,5 @@ public class VoteRepository {
 
     public List<Vote> getAllByDateBetweenAndUserId(LocalDate start, LocalDate end, int userId) {
         return ValidatorUtil.checkNotFoundForDate(crudVoteRepository.getAllByDayBetweenAndUserId(start, end, userId), start, end);
-    }
-
-    public Vote getMyVoteForDay(LocalDate day, int userId) {
-        return ValidatorUtil.checkNotFoundWithId(crudVoteRepository.getVoteByDayAndUserId(day, userId), userId);
     }
 }

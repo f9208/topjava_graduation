@@ -13,16 +13,16 @@ INSERT INTO restaurant(name)
 values ('Bear Grizzly'),
        ('Meat Home');
 
-INSERT INTO dishes (name, price, restaurant_id, added)
-VALUES ('borscht', 40, 10000, '2020-04-10 10:00:00'),
-       ('cutlet', 120, 10000, '2020-04-10 10:00:00'),
-       ('compote', 20, 10000, '2020-04-10 10:00:00'),
-       ('pasta', 100, 10000, '2020-04-10 10:00:00'),
-       ('pancake', 30, 10000, '2020-04-10 10:00:00'),
-       ('soup', 120, 10001, '2020-04-10 10:00:00'),
-       ('fish', 160, 10001, '2020-04-10 10:00:00'),
-       ('potato', 100, 10001, '2020-04-10 10:00:00'),
-       ('muffin', 55, 10001, '2020-04-10 10:00:00');
+INSERT INTO dishes (name, price, restaurant_id)
+VALUES ('borscht', 40, 10000),
+       ('cutlet', 120, 10000),
+       ('compote', 20, 10000),
+       ('pasta', 100, 10000),
+       ('pancake', 30, 10000),
+       ('soup', 120, 10001),
+       ('fish', 160, 10001),
+       ('potato', 100, 10001),
+       ('muffin', 55, 10001);
 
 INSERT INTO user_roles (role, user_id)
 VALUES ('USER', 10000),

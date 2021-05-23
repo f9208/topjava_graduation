@@ -14,8 +14,8 @@ import ru.f9208.choiserestaurant.model.entities.to.VoteTo;
 import ru.f9208.choiserestaurant.repository.UserRepository;
 import ru.f9208.choiserestaurant.repository.UserService;
 import ru.f9208.choiserestaurant.repository.VoteRepository;
-import ru.f9208.choiserestaurant.utils.DateTimeUtils;
 import ru.f9208.choiserestaurant.utils.SecurityUtil;
+import ru.f9208.choiserestaurant.utils.ValidatorUtil;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -47,36 +47,33 @@ public class ProfileController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         if (chekNotAdmin(user)) user.setRoles(Set.of(Role.USER));
+        ValidatorUtil.checkNew(user);
         User created = userService.prepareAndSave(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(PROFILE + "/{id}") //todo тоже ведет на несуществующий get
+                .path(PROFILE + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProfile() {
+    public void delete() {
         userRepository.delete(SecurityUtil.getAuthUserId());
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody User user) {
+        ValidatorUtil.assureIdConsistent(user, SecurityUtil.getAuthUserId());
         userRepository.update(user);
     }
 
     @GetMapping(VOTES)
     public List<VoteTo> userVotes(@RequestParam(name = "start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate start,
                                   @RequestParam(name = "end") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @Nullable LocalDate end) {
-        if (start == null) start = DateTimeUtils.MIN_DATE;
-        if (end == null) end = DateTimeUtils.MAX_DATE;
+        if (start == null) start = LocalDate.now();
+        if (end == null) end = LocalDate.now();
         return convert(voteRepository.getAllByDateBetweenAndUserId(start, end, SecurityUtil.getAuthUserId()));
-    }
-
-    @GetMapping(VOTES + "/today")
-    public VoteTo getMyVoteToday() {
-        return new VoteTo(voteRepository.getMyVoteForDay(LocalDate.now(), SecurityUtil.getAuthUserId()));
     }
 
     @GetMapping(VOTES + "/{vote_id}")

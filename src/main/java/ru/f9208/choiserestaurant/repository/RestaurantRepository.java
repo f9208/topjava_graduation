@@ -21,34 +21,35 @@ public class RestaurantRepository {
         this.crudRestaurantRepository = crudRestaurantRepository;
     }
 
-    @CacheEvict(value = {"allRestaurants", "allRestaurantsWithMenu", "getOneWithMenu"}, allEntries = true)
+    @CacheEvict(value = {"allRestaurants","oneRestaurant"}, allEntries = true)
     public Restaurant create(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
-        ValidatorUtil.checkNew(restaurant);
         log.info("create new restaurant");
         return save(restaurant);
     }
 
-    @CacheEvict(value = {"allRestaurants", "allRestaurantsWithMenu", "getOneWithMenu"}, allEntries = true)
+    @CacheEvict(value = {"allRestaurants","oneRestaurant"}, allEntries = true)
     public void update(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
         log.info("update restaurant with id {}", restaurant.getId());
         save(restaurant);
     }
 
-    @CacheEvict(value = {"allRestaurants", "allRestaurantsWithMenu", "getOneWithMenu"}, allEntries = true)
+    @CacheEvict(value = {"allRestaurants","oneRestaurant"}, allEntries = true)
     @Transactional
     public Restaurant save(Restaurant restaurant) {
         return crudRestaurantRepository.save(restaurant);
     }
 
-    @CacheEvict(value = {"allRestaurants", "allRestaurantsWithMenu", "getOneWithMenu"}, allEntries = true)
+    @CacheEvict(value = {"allRestaurants","oneRestaurant"}, allEntries = true)
     public boolean delete(int id) {
         log.info("delete restaurant {}", id);
         boolean result = crudRestaurantRepository.delete(id) != 0;
         ValidatorUtil.checkNotFoundWithId(result, id);
         return result;
     }
+
+    @Cacheable(value = "oneRestaurant", key="#id")
     public Restaurant getOne(int id) {
         log.info("get restaurant {}", id);
         return ValidatorUtil.checkNotFoundWithId(crudRestaurantRepository.findById(id).orElse(null), id);

@@ -83,17 +83,7 @@ class ProfileControllerTest extends AbstractRestControllerTest {
                 .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(VoteTo.convert(VoteTestData.allVotesOfJonny)));
-    }
-
-    @Test
-    void getVoteForToday() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "/votes/today")
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(new VoteTo(VoteTestData.VOTE14_TODAY)));
+                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(VoteTo.convert(VoteTestData.VOTE14_TODAY)));
     }
 
     @Test

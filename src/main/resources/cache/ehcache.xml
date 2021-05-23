@@ -9,10 +9,11 @@
         <expiry>
             <none/>
         </expiry>
-        <heap>5</heap>
+        <heap>50</heap>
     </cache-template>
 
     <cache alias="allRestaurants" uses-template="singleNonExpiryCache"/>
-    <cache alias="allRestaurantsWithMenu" uses-template="singleNonExpiryCache"/>
-    <cache alias="getOneWithMenu" uses-template="singleNonExpiryCache"/>
+    <cache alias="getMenu" uses-template="singleNonExpiryCache"/>
+    <cache alias="oneRestaurant" uses-template="singleNonExpiryCache"/>
+
 </config>

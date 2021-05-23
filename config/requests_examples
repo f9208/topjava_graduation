@@ -1,0 +1,107 @@
+# unregistered Users
+#-----------------------------------------------------
+### show all restaurants
+GET http://localhost:8080/topjava_graduation/restaurants/
+
+### show restaurant with id 10001
+GET http://localhost:8080/topjava_graduation/restaurants/10001
+
+### show restaurant with id 10001
+GET http://localhost:8080/topjava_graduation/restaurants/10001/dishes
+
+### show votes for today at restaurant 10000.
+GET http://localhost:8080/topjava_graduation/restaurants/10000/votes
+
+#By admin:
+#--------------------------------------------------------------------------------
+
+### create new restaurant
+POST http://localhost:8080/topjava_graduation/admin/restaurants
+Authorization: Basic admin@gmail.com 123456789
+Content-Type: application/json
+
+{
+  "name": "TurkishRestaurant"
+}
+
+### update restaurant
+PUT http://localhost:8080/topjava_graduation/admin/restaurants/10001
+Authorization: Basic admin@gmail.com 123456789
+Content-Type: application/json
+
+{
+  "id": "10001",
+  "name": "DeadFish"
+}
+
+### add new dish for restaurant
+POST http://localhost:8080/topjava_graduation/admin/restaurants/10001/dishes/
+Authorization: Basic admin@gmail.com 123456789
+Content-Type: application/json
+
+{
+  "name": "burger",
+  "day": "2021-05-23",
+  "price": 150
+}
+
+
+### update dish with id
+PUT http://localhost:8080/topjava_graduation/admin/restaurants/10001/dishes/
+Authorization: Basic admin@gmail.com 123456789
+Content-Type: application/json
+
+{
+  "id": 10005,
+  "name": "coca-cola",
+  "day": "2021-05-23",
+  "price": 50
+}
+
+### delete dish
+DELETE http://localhost:8080/topjava_graduation/admin/restaurants/10001/dishes/10005
+Authorization: Basic admin@gmail.com 123456789
+Content-Type: application/json
+
+### show list users
+GET http://localhost:8080/topjava_graduation/admin/users/
+Authorization: Basic admin@gmail.com 123456789
+
+### delete user by admin
+DELETE  http://localhost:8080/topjava_graduation/admin/users/10002
+Authorization: Basic admin@gmail.com 123456789
+
+#By User:
+#--------------------------------------------------------------------------------
+
+############## voteing for restaurant by user Kety
+POST http://localhost:8080/topjava_graduation/votes
+Authorization: Basic kety@gmail.com passwordKety
+Content-Type: application/json
+
+10001
+
+
+#### re-vote for restaurant by user Jonny (He has already voted today by defaul)
+PUT http://localhost:8080/topjava_graduation/votes/10013
+Authorization: Basic jonny@gmail.com passwordJonny
+Content-Type: application/json
+
+10001
+
+#### show user profile
+GET http://localhost:8080/topjava_graduation/profile
+Authorization: Basic jonny@gmail.com passwordJonny
+
+
+#### delete vote by user youself
+DELETE http://localhost:8080/topjava_graduation/profile/votes/10013
+Content-Type: application/json
+Authorization: Basic jonny@gmail.com passwordJonny
+
+### update User profile
+PUT http://localhost:8080/topjava_graduation/profile
+Content-Type: application/json
+Authorization: Basic jonny@gmail.com passwordJonny
+
+{"id": 10001,"name":"Jack","email":"jacke@gmail.com","password":"password","registered":"2021-12-15T12:33:05.947","roles":["USER"]}
