@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.topjava</groupId>
-    <artifactId>topjava_graduation</artifactId>
+    <artifactId>choiserestaurant</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Chose a restaurant</name>
@@ -40,7 +40,7 @@
         <!--DB-->
     </properties>
     <build>
-        <finalName>topjava_graduation</finalName>
+        <finalName>choiserestaurant</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
