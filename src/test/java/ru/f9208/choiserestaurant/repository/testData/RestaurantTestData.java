@@ -16,8 +16,8 @@ public class RestaurantTestData {
     public static final int MEAT_HOME_ID = START_SEQ + 1;
     public static final int NOT_FOUND = 10;
 
-    public static final Restaurant bearGrizzly = new Restaurant(BEAR_GRIZZLY_ID, "Bear Grizzly");
-    public static final Restaurant meatHome = new Restaurant(MEAT_HOME_ID, "Meat Home");
+    public static final Restaurant bearGrizzly = new Restaurant(BEAR_GRIZZLY_ID, "Bear Grizzly", null);
+    public static final Restaurant meatHome = new Restaurant(MEAT_HOME_ID, "Meat Home", null);
 
     static {
         bearGrizzly.setMenu(List.of(BORSCHT, CUTLET, COMPOTE, PASTA, PANCAKE));
@@ -27,11 +27,11 @@ public class RestaurantTestData {
     }
 
     public static Restaurant getNewRestaurant() {
-        return new Restaurant(null, "BurgerKing");
+        return new Restaurant(null, "BurgerKing", null);
     }
 
     public static Restaurant getUpdatedRestaurant() {
-        Restaurant updated = new Restaurant(bearGrizzly.getId(), "White Bear");
+        Restaurant updated = new Restaurant(bearGrizzly.getId(), "White Bear", null);
         updated.setMenu(bearGrizzly.getMenu());
         return updated;
     }

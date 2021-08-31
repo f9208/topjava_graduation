@@ -27,21 +27,21 @@ public class UserRepository {
     }
 
     public User findById(int id) {
-        log.info("get user {}", id);
+        log.info("get userTo {}", id);
         return ValidatorUtil.checkNotFound(crudUserRepository.findById(id).orElse(null), String.valueOf(id));
     }
 
     @Transactional
     public User create(User user) {
-        Assert.notNull(user, "user must not be null");
+        Assert.notNull(user, "userTo must not be null");
         ValidatorUtil.checkNew(user);
-        log.info("create new user");
+        log.info("create new userTo");
         return crudUserRepository.save(user);
     }
 
     @Transactional
     public boolean delete(int id) {
-        log.info("delete user {}", id);
+        log.info("delete userTo {}", id);
         boolean result = crudUserRepository.delete(id) != 0;
         ValidatorUtil.checkNotFoundWithId(result, id);
         return result;
@@ -49,7 +49,7 @@ public class UserRepository {
 
     public User getByEmail(String email) {
         Assert.notNull(email, "email must not be null");
-        log.info("get user by email {}", email);
+        log.info("get userTo by email {}", email);
         return crudUserRepository.findByEmail(email);
     }
 
@@ -62,7 +62,7 @@ public class UserRepository {
 
     @Transactional
     public User update(int userId, Set<Role> role) {
-        log.info("update Role for user with id {}. New roles: {}", userId, role);
+        log.info("update Role for userTo with id {}. New roles: {}", userId, role);
         User result = crudUserRepository.findById(userId).orElseThrow();
         result.setRoles(role);
         return result;
@@ -70,6 +70,7 @@ public class UserRepository {
 
     @Transactional
     public User save(User user) {
+        log.info("save user");
         return crudUserRepository.save(user);
     }
 }

@@ -7,9 +7,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import ru.f9208.choiserestaurant.model.AuthorizedUser;
 import ru.f9208.choiserestaurant.model.entities.User;
+import ru.f9208.choiserestaurant.model.entities.to.UserTo;
+import ru.f9208.choiserestaurant.utils.UserUtils;
 
 @Service("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -40,5 +43,15 @@ public class UserService implements UserDetailsService {
         user.setPassword(StringUtils.hasText(password) ? passwordEncoder.encode(password) : password);
         user.setEmail(user.getEmail().toLowerCase());
         return user;
+    }
+
+    public User prepareAndUpdate(User user) {
+        return userRepository.update(prepareToSave(user, passwordEncoder));
+    }
+
+    @Transactional
+    public void update(UserTo userTo, int userId) {
+        User user = userRepository.findById(userId);
+        prepareAndUpdate(UserUtils.updateFromTo(user, userTo));
     }
 }

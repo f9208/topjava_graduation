@@ -12,7 +12,6 @@ import ru.f9208.choiserestaurant.model.entities.User;
 import ru.f9208.choiserestaurant.model.entities.to.VoteTo;
 import ru.f9208.choiserestaurant.repository.UserRepository;
 import ru.f9208.choiserestaurant.repository.VoteRepository;
-import ru.f9208.choiserestaurant.web.AbstractRestControllerTest;
 import ru.f9208.choiserestaurant.web.exceptions.NotFoundException;
 import ru.f9208.choiserestaurant.web.json.JsonUtil;
 
@@ -22,10 +21,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.f9208.choiserestaurant.model.entities.to.VoteTo.convert;
-import static ru.f9208.choiserestaurant.web.ProfileController.PROFILE;
-import static ru.f9208.choiserestaurant.web.ProfileController.VOTES;
+import static ru.f9208.choiserestaurant.web.ProfileRestController.PROFILE;
+import static ru.f9208.choiserestaurant.web.ProfileRestController.VOTES;
 
-class ProfileControllerTest extends AbstractRestControllerTest {
+class ProfileRestControllerTest extends AbstractRestControllerTest {
     @Autowired
     UserRepository userRepository;
     @Autowired

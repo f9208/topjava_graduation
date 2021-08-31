@@ -27,10 +27,10 @@ import static ru.f9208.choiserestaurant.model.entities.to.VoteTo.convert;
 import static ru.f9208.choiserestaurant.utils.SecurityUtil.chekNotAdmin;
 
 @RestController
-@RequestMapping(value = ProfileController.PROFILE)
-public class ProfileController {
-    public static final String PROFILE = "/profile";
-    public static final String VOTES = "/votes";
+@RequestMapping(value = ProfileRestController.PROFILE)
+public class ProfileRestController {
+    public static final String PROFILE = "/rest/profile";
+    public static final String VOTES = "/rest/votes";
     @Autowired
     private UserRepository userRepository;
     @Autowired

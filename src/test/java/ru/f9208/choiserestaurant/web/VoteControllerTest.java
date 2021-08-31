@@ -17,7 +17,7 @@ import java.time.LocalTime;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.f9208.choiserestaurant.utils.DateTimeUtils.TOO_LATE;
-import static ru.f9208.choiserestaurant.web.ProfileController.VOTES;
+import static ru.f9208.choiserestaurant.web.ProfileRestController.VOTES;
 
 public class VoteControllerTest extends AbstractRestControllerTest {
     private static final String REST_PATH = VOTES;

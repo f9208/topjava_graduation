@@ -27,7 +27,7 @@ public class SecurityUtil {
     }
 
     public static int getAuthUserId() {
-        return get().getUser().getId();
+        return get().getUserTo().getId();
     }
 
     public static boolean chekNotAdmin(User user) {

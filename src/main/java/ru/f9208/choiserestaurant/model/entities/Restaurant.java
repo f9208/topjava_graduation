@@ -20,13 +20,16 @@ public class Restaurant extends AbstractNamedEntity {
     @Nullable
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<Vote> vote;
+    @Column(name = "label", nullable = false)
+    private String label;
 
     public Restaurant() {
     }
 
-    public Restaurant(Integer id, String name) {
+    public Restaurant(Integer id, String name, String label) {
         super(name);
         this.id = id;
+        this.label = label;
     }
 
     public List<Vote> getVote() {
@@ -46,6 +49,10 @@ public class Restaurant extends AbstractNamedEntity {
         return id;
     }
 
+    public String getLabel() {
+        return label;
+    }
+
     public void setMenu(List<Dish> menu) {
         this.menu = menu;
     }
@@ -53,6 +60,10 @@ public class Restaurant extends AbstractNamedEntity {
     @Override
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     @Override

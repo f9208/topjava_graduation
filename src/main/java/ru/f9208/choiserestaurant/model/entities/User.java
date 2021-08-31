@@ -5,6 +5,7 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.util.CollectionUtils;
+import ru.f9208.choiserestaurant.model.entities.to.UserTo;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -26,13 +27,13 @@ public class User extends AbstractNamedEntity {
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
-    @NotBlank
+    @NotBlank(message = "Please enter your email addresss.")
     @Size(max = 100)
     private String email;
 
     @Column(name = "password", nullable = false)
-    @NotBlank
-    @Size(min = 5, max = 100)
+    @NotBlank(message = "вводи пароль давай!")
+    @Size(min = 5, max = 100, message = "Your password must between 5 and 100 characters")
     private String password;
 
     @Column(name = "registered", nullable = false, columnDefinition = "timestamp default now()")
@@ -68,6 +69,15 @@ public class User extends AbstractNamedEntity {
         this.password = password;
         this.registered = registered;
         setRoles(roles);
+    }
+
+    public User(UserTo userTo) {
+        super(userTo.getName());
+        this.id = userTo.getId();
+        this.email = userTo.getEmail();
+        this.password = userTo.getPassword();
+        this.registered = LocalDateTime.now();
+        setRoles(EnumSet.of(Role.USER));
     }
 
     public void setEmail(String email) {

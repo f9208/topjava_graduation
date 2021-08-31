@@ -9,9 +9,9 @@ VALUES ('Admin', 'admin@gmail.com', '{noop}123456789'),
        ('Ket', 'kety@gmail.com', '{noop}passwordKety'),
        ('leo', 'leonard@gmail.com', '{noop}passwordLeon');
 
-INSERT INTO restaurant(name)
-values ('Bear Grizzly'),
-       ('Meat Home');
+INSERT INTO restaurant(name, label)
+values ('Cone wood', 'resources/pic/cone.JPG'),
+       ('Blueberry swamp', 'resources/pic/blueberry_on_table.JPG');
 
 INSERT INTO dishes (name, price, restaurant_id)
 VALUES ('borscht', 40, 10000),
