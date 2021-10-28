@@ -3,7 +3,7 @@ html {
     min-height: 100%;
 }
 
-.headForm{
+.headForm {
     display: inline-block;
 }
 
@@ -27,39 +27,33 @@ html {
     height: 100px;
 }
 
-.restaurant_img {
-    max-width: 300px;
-}
-
 body {
+    background-color: #e9e4c9ba;
     margin: 10px;
     margin-bottom: 60px !important; /* Margin bottom by footer height */
 }
 
-.restaurants_list {
+.main_restaurants_list {
     display: flex;
-    /*flex-direction: row;*/
-    /*flex-wrap: wrap;*/
-    /*justify-content: center;*/
-    /*align-items: stretch;*/
-    /*align-content: stretch;*/
-    /*min-height: 304.2px;*/
-    margin-left: 45px;
-    /*margin-right: -5px;*/
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: stretch;
+    align-content: stretch;
+    min-height: 300px;
+    margin: auto;
+    max-width: 795px;
 }
 
 .restaurant_item {
-    margin-top: 5px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    margin-left: 5px;
+    margin: 2px;
+    min-width: 250px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    min-width: 373px;
-    min-height: 239px;
-    display: flex;
-
+    position: relative;
+    width: 250px;
+    padding: 2px;
+    border: ridge beige;
 }
 
 section {
@@ -107,5 +101,12 @@ p {
     font-size: 20px;
     font-family: Candara;
     right: 130px;
+}
+
+.restaurant_label_img {
+    width: 100%;
+    align-content: center;
+    margin: auto;
+    display: block;
 }
 

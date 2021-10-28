@@ -8,22 +8,21 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.f9208.choiserestaurant.TestUtil;
 import ru.f9208.choiserestaurant.model.entities.Dish;
 import ru.f9208.choiserestaurant.repository.DishRepository;
-import ru.f9208.choiserestaurant.repository.testData.RestaurantTestData;
 import ru.f9208.choiserestaurant.repository.testData.UserTestData;
 import ru.f9208.choiserestaurant.web.exceptions.NotFoundException;
 import ru.f9208.choiserestaurant.web.json.JsonUtil;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.f9208.choiserestaurant.repository.testData.DishTestData.*;
 import static ru.f9208.choiserestaurant.repository.testData.RestaurantTestData.BEAR_GRIZZLY_ID;
 import static ru.f9208.choiserestaurant.repository.testData.RestaurantTestData.MEAT_HOME_ID;
-import static ru.f9208.choiserestaurant.web.AdminRestaurantController.ADMIN_RESTAURANT;
-import static ru.f9208.choiserestaurant.web.DishController.DISHES;
+import static ru.f9208.choiserestaurant.web.PathConstants.ADMIN_RESTAURANTS;
+import static ru.f9208.choiserestaurant.web.PathConstants.DISHES;
 
 class AdminDishesControllerTest extends AbstractRestControllerTest {
-    public static final String REST_URL = ADMIN_RESTAURANT + "/";
+    public static final String REST_URL = ADMIN_RESTAURANTS + "/";
     @Autowired
     DishRepository dishRepository;
 

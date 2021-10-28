@@ -10,14 +10,11 @@ import ru.f9208.choiserestaurant.model.entities.Dish;
 import ru.f9208.choiserestaurant.repository.DishRepository;
 
 import java.util.List;
-
-import static ru.f9208.choiserestaurant.web.RestaurantsController.RESTAURANTS;
+import static ru.f9208.choiserestaurant.web.PathConstants.RESTAURANTS_ID_DISHES;
 
 @RestController
-@RequestMapping(value = DishController.RESTAURANT_DISHES, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = RESTAURANTS_ID_DISHES, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishController {
-    public static final String DISHES = "/dishes";
-    public static final String RESTAURANT_DISHES = RESTAURANTS + "/{restaurant_id}" + DISHES;
 
     @Autowired
     private DishRepository dishRepository;

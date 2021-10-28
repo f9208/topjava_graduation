@@ -8,22 +8,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.f9208.choiserestaurant.model.entities.Dish;
 import ru.f9208.choiserestaurant.repository.DishRepository;
-import ru.f9208.choiserestaurant.repository.RestaurantRepository;
 import ru.f9208.choiserestaurant.utils.ValidatorUtil;
 
 import java.net.URI;
 import java.time.LocalDate;
 
-import static ru.f9208.choiserestaurant.web.AdminDishesController.ADMIN_RESTAURANT_DISHES;
-import static ru.f9208.choiserestaurant.web.AdminRestaurantController.ADMIN_RESTAURANT;
-import static ru.f9208.choiserestaurant.web.RestaurantsController.RESTAURANTS;
+import static ru.f9208.choiserestaurant.web.PathConstants.ADMIN_RESTAURANT_DISHES;
+import static ru.f9208.choiserestaurant.web.PathConstants.RESTAURANTS;
 
 @RestController
 @RequestMapping(value = ADMIN_RESTAURANT_DISHES, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminDishesController {
-    public static final String ID = "/{restaurant_id}";
-    public static final String DISHES = "/dishes";
-    public static final String ADMIN_RESTAURANT_DISHES = ADMIN_RESTAURANT + ID + DISHES;
 
     @Autowired
     DishRepository dishRepository;

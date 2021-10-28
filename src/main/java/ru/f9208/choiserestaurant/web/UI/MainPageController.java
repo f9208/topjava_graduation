@@ -4,16 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import ru.f9208.choiserestaurant.web.RestaurantsController;
+import ru.f9208.choiserestaurant.repository.RestaurantRepository;
 
 @Controller
 public class MainPageController {
     @Autowired
-    RestaurantsController restaurantsController;
+    RestaurantRepository restaurantRepository;
 
     @GetMapping("/")
     public String welcome(Model model) {
-        model.addAttribute("restaurants", restaurantsController.getAll());
+        model.addAttribute("restaurants", restaurantRepository.getAll());
         return "index";
     }
 }

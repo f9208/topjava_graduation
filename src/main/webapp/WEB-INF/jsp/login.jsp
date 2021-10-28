@@ -22,11 +22,9 @@
     <section>
         <%--@elvariable id="userTo" type="ru.f9208.choiserestaurant.model.entities.to.UserTo"--%>
         <form:form method="post" action="spring_security_check" modelAttribute="userTo">
-<%--            <form:input path="email"/>--%>
-<%--            <form:input path="password"/>--%>
             <input class="form-control mr-1" type="text" placeholder="Email" name="username">
             <input class="form-control mr-1" type="password" placeholder="Password" name="password">
-            <button type="submit"> send</button>
+            <button type="submit">Войти</button>
         </form:form>
 
     </section>

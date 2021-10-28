@@ -16,15 +16,9 @@
     <jsp:include page="fragments/head.jsp"/>
 </header>
 <main>
-
     <h4>${updated ? 'профайл был обновлен' : 'обновление профайла' } </h4>
     <%--@elvariable id="userTo" type="ru.f9208.choiserestaurant.model.entities.to.UserTo"--%>
     <form:form modelAttribute="userTo" method="post" action="profile">
-    <input name="id" value="${userTo.id}" type="hidden">
-        <%--        <topjava:inputField labelCode="user.name" name="name"/>--%>
-        <%--        <topjava:inputField labelCode="user.email" name="email"/>--%>
-        <%--        <topjava:inputField labelCode="user.password" name="password" inputType="password"/>--%>
-        <%--        <topjava:inputField labelCode="user.caloriesPerDay" name="caloriesPerDay" inputType="number"/>--%>
     <input name="updated" value="${updated=true}" type="hidden">
     <table>
         <tr>

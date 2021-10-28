@@ -18,12 +18,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.f9208.choiserestaurant.web.AdminRestaurantController.ADMIN_RESTAURANT;
+import static ru.f9208.choiserestaurant.web.PathConstants.ADMIN_RESTAURANTS;
 
 class AdminRestaurantControllerTest extends AbstractRestControllerTest {
     @Autowired
     RestaurantRepository restaurantRepository;
-    private static String REST_URL = ADMIN_RESTAURANT;
+    private static String REST_URL = ADMIN_RESTAURANTS;
 
     @Test
     void create() throws Exception {

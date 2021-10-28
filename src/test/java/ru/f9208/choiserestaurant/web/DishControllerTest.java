@@ -3,23 +3,17 @@ package ru.f9208.choiserestaurant.web;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.f9208.choiserestaurant.TestUtil;
-import ru.f9208.choiserestaurant.model.entities.Dish;
 import ru.f9208.choiserestaurant.repository.DishRepository;
-import ru.f9208.choiserestaurant.web.AbstractRestControllerTest;
-import ru.f9208.choiserestaurant.web.exceptions.NotFoundException;
-import ru.f9208.choiserestaurant.web.json.JsonUtil;
 import ru.f9208.choiserestaurant.repository.testData.RestaurantTestData;
 import ru.f9208.choiserestaurant.repository.testData.UserTestData;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.f9208.choiserestaurant.repository.testData.DishTestData.*;
-import static ru.f9208.choiserestaurant.web.RestaurantsController.RESTAURANTS;
+import static ru.f9208.choiserestaurant.web.PathConstants.RESTAURANTS;
 
 public class DishControllerTest extends AbstractRestControllerTest {
     private static final String REST_URL = RESTAURANTS + "/";

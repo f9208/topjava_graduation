@@ -14,19 +14,18 @@
     <jsp:include page="fragments/head.jsp"/>
 </header>
 <main>
-    <section><c:forEach items="${restaurants}" var="restaurant">
-        <jsp:useBean id="restaurant" class="ru.f9208.choiserestaurant.model.entities.Restaurant"/>
-        <%--        <div class="restaurants_list">--%>
-        <div class="restaurant_item" style="background-image: url('${restaurant.label}');">
-            <div> ${restaurant.name} </div>
-                <%--            </div>--%>
-                <%--            <div class="restaurant_item">--%>
-                <%--                <img src="resources/pic/blueberry_on_table.JPG" class="restaurant_img">--%>
-                <%--            </div>--%>
-        </div>
-    </c:forEach>
-
-    </section>
+    <div class="main_restaurants_list">
+        <c:forEach items="${restaurants}" var="restaurant">
+            <div class="restaurant_item">
+                <jsp:useBean id="restaurant" class="ru.f9208.choiserestaurant.model.entities.Restaurant"/>
+                <div id="name" style="font-weight: 700; padding-bottom: 5px">${restaurant.name}</div>
+                <div id="description"> ${restaurant.description} </div>
+                <a href="restaurants/${restaurant.id}/dishes">
+                    <img class="restaurant_label_img" src="${restaurant.label}">
+                </a>
+            </div>
+        </c:forEach>
+    </div>
 </main>
 <footer>
     <jsp:include page="fragments/bottom.jsp"/>

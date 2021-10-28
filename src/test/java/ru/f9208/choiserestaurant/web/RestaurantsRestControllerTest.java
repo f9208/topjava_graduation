@@ -15,9 +15,9 @@ import java.util.List;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.f9208.choiserestaurant.repository.testData.RestaurantTestData.MEAT_HOME_ID;
-import static ru.f9208.choiserestaurant.web.RestaurantsController.RESTAURANTS;
+import static ru.f9208.choiserestaurant.web.PathConstants.RESTAURANTS;
 
-class RestaurantsControllerTest extends AbstractRestControllerTest {
+class RestaurantsRestControllerTest extends AbstractRestControllerTest {
     @Autowired
     RestaurantRepository restaurantRepository;
 

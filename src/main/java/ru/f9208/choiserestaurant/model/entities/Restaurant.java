@@ -18,10 +18,12 @@ public class Restaurant extends AbstractNamedEntity {
     private List<Dish> menu;
     @JsonManagedReference
     @Nullable
-    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
     private List<Vote> vote;
     @Column(name = "label", nullable = false)
     private String label;
+    @Column(name = "description")
+    private String description;
 
     public Restaurant() {
     }
@@ -53,6 +55,10 @@ public class Restaurant extends AbstractNamedEntity {
         return label;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setMenu(List<Dish> menu) {
         this.menu = menu;
     }
@@ -64,6 +70,10 @@ public class Restaurant extends AbstractNamedEntity {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

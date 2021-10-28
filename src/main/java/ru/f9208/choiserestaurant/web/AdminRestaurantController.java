@@ -20,12 +20,12 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.f9208.choiserestaurant.web.RestaurantsController.RESTAURANTS;
+import static ru.f9208.choiserestaurant.web.PathConstants.RESTAURANTS;
+import static ru.f9208.choiserestaurant.web.PathConstants.ADMIN_RESTAURANTS;
 
 @RestController
-@RequestMapping(value = AdminRestaurantController.ADMIN_RESTAURANT, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = ADMIN_RESTAURANTS, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestaurantController {
-    public static final String ADMIN_RESTAURANT = "/admin/restaurants";
     @Autowired
     RestaurantRepository restaurantRepository;
     @Autowired
