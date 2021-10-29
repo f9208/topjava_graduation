@@ -40,5 +40,10 @@
         </tr>
     </table>
     </form:form>
+
+
+    <footer>
+        <jsp:include page="fragments/bottom.jsp"/>
+    </footer>
 </body>
 </html>

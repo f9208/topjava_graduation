@@ -19,6 +19,7 @@ html {
 
 .headerbutton {
     alignment: right;
+    padding-bottom: 10px;
 }
 
 .headerimg {
@@ -78,11 +79,6 @@ h1.double {
     border-style: double;
 }
 
-p {
-    color: red;
-    padding: 12px;
-}
-
 .footer {
     position: absolute;
     color: blueviolet;
@@ -110,3 +106,25 @@ p {
     display: block;
 }
 
+.label_img_fixed {
+    max-width: 300px;
+    max-height: 200px
+}
+
+.restaurant_menu {
+    display: flex;
+    flex-direction: column;
+    padding-left: 100px
+}
+
+.p_menu {
+    font-weight: bolder;
+    font-size: x-large;
+    margin: unset;
+}
+
+.p_dish {
+    padding: 2px;
+    margin-bottom: 6px;
+    margin-block-end: 6px;
+}

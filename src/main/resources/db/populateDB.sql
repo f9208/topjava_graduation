@@ -4,17 +4,17 @@ ALTER SEQUENCE RESTAURANT_SEQ RESTART WITH 10000;
 ALTER SEQUENCE VOTE_SEQ RESTART WITH 10000;
 
 INSERT INTO users (name, email, password)
-VALUES ('Admin', 'admin@gmail.com', '{noop}123456789'),
+VALUES ('Admin', 'admin@gmail.com', '{noop}12345'),
        ('Jonny', 'jonny@gmail.com', '{noop}passwordJonny'),
        ('Ket', 'kety@gmail.com', '{noop}passwordKety'),
        ('leo', 'leonard@gmail.com', '{noop}passwordLeon');
 
 INSERT INTO restaurant(name, label, description)
-values ('Cone wood', 'resources/pic/cone.JPG', 'Маленький ресторанчки в лесу'),
-       ('Blueberry swamp', 'resources/pic/blueberry_on_table.JPG', 'маленький ресторанчик на болоте'),
-       ('Vegetarian heaven', 'resources/pic/grass.JPG', 'рай для вегетарианца'),
-       ('Village bar', 'resources/pic/onion_in_box.JPG', 'деревенский кабак'),
-       ('Cafe-bar', 'resources/pic/strawberry.JPG', 'коктейль-бар');
+values ('Cone wood', '/resources/pic/cone.JPG', 'Маленький ресторанчки в лесу'),
+       ('Blueberry swamp', '/resources/pic/blueberry_on_table.JPG', 'маленький ресторанчик на болоте'),
+       ('Vegetarian heaven', '/resources/pic/grass.JPG', 'рай для вегетарианца'),
+       ('Village bar', '/resources/pic/onion_in_box.JPG', 'деревенский кабак'),
+       ('Cafe-bar', '/resources/pic/strawberry.JPG', 'коктейль-бар');
 
 INSERT INTO dishes (name, price, restaurant_id)
 VALUES ('borscht', 40, 10000),
