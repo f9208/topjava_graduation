@@ -21,6 +21,7 @@
 </header>
 
 <c:set value="${restaurant}" var="restaurant"/>
+
 <c:if test="${isAdmin}">
     <%--@elvariable id="restaurant" type="ru.f9208.choiserestaurant.model.entities.Restaurant"--%>
     <form:form modelAttribute="restaurant" method="post"
@@ -34,6 +35,14 @@
                 <td><label for="description">description: </label></td>
                 <td><form:input path="description"/> <form:errors path="description"/></td>
             </tr>
+            <c:forEach items="${restaurant.menu}" var="dish" varStatus="status">
+                <tr>
+                    <td><form:input path="menu[${status.index}].name"/></td>
+                    <form:hidden path="menu[${status.index}].id"/>
+                    <td><form:input path="menu[${status.index}].price"/></td>
+                </tr>
+
+            </c:forEach>
             <tr>
                 <td>
                     <button type="submit" onclick="${edit}"> send</button>

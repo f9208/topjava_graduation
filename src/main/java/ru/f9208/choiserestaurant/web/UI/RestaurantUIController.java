@@ -53,13 +53,14 @@ public class RestaurantUIController {
                            Model model,
                            @PathVariable int id,
                            @AuthenticationPrincipal User user) {
-        System.out.println("Get, restaurantEdit");
-        model.addAttribute("restaurant", restaurantRepository.getOne(id));
+        Restaurant restaurant1 = restaurantRepository.getOne(id);
+        restaurant1.setMenu(dishRepository.getMenu(id));
+        model.addAttribute("restaurant", restaurant1);
         return "restaurantEdit";
     }
 
     @PostMapping("/restaurants/{id}/edit")
-    public String restEditUpdate(@Valid Restaurant restaurant,
+    public String restEditUpdate(@ModelAttribute("restaurants") @Valid Restaurant restaurant,
                                  BindingResult bindingResult,
                                  @PathVariable Integer id,
                                  Model model,
@@ -67,8 +68,8 @@ public class RestaurantUIController {
         if (bindingResult.hasErrors()) {
             return "restaurantEdit";
         }
-        System.out.println("post, restaurantEditUpdate");
+        System.out.println(restaurant.getMenu());
         restaurantRepository.update(restaurant);
-        return "redirect:/restaurants/"+id;
+        return "redirect:/restaurants/" + id;
     }
 }

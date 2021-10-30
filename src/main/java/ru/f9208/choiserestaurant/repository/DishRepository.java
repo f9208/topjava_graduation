@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import ru.f9208.choiserestaurant.model.entities.Dish;
-import ru.f9208.choiserestaurant.model.entities.Restaurant;
 import ru.f9208.choiserestaurant.utils.ValidatorUtil;
 
 import java.time.LocalDate;
@@ -66,9 +65,24 @@ public class DishRepository {
                 .orElse(null);
         return ValidatorUtil.checkNotFoundWithId(resultDish, restaurantId);
     }
-    @Cacheable(value = "getMenu", key="#restaurantId")
+
+    @Cacheable(value = "getMenu", key = "#restaurantId")
     public List<Dish> getMenu(int restaurantId) {
         log.info("getMenu for restaurant {} ", restaurantId);
-        return crudDishRepository.findAllByRestaurantIdAndDay(restaurantId, LocalDate.now());
+        return crudDishRepository.findAllByRestaurantIdAndDayOrderById(restaurantId, LocalDate.now());
     }
+
+    @CacheEvict(value = "getMenu", allEntries = true)
+    public void prepareMenuToUpdate(List<Dish> dishes, int restaurantId) {
+        for (Dish dish : dishes) {
+            Dish oldDish = crudDishRepository.getOne(dish.getId());
+            if (dish.getName() == null) dish.setName(oldDish.getName());
+            if (dish.getDay() == null) dish.setDay(oldDish.getDay());
+            if (dish.getPrice() == null) dish.setPrice((oldDish.getPrice()));
+            if (dish.getRestaurant() == null) dish.setRestaurant(oldDish.getRestaurant());
+            save(dish, restaurantId);
+        }
+    }
+
+
 }

@@ -16,6 +16,7 @@ import java.util.List;
 public class RestaurantRepository {
     private final Logger log = LoggerFactory.getLogger(getClass());
     CrudRestaurantRepository crudRestaurantRepository;
+    DishRepository dishRepository;
 
     public RestaurantRepository(CrudRestaurantRepository crudRestaurantRepository) {
         this.crudRestaurantRepository = crudRestaurantRepository;
@@ -33,7 +34,7 @@ public class RestaurantRepository {
     public void update(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
         log.info("update restaurant with id {}", restaurant.getId());
-        save(prepareToUpdate(restaurant, crudRestaurantRepository.getOne(restaurant.getId())));
+        save(prepareRestaurantToUpdate(restaurant, crudRestaurantRepository.getOne(restaurant.getId())));
     }
 
     @CacheEvict(value = {"allRestaurants", "oneRestaurant"}, allEntries = true)
@@ -67,12 +68,12 @@ public class RestaurantRepository {
         return crudRestaurantRepository.getAllWithVote();
     }
 
-    private Restaurant prepareToUpdate(Restaurant newRestaurant, Restaurant oldRestaurant) {
+    public Restaurant prepareRestaurantToUpdate(Restaurant newRestaurant, Restaurant oldRestaurant) {
         if (newRestaurant.getName() == null) newRestaurant.setName(oldRestaurant.getName());
         if (newRestaurant.getVote() == null) newRestaurant.setVote(oldRestaurant.getVote());
         if (newRestaurant.getLabel() == null) newRestaurant.setLabel((oldRestaurant.getLabel()));
-        if (newRestaurant.getMenu() == null) newRestaurant.setMenu(oldRestaurant.getMenu());
         if (newRestaurant.getDescription() == null) newRestaurant.setDescription((oldRestaurant.getDescription()));
+        dishRepository.prepareMenuToUpdate(newRestaurant.getMenu(), newRestaurant.getId());
         return newRestaurant;
     }
 }

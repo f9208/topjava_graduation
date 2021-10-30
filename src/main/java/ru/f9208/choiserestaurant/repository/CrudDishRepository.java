@@ -12,7 +12,7 @@ import java.util.List;
 
 @Transactional(readOnly = true)
 public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
-    List<Dish> findAllByRestaurantIdAndDay(int id, LocalDate date);
+    List<Dish> findAllByRestaurantIdAndDayOrderById(int id, LocalDate date);
 
     @Transactional
     @Modifying

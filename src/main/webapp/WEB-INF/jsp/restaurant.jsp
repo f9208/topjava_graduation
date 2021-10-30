@@ -31,8 +31,8 @@
             <div class="restaurant_menu">
                 <p class="p_menu">Меню на сегодня</p>
                 <div style="margin-top: 12px">
-                    <c:forEach items="${dishes}" var="dish">
-                        <div class="p_dish"> ${dish.name} ${dish.price}</div>
+                    <c:forEach items="${dishes}" var="menu">
+                        <div class="p_dish"> ${menu.name} ${menu.price}</div>
                     </c:forEach></div>
 
                 <c:if test="${isAdmin}">
