@@ -2,6 +2,7 @@ package ru.f9208.choiserestaurant.repository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -18,8 +19,9 @@ public class RestaurantRepository {
     CrudRestaurantRepository crudRestaurantRepository;
     DishRepository dishRepository;
 
-    public RestaurantRepository(CrudRestaurantRepository crudRestaurantRepository) {
+    public RestaurantRepository(CrudRestaurantRepository crudRestaurantRepository, DishRepository dishRepository) {
         this.crudRestaurantRepository = crudRestaurantRepository;
+        this.dishRepository = dishRepository;
     }
 
     @CacheEvict(value = {"allRestaurants", "oneRestaurant"}, allEntries = true)
@@ -73,7 +75,9 @@ public class RestaurantRepository {
         if (newRestaurant.getVote() == null) newRestaurant.setVote(oldRestaurant.getVote());
         if (newRestaurant.getLabel() == null) newRestaurant.setLabel((oldRestaurant.getLabel()));
         if (newRestaurant.getDescription() == null) newRestaurant.setDescription((oldRestaurant.getDescription()));
-        dishRepository.prepareMenuToUpdate(newRestaurant.getMenu(), newRestaurant.getId());
+        if (newRestaurant.getMenu() != null) {
+            dishRepository.prepareMenuToUpdate(newRestaurant.getMenu(), newRestaurant.getId());
+        }
         return newRestaurant;
     }
 }

@@ -108,7 +108,9 @@ h1.double {
 
 .label_img_fixed {
     max-width: 300px;
-    max-height: 200px
+    max-height: 200px;
+    display: block;
+    margin: 0 auto;
 }
 
 .restaurant_menu {

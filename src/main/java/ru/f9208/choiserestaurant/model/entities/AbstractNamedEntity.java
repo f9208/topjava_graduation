@@ -15,7 +15,7 @@ public abstract class AbstractNamedEntity implements HasId {
     public static final int START_SEQ = 10_000;
 
     @NotBlank
-    @Size(min = 2, max = 100)
+    @Size(min = 1, max = 100)
     @Column(name = "name", nullable = false)
     String name;
 

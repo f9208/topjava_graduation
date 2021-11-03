@@ -76,9 +76,9 @@ public class DishRepository {
     public void prepareMenuToUpdate(List<Dish> dishes, int restaurantId) {
         for (Dish dish : dishes) {
             Dish oldDish = crudDishRepository.getOne(dish.getId());
-            if (dish.getName() == null) dish.setName(oldDish.getName());
+            if (dish.getName() == null || dish.getName().isBlank()) dish.setName(oldDish.getName());
             if (dish.getDay() == null) dish.setDay(oldDish.getDay());
-            if (dish.getPrice() == null) dish.setPrice((oldDish.getPrice()));
+            if (dish.getPrice() == null || dish.getPrice() == 0) dish.setPrice((oldDish.getPrice()));
             if (dish.getRestaurant() == null) dish.setRestaurant(oldDish.getRestaurant());
             save(dish, restaurantId);
         }

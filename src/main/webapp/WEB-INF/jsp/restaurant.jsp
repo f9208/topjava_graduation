@@ -5,6 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="page" uri="http://java.sun.com/jsp/jstl/core" %>
 <head>
     <meta charset="UTF-8">
     <title>Не можете выбрать в какой кабак пойти? мы поможем!</title>
@@ -32,23 +34,28 @@
                 <p class="p_menu">Меню на сегодня</p>
                 <div style="margin-top: 12px">
                     <c:forEach items="${dishes}" var="menu">
-                        <div class="p_dish"> ${menu.name} ${menu.price}</div>
+                        <div class="p_dish"> ${menu.name}
+                            <fmt:formatNumber type="currency" currencyCode="RUB">${menu.price}</fmt:formatNumber>
+                        </div>
                     </c:forEach></div>
-
-                <c:if test="${isAdmin}">
-                    <c:url value="/restaurants/${restaurant.id}/edit" var="edit"/>
-                    <form action="${edit}" method="get">
-                        <button type="submit">редактировать</button>
-                    </form>
-                    <form>
-                        <button type="submit"> скрыть ресторан</button>
-                    </form>
-                </c:if>
-
+                <div style="text-align: center"> ${restaurant.description}</div>
+                <br>
+                <br>
+                <div>
+                    <c:if test="${isAdmin}">
+                        <c:url value="/restaurants/${restaurant.id}/edit" var="edit_descript"/>
+                        <form action="${edit_descript}" method="get">
+                            <button type="submit">редактировать описание</button>
+                        </form>
+                        <form>
+                            <button type="submit"> скрыть ресторан</button>
+                        </form>
+                    </c:if>
+                </div>
             </div>
         </div>
     </div>
-    <div style="text-align: center"> ${restaurant.description}</div>
+
 </main>
 <footer>
     <jsp:include page="fragments/bottom.jsp"/>

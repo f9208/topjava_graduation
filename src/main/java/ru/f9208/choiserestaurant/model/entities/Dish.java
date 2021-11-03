@@ -6,6 +6,7 @@ import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.time.LocalDate;
 
 @Entity
@@ -18,6 +19,7 @@ public class Dish extends AbstractNamedEntity {
 
     @NumberFormat
     @NotNull
+    @Positive
     private Integer price;
 
     @JsonBackReference

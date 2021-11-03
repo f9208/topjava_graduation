@@ -9,15 +9,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.f9208.choiserestaurant.model.entities.Dish;
 import ru.f9208.choiserestaurant.model.entities.Restaurant;
 import ru.f9208.choiserestaurant.model.entities.User;
 import ru.f9208.choiserestaurant.repository.DishRepository;
 import ru.f9208.choiserestaurant.repository.RestaurantRepository;
+import ru.f9208.choiserestaurant.web.Validation;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class RestaurantUIController {
@@ -35,40 +37,30 @@ public class RestaurantUIController {
         return "restaurant";
     }
 
-    @PostMapping("/restaurants/{id}")
-    public String updateRestaurant(@ModelAttribute("restaurant") @Valid Restaurant restaurant,
-                                   BindingResult bindingResult,
-                                   @PathVariable Integer id,
-                                   Model model, @AuthenticationPrincipal User user) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("flashAttribute", bindingResult);
-            return "restaurant";
-        }
-        restaurantRepository.update(restaurant);
-        return "restaurant";
-    }
-
     @GetMapping("/restaurants/{id}/edit")
-    public String restEdit(@ModelAttribute("restaurant") Restaurant restaurant,
-                           Model model,
-                           @PathVariable int id,
-                           @AuthenticationPrincipal User user) {
-        Restaurant restaurant1 = restaurantRepository.getOne(id);
-        restaurant1.setMenu(dishRepository.getMenu(id));
-        model.addAttribute("restaurant", restaurant1);
+    public String editRestaurantGet(Model model,
+                                    @PathVariable int id,
+                                    @AuthenticationPrincipal User user) {
+        Restaurant restaurant = restaurantRepository.getOne(id);
+        restaurant.setMenu(dishRepository.getMenu(id));
+        model.addAttribute("restaurant", restaurant);
         return "restaurantEdit";
     }
 
     @PostMapping("/restaurants/{id}/edit")
-    public String restEditUpdate(@ModelAttribute("restaurants") @Valid Restaurant restaurant,
-                                 BindingResult bindingResult,
-                                 @PathVariable Integer id,
-                                 Model model,
-                                 @AuthenticationPrincipal User user) {
-        if (bindingResult.hasErrors()) {
+    public String editRestaurantPost(@ModelAttribute("restaurant") @Valid Restaurant restaurant,
+                                     BindingResult bindingResult,
+                                     @PathVariable Integer id,
+                                     Model model,
+                                     @AuthenticationPrincipal User user) {
+        Map<Integer, Boolean> errors = Validation.validateMenu(restaurant.getMenu());
+        if (bindingResult.hasErrors() || !errors.isEmpty()) {
+            model.addAttribute("errors", errors);
+            if (restaurant.getName().isBlank()) restaurant.setName(restaurantRepository.getOne(id).getName());
             return "restaurantEdit";
         }
-        System.out.println(restaurant.getMenu());
+        System.out.println("model: " + model);
+        System.out.println(restaurant);
         restaurantRepository.update(restaurant);
         return "redirect:/restaurants/" + id;
     }
