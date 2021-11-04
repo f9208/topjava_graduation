@@ -24,6 +24,8 @@ public class Restaurant extends AbstractNamedEntity {
     private String label;
     @Column(name = "description")
     private String description;
+    @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
+    private boolean enabled = true;
 
     public Restaurant() {
     }
@@ -32,6 +34,7 @@ public class Restaurant extends AbstractNamedEntity {
         super(name);
         this.id = id;
         this.label = label;
+        this.enabled=true;
     }
 
     public List<Vote> getVote() {
@@ -59,6 +62,10 @@ public class Restaurant extends AbstractNamedEntity {
         return description;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
     public void setMenu(List<Dish> menu) {
         this.menu = menu;
     }
@@ -76,11 +83,16 @@ public class Restaurant extends AbstractNamedEntity {
         this.description = description;
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public String toString() {
         return "Restaurant{" +
                 "id=" + id +
                 ", name='" + name +
-                '}';
+                "\', enabled='" + enabled +
+                "\'}";
     }
 }

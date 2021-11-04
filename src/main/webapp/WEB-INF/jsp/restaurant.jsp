@@ -40,15 +40,14 @@
                     </c:forEach></div>
                 <div style="text-align: center"> ${restaurant.description}</div>
                 <br>
-                <br>
                 <div>
                     <c:if test="${isAdmin}">
+                        <c:if test="${restaurant.enabled==true}"> доступен для голосования</c:if>
+                        <c:if test="${restaurant.enabled==false}"> не доступен для голосования</c:if>
                         <c:url value="/restaurants/${restaurant.id}/edit" var="edit_descript"/>
                         <form action="${edit_descript}" method="get">
+                            <br>
                             <button type="submit">редактировать описание</button>
-                        </form>
-                        <form>
-                            <button type="submit"> скрыть ресторан</button>
                         </form>
                     </c:if>
                 </div>

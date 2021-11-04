@@ -9,12 +9,12 @@ VALUES ('Admin', 'admin@gmail.com', '{noop}12345'),
        ('Ket', 'kety@gmail.com', '{noop}passwordKety'),
        ('leo', 'leonard@gmail.com', '{noop}passwordLeon');
 
-INSERT INTO restaurant(name, label, description)
-values ('Cone wood', '/resources/pic/cone.JPG', 'Маленький ресторанчки в лесу'),
-       ('Blueberry swamp', '/resources/pic/blueberry_on_table.JPG', 'маленький ресторанчик на болоте'),
-       ('Vegetarian heaven', '/resources/pic/grass.JPG', 'рай для вегетарианца'),
-       ('Village bar', '/resources/pic/onion_in_box.JPG', 'деревенский кабак'),
-       ('Cafe-bar', '/resources/pic/strawberry.JPG', 'коктейль-бар');
+INSERT INTO restaurant(name, label, description, enabled)
+values ('Cone wood', '/resources/pic/cone.JPG', 'Маленький ресторанчки в лесу', true),
+       ('Blueberry swamp', '/resources/pic/blueberry_on_table.JPG', 'маленький ресторанчик на болоте', true),
+       ('Vegetarian heaven', '/resources/pic/grass.JPG', 'рай для вегетарианца', false),
+       ('Village bar', '/resources/pic/onion_in_box.JPG', 'деревенский кабак', true),
+       ('Cafe-bar', '/resources/pic/strawberry.JPG', 'коктейль-бар', false);
 
 INSERT INTO dishes (name, price, restaurant_id)
 VALUES ('borscht', 40, 10000),

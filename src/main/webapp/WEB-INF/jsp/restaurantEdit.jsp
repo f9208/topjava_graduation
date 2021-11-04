@@ -47,6 +47,10 @@
             <td><input type="hidden" name="label" value="${restaurant.label}"/></td>
         </tr>
         <tr>
+            <td><form:checkbox path="enabled"/></td>
+            <td> доступность для голосования </td>
+        </tr>
+        <tr>
             <td>
                 <button type="submit" onclick="${edit}"> send</button>
             </td>
