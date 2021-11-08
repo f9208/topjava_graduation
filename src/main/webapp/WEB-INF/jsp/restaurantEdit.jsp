@@ -18,6 +18,7 @@
 <c:set value="${restaurant}" var="restaurant"/>
 <c:url value="${restaurant.label}" var="label"/>
 <c:set value="${errors}" var="errors"/>
+
 <header>
     <jsp:include page="fragments/head.jsp"/>
 </header>
@@ -26,7 +27,7 @@
 <div><img class="label_img_fixed" src="${label}"/></div>
 <%--@elvariable id="restaurant" type="ru.f9208.choiserestaurant.model.entities.Restaurant"--%>
 <form:form modelAttribute="restaurant" method="post"
-           cssStyle="margin-left: auto;margin-right: auto;width: 1400px;">
+           cssStyle="margin-left: auto;margin-right: auto;width: 1400px;" enctype="multipart/form-data">
 
     <table><c:forEach items="${restaurant.menu}" var="dish" varStatus="status">
         <tr>
@@ -48,16 +49,32 @@
         </tr>
         <tr>
             <td><form:checkbox path="enabled"/></td>
-            <td> доступность для голосования </td>
+            <td> доступность для голосования</td>
+        </tr>
+        <tr>
+            <td><input type="file" name="file"><br/>
+            </td>
         </tr>
         <tr>
             <td>
-                <button type="submit" onclick="${edit}"> send</button>
+                <button type="submit"> send</button>
             </td>
         </tr>
     </table>
 </form:form>
 <%--</c:if>--%>
+
+<br>
+<br>
+<%--@elvariable id="dish" type="ru.f9208.choiserestaurant.model.entities.Dish"--%>
+<c:url var="add" value="/restaurants/${restaurant.id}/add"/>
+<form:form modelAttribute="dish" action="${add}" method="post">
+    <label>dish name: </label>
+    <form:input path="name"/>
+    <form:errors path="name"/>
+    <form:input path="price"/> <form:errors path="price"/>
+    <button type="submit"> добавить блюдо</button>
+</form:form>
 <footer>
     <jsp:include page="fragments/bottom.jsp"/>
 </footer>

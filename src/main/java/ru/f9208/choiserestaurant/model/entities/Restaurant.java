@@ -34,7 +34,7 @@ public class Restaurant extends AbstractNamedEntity {
         super(name);
         this.id = id;
         this.label = label;
-        this.enabled=true;
+        this.enabled = true;
     }
 
     public List<Vote> getVote() {

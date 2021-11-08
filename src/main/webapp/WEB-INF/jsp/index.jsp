@@ -35,6 +35,7 @@
             </c:if>
         </c:forEach>
     </div>
+    <a href="test">to test</a>
 </main>
 <footer>
     <jsp:include page="fragments/bottom.jsp"/>

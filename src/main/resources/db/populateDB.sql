@@ -2,12 +2,20 @@ ALTER SEQUENCE USER_SEQ RESTART WITH 10000;
 ALTER SEQUENCE DISH_SEQ RESTART WITH 10000;
 ALTER SEQUENCE RESTAURANT_SEQ RESTART WITH 10000;
 ALTER SEQUENCE VOTE_SEQ RESTART WITH 10000;
+ALTER SEQUENCE IMAGE_SEQ RESTART WITH 1;
 
 INSERT INTO users (name, email, password)
 VALUES ('Admin', 'admin@gmail.com', '{noop}12345'),
        ('Jonny', 'jonny@gmail.com', '{noop}passwordJonny'),
        ('Ket', 'kety@gmail.com', '{noop}passwordKety'),
        ('leo', 'leonard@gmail.com', '{noop}passwordLeon');
+
+INSERT INTO image_labels(name, link_reduced)
+VALUES ('Cone wood', '/resources/pic/cone.JPG'),
+       ('Blueberry swamp', '/resources/pic/blueberry_on_table.JPG'),
+       ('Vegetarian heaven', '/resources/pic/grass.JPG'),
+       ('Village bar', '/resources/pic/onion_in_box.JPG'),
+       ('Cafe-bar', '/resources/pic/strawberry.JPG');
 
 INSERT INTO restaurant(name, label, description, enabled)
 values ('Cone wood', '/resources/pic/cone.JPG', 'Маленький ресторанчки в лесу', true),
@@ -52,4 +60,5 @@ VALUES (10000, 10000, '2020-04-10'),
 -- populate vote now()
 INSERT INTO vote (restaurant_id, user_id)
 VALUES (10000, 10001),
-       (10001, 10000)
+       (10001, 10000);
+

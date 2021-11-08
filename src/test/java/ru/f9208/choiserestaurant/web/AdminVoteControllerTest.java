@@ -10,6 +10,9 @@ import ru.f9208.choiserestaurant.repository.VoteRepository;
 import ru.f9208.choiserestaurant.repository.testData.UserTestData;
 import ru.f9208.choiserestaurant.repository.testData.VoteTestData;
 
+import java.io.File;
+import java.util.Arrays;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

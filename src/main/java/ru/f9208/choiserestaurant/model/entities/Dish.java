@@ -25,11 +25,9 @@ public class Dish extends AbstractNamedEntity {
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
-    @NotNull
     private Restaurant restaurant;
 
     @Column(name = "day", nullable = false, columnDefinition = "timestamp default now()")
-    @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDate day;
 
