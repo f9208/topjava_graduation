@@ -16,7 +16,7 @@
 <body>
 <sec:authorize access="isAuthenticated()" var="isAdmin"/>
 <c:set value="${restaurant}" var="restaurant"/>
-<c:url value="${restaurant.label}" var="label"/>
+<c:url value="${restaurant.label.linkReduced}" var="label"/>
 <c:set value="${errors}" var="errors"/>
 
 <header>
@@ -37,7 +37,8 @@
             <input type="hidden" name="menu[${status.index}].id" value="${dish.id}"/>
         </tr>
     </c:forEach>
-
+    </table>
+    <table>
         <tr>
             <td><label for="name">Name</label></td>
             <td><form:input path="name"/> <form:errors path="name"/></td>
@@ -45,22 +46,27 @@
         <tr>
             <td><label for="description">description: </label></td>
             <td><form:input path="description"/></td>
-            <td><input type="hidden" name="label" value="${restaurant.label}"/></td>
         </tr>
         <tr>
             <td><form:checkbox path="enabled"/></td>
             <td> доступность для голосования</td>
         </tr>
         <tr>
-            <td><input type="file" name="file"><br/>
+            <td><label>сменить картинку: </label>
+                <input type="file" name="inputFile" accept=".jpg, .jpeg, .png" ><br/>
             </td>
         </tr>
         <tr>
             <td>
-                <button type="submit"> send</button>
+                <button type="submit">сохранить изменения</button>
             </td>
         </tr>
     </table>
+    <form:input type="hidden" path="label.name"/>
+    <form:input type="hidden" path="label.id"/>
+    <form:input type="hidden" path="label.linkOrigin"/>
+    <form:input type="hidden" path="label.linkReduced"/>
+
 </form:form>
 <%--</c:if>--%>
 

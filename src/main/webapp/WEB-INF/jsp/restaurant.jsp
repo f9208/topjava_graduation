@@ -23,7 +23,7 @@
 <sec:authorize access="isAuthenticated()" var="isAdmin"/>
 <sec:authorize access="isAnonymous()" var="isAnon"/>
 <c:set value="${restaurant}" var="restaurant"/>
-<c:url value="${restaurant.label}" var="restaurant_label"/>
+<c:url value="${restaurant.label.linkReduced}" var="restaurant_label"/>
 
 <main>
     <div>

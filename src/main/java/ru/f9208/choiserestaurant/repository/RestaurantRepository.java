@@ -2,7 +2,6 @@ package ru.f9208.choiserestaurant.repository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -73,7 +72,8 @@ public class RestaurantRepository {
     public Restaurant prepareRestaurantToUpdate(Restaurant newRestaurant, Restaurant oldRestaurant) {
         if (newRestaurant.getName() == null) newRestaurant.setName(oldRestaurant.getName());
         if (newRestaurant.getVote() == null) newRestaurant.setVote(oldRestaurant.getVote());
-        if (newRestaurant.getLabel() == null) newRestaurant.setLabel((oldRestaurant.getLabel()));
+        if (newRestaurant.getLabel() == null || newRestaurant.getLabel().isNew())
+            newRestaurant.setLabel((oldRestaurant.getLabel()));
         if (newRestaurant.getDescription() == null) newRestaurant.setDescription((oldRestaurant.getDescription()));
         if (newRestaurant.getMenu() != null) {
             dishRepository.prepareMenuToUpdate(newRestaurant.getMenu(), newRestaurant.getId());

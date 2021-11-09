@@ -8,27 +8,32 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.f9208.choiserestaurant.model.entities.Dish;
+import ru.f9208.choiserestaurant.model.entities.ImageLabel;
 import ru.f9208.choiserestaurant.model.entities.Restaurant;
 import ru.f9208.choiserestaurant.model.entities.User;
 import ru.f9208.choiserestaurant.repository.DishRepository;
+import ru.f9208.choiserestaurant.repository.ImageLabelRepository;
 import ru.f9208.choiserestaurant.repository.RestaurantRepository;
+import ru.f9208.choiserestaurant.utils.imageUtils.HandlerImage;
 import ru.f9208.choiserestaurant.web.Validation;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller
 public class RestaurantUIController {
     @Autowired
-    RestaurantRepository restaurantRepository;
+    private RestaurantRepository restaurantRepository;
     @Autowired
     private DishRepository dishRepository;
+    @Autowired
+    private HandlerImage handlerImage;
+    @Autowired
+    private ImageLabelRepository imageLabelRepository;
 
     @GetMapping("/restaurants/{id}")
     public String getRestaurant(@PathVariable Integer id, Model model) {
@@ -55,24 +60,26 @@ public class RestaurantUIController {
                                      BindingResult bindingResult,
                                      @PathVariable Integer id,
                                      Model model,
-                                     @RequestParam("file") MultipartFile file,
-                                     @AuthenticationPrincipal User user) {
-        Map<Integer, Boolean> errors = new HashMap<>();
-        try {
-            fileHandle(file);
-        } catch (Exception e) {
-            e.printStackTrace();
+                                     @RequestParam("inputFile") MultipartFile inputFile,
+                                     @AuthenticationPrincipal User user,
+                                     HttpServletRequest request) throws Exception {
+        ImageLabel imageLabel = null;
+        if (!inputFile.isEmpty()) {
+            imageLabel = handlerImage.serviceSaveInputFileImage(inputFile,
+                    request.getServletContext().getRealPath(""),
+                    inputFile.getOriginalFilename());
         }
+        if (imageLabel != null) restaurant.setLabel(imageLabel);
+
+        Map<Integer, Boolean> errors = new HashMap<>();
         if (restaurant.getMenu() != null) {
             errors = Validation.validateMenu(restaurant.getMenu());
         }
+
         if (bindingResult.hasErrors() || !errors.isEmpty()) {
             model.addAttribute("errors", errors);
-            if (restaurant.getName().isBlank()) restaurant.setName(restaurantRepository.getOne(id).getName());
             return "restaurantEdit";
         }
-        System.out.println("model: " + model);
-        System.out.println(restaurant);
         restaurantRepository.update(restaurant);
         return "redirect:/restaurants/" + id;
     }
@@ -83,8 +90,6 @@ public class RestaurantUIController {
                           Model model,
                           @PathVariable Integer restId) {
         if (bindingResult.hasErrors()) {
-            System.out.println("has errors");
-            System.out.println(bindingResult);
             model.addAttribute("restaurant", restaurantRepository.getOne(restId));
             return "restaurantEdit";
         }
@@ -93,24 +98,5 @@ public class RestaurantUIController {
         dishRepository.save(dish, restId);
         model.addAttribute("restaurant", restaurantRepository.getOne(restId));
         return "restaurantEdit";
-    }
-
-    private void fileHandle(MultipartFile multipartFile) throws IOException {
-        System.out.println("fileName:" + multipartFile.getOriginalFilename());
-        System.out.println("fileSize:" + multipartFile.getSize());
-        if (!multipartFile.isEmpty()) {
-
-            File imageDir = new File("image");
-            if (!imageDir.exists()) {
-                imageDir.mkdir();
-            }
-            //todo зафиксить опционал на рендом или типа того
-            File image = new File(imageDir, Optional.of(multipartFile.getOriginalFilename()).orElse("234"));
-            image.createNewFile();
-
-
-        } else {
-            System.out.println("чет файл пустой");
-        }
     }
 }

@@ -17,12 +17,12 @@ VALUES ('Cone wood', '/resources/pic/cone.JPG'),
        ('Village bar', '/resources/pic/onion_in_box.JPG'),
        ('Cafe-bar', '/resources/pic/strawberry.JPG');
 
-INSERT INTO restaurant(name, label, description, enabled)
-values ('Cone wood', '/resources/pic/cone.JPG', 'Маленький ресторанчки в лесу', true),
-       ('Blueberry swamp', '/resources/pic/blueberry_on_table.JPG', 'маленький ресторанчик на болоте', true),
-       ('Vegetarian heaven', '/resources/pic/grass.JPG', 'рай для вегетарианца', false),
-       ('Village bar', '/resources/pic/onion_in_box.JPG', 'деревенский кабак', true),
-       ('Cafe-bar', '/resources/pic/strawberry.JPG', 'коктейль-бар', false);
+INSERT INTO restaurant(name, image_id, description, enabled)
+values ('Cone wood', 1, 'Маленький ресторанчки в лесу', true),
+       ('Blueberry swamp', 2, 'маленький ресторанчик на болоте', true),
+       ('Vegetarian heaven', 3, 'рай для вегетарианца', false),
+       ('Village bar', 4, 'деревенский кабак', true),
+       ('Cafe-bar', 5, 'коктейль-бар', false);
 
 INSERT INTO dishes (name, price, restaurant_id)
 VALUES ('borscht', 40, 10000),

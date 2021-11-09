@@ -62,4 +62,14 @@ public class ImageLabel extends AbstractNamedEntity {
     public Integer getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return "ImageLabel{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                ", linkOrigin='" + linkOrigin + '\'' +
+                ", linkReduced='" + linkReduced + '\'' +
+                '}';
+    }
 }

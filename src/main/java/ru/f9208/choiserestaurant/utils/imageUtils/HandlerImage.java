@@ -10,6 +10,7 @@ import ru.f9208.choiserestaurant.model.entities.ImageLabel;
 import ru.f9208.choiserestaurant.repository.ImageLabelRepository;
 
 import javax.imageio.ImageIO;
+import javax.naming.NameNotFoundException;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
@@ -20,11 +21,10 @@ public class HandlerImage {
 
     @Autowired
     ImageLabelRepository imageLabelRepository;
-    //    logger
 
-    public String serviceSaveInputFileImage(MultipartFile inputFile, String realPath, String fileName) throws Exception {
+    public ImageLabel serviceSaveInputFileImage(MultipartFile inputFile, String realPath, String fileName) throws NameNotFoundException, IOException {
         if (fileName == null) {
-            throw new Exception("введи имя файла!");
+            throw new NameNotFoundException("название файла не найдено!");
         }
         String uploadsPath = realPath + RESOURCES_UPLOADS_DIR;
         File uploadsDir = new File(uploadsPath);
@@ -38,13 +38,12 @@ public class HandlerImage {
         String reducedImagePath = cutAbsolutePath(reducedFile.getPath(), "/resources");
 
         ImageLabel il = new ImageLabel(fileName, originImagePath, reducedImagePath);
-        imageLabelRepository.saveImage(il);
-        return reducedImagePath;
+        return imageLabelRepository.saveImage(il);
     }
 
-    private static File saveOriginalImage(String parentDir, MultipartFile inputFile) throws Exception {
+    private static File saveOriginalImage(String parentDir, MultipartFile inputFile) throws NameNotFoundException, IOException {
         if (inputFile.getOriginalFilename() == null) {
-            throw new Exception("input file has not Original Name");
+            throw new NameNotFoundException("input file has not Original Name");
         }
         File originalsDir = new File(parentDir, "originals");
         if (!originalsDir.exists()) {

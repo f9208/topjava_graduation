@@ -17,4 +17,8 @@ public class ImageLabelRepository {
     public ImageLabel saveImage(ImageLabel imageLabel) {
         return crudImageLabelRepository.save(imageLabel);
     }
+
+    public ImageLabel getOne(Integer id) {
+        return crudImageLabelRepository.getOne(id);
+    }
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import ru.f9208.choiserestaurant.model.entities.ImageLabel;
 import ru.f9208.choiserestaurant.repository.RestaurantRepository;
 import ru.f9208.choiserestaurant.utils.imageUtils.HandlerImage;
 
@@ -36,10 +37,10 @@ public class MainPageController {
                            @RequestParam("inputFile") MultipartFile inputFile,
                            HttpServletRequest request, Model model) throws Exception {
         if (!inputFile.isEmpty()) {
-            String reducedImagePath = handlerImage.serviceSaveInputFileImage(inputFile,
+            ImageLabel savedImageLabel = handlerImage.serviceSaveInputFileImage(inputFile,
                     request.getServletContext().getRealPath(""),
                     name);
-            model.addAttribute("reducedImagePath", reducedImagePath);
+            model.addAttribute("reducedImagePath", savedImageLabel.getLinkReduced());
         }
         return "test";
     }

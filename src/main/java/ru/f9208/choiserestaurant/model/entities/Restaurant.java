@@ -20,8 +20,9 @@ public class Restaurant extends AbstractNamedEntity {
     @Nullable
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
     private List<Vote> vote;
-    @Column(name = "label", nullable = false)
-    private String label;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "image_id")
+    private ImageLabel label;
     @Column(name = "description")
     private String description;
     @Column(name = "enabled", nullable = false, columnDefinition = "bool default true")
@@ -30,7 +31,7 @@ public class Restaurant extends AbstractNamedEntity {
     public Restaurant() {
     }
 
-    public Restaurant(Integer id, String name, String label) {
+    public Restaurant(Integer id, String name, ImageLabel label) {
         super(name);
         this.id = id;
         this.label = label;
@@ -54,7 +55,7 @@ public class Restaurant extends AbstractNamedEntity {
         return id;
     }
 
-    public String getLabel() {
+    public ImageLabel getLabel() {
         return label;
     }
 
@@ -75,7 +76,7 @@ public class Restaurant extends AbstractNamedEntity {
         this.id = id;
     }
 
-    public void setLabel(String label) {
+    public void setLabel(ImageLabel label) {
         this.label = label;
     }
 
@@ -93,6 +94,8 @@ public class Restaurant extends AbstractNamedEntity {
                 "id=" + id +
                 ", name='" + name +
                 "\', enabled='" + enabled +
-                "\'}";
+                "\', imageLabel{'" + label +
+                "\'}"
+                ;
     }
 }

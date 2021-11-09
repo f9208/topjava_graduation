@@ -20,7 +20,7 @@
     <div class="main_restaurants_list">
         <c:forEach items="${restaurants}" var="restaurant">
             <c:if test="${restaurant.enabled==true || isAdmin==true}">
-                <c:url value="${restaurant.label}" var="restaurant_label"/>
+                <c:url value="${restaurant.label.linkReduced}" var="restaurant_label"/>
                 <div class="restaurant_item">
                     <jsp:useBean id="restaurant" class="ru.f9208.choiserestaurant.model.entities.Restaurant"/>
                     <div id="name" style="font-weight: 700; padding-bottom: 5px">${restaurant.name}</div>
