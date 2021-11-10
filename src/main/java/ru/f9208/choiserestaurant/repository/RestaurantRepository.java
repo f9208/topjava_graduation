@@ -80,4 +80,11 @@ public class RestaurantRepository {
         }
         return newRestaurant;
     }
+
+    //todo закэшить
+    public Restaurant getWithMenu(int id) {
+        Restaurant result = getOne(id);
+        result.setMenu(dishRepository.getMenu(id));
+        return result;
+    }
 }

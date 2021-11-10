@@ -12,7 +12,6 @@ import ru.f9208.choiserestaurant.model.entities.ImageLabel;
 import ru.f9208.choiserestaurant.model.entities.Restaurant;
 import ru.f9208.choiserestaurant.model.entities.User;
 import ru.f9208.choiserestaurant.repository.DishRepository;
-import ru.f9208.choiserestaurant.repository.ImageLabelRepository;
 import ru.f9208.choiserestaurant.repository.RestaurantRepository;
 import ru.f9208.choiserestaurant.utils.imageUtils.HandlerImage;
 import ru.f9208.choiserestaurant.web.Validation;
@@ -20,9 +19,7 @@ import ru.f9208.choiserestaurant.web.Validation;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class RestaurantUIController {
@@ -32,15 +29,12 @@ public class RestaurantUIController {
     private DishRepository dishRepository;
     @Autowired
     private HandlerImage handlerImage;
-    @Autowired
-    private ImageLabelRepository imageLabelRepository;
 
     @GetMapping("/restaurants/{id}")
     public String getRestaurant(@PathVariable Integer id, Model model) {
-        Restaurant restaurant = restaurantRepository.getOne(id);
-        List<Dish> menu = dishRepository.getMenu(id);
+        Restaurant restaurant = restaurantRepository.getWithMenu(id);
         model.addAttribute("restaurant", restaurant);
-        model.addAttribute("dishes", menu);
+        model.addAttribute("dish", new Dish());
         return "restaurant";
     }
 
@@ -48,8 +42,7 @@ public class RestaurantUIController {
     public String editRestaurantGet(Model model,
                                     @PathVariable int id,
                                     @AuthenticationPrincipal User user) {
-        Restaurant restaurant = restaurantRepository.getOne(id);
-        restaurant.setMenu(dishRepository.getMenu(id));
+        Restaurant restaurant = restaurantRepository.getWithMenu(id);
         model.addAttribute("restaurant", restaurant);
         model.addAttribute("dish", new Dish());
         return "restaurantEdit";
@@ -73,7 +66,10 @@ public class RestaurantUIController {
 
         Map<Integer, Boolean> errors = new HashMap<>();
         if (restaurant.getMenu() != null) {
-            errors = Validation.validateMenu(restaurant.getMenu());
+            List<Dish> menu = restaurant.getMenu();
+            menu = deleteEmpty(menu, restaurant.getId());
+            errors = Validation.validateMenu(menu);
+            restaurant.setMenu(menu);
         }
 
         if (bindingResult.hasErrors() || !errors.isEmpty()) {
@@ -88,15 +84,35 @@ public class RestaurantUIController {
     public String addDish(@ModelAttribute("dish") @Valid Dish dish,
                           BindingResult bindingResult,
                           Model model,
-                          @PathVariable Integer restId) {
+                          @PathVariable Integer restId,
+                          HttpServletRequest httpServletRequest) {
+        Restaurant restaurant = restaurantRepository.getWithMenu(restId);
         if (bindingResult.hasErrors()) {
-            model.addAttribute("restaurant", restaurantRepository.getOne(restId));
-            return "restaurantEdit";
+            model.addAttribute("restaurant", restaurant);
+            return "restaurant";
         }
-        System.out.println("try to save dishes");
         dish.setDay(LocalDate.now());
-        dishRepository.save(dish, restId);
-        model.addAttribute("restaurant", restaurantRepository.getOne(restId));
-        return "restaurantEdit";
+        Dish saved = dishRepository.save(dish, restId);
+        restaurant.getMenu().add(saved);
+        model.addAttribute("restaurant", restaurant);
+        model.addAttribute("dish", new Dish());
+        String parentUrl = httpServletRequest.getParameter("parentUrl");
+        return "redirect:" + parentUrl;
+    }
+
+    @GetMapping("/restaurants/{restId}/add")
+    public String addDishGet(@PathVariable(name = "restId") Integer id) {
+        return "redirect:/restaurants/" + id;
+    }
+
+    private List<Dish> deleteEmpty(List<Dish> dishes, int restId) {
+        List<Dish> results = new ArrayList<>();
+        for (Dish d : dishes) {
+            if (d.getPrice() == null && d.getName().isBlank()) dishRepository.delete(d.getId(), restId);
+            if (d.getPrice() != null && !d.getName().isBlank()) {
+                results.add(d);
+            }
+        }
+        return results;
     }
 }

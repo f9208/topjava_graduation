@@ -49,7 +49,7 @@ public class HandlerImage {
         if (!originalsDir.exists()) {
             System.out.println("создаем папку в " + parentDir + "/originals для оригиналов изображений" + originalsDir.mkdir());
         }
-        File originFile = new File(originalsDir, inputFile.getOriginalFilename()); //todo источник ошибок
+        File originFile = new File(originalsDir, inputFile.getOriginalFilename());
         originFile.createNewFile();
         inputFile.transferTo(originFile);
         return originFile;

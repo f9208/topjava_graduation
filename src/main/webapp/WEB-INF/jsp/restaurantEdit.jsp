@@ -22,7 +22,7 @@
 <header>
     <jsp:include page="fragments/head.jsp"/>
 </header>
-<%--<c:if test="${isAdmin}">--%>
+<c:if test="${isAdmin}">
 <div><h2 style="text-align: center;"> ${restaurant.name}</h2></div>
 <div><img class="label_img_fixed" src="${label}"/></div>
 <%--@elvariable id="restaurant" type="ru.f9208.choiserestaurant.model.entities.Restaurant"--%>
@@ -53,7 +53,7 @@
         </tr>
         <tr>
             <td><label>сменить картинку: </label>
-                <input type="file" name="inputFile" accept=".jpg, .jpeg, .png" ><br/>
+                <input type="file" name="inputFile" accept=".jpg, .jpeg, .png"><br/>
             </td>
         </tr>
         <tr>
@@ -68,19 +68,10 @@
     <form:input type="hidden" path="label.linkReduced"/>
 
 </form:form>
-<%--</c:if>--%>
+<jsp:include page="fragments/addDish.jsp"/>
 
-<br>
-<br>
-<%--@elvariable id="dish" type="ru.f9208.choiserestaurant.model.entities.Dish"--%>
-<c:url var="add" value="/restaurants/${restaurant.id}/add"/>
-<form:form modelAttribute="dish" action="${add}" method="post">
-    <label>dish name: </label>
-    <form:input path="name"/>
-    <form:errors path="name"/>
-    <form:input path="price"/> <form:errors path="price"/>
-    <button type="submit"> добавить блюдо</button>
-</form:form>
+</c:if>
+
 <footer>
     <jsp:include page="fragments/bottom.jsp"/>
 </footer>

@@ -33,7 +33,7 @@
             <div class="restaurant_menu">
                 <p class="p_menu">Меню на сегодня</p>
                 <div style="margin-top: 12px">
-                    <c:forEach items="${dishes}" var="menu">
+                    <c:forEach items="${restaurant.menu}" var="menu">
                         <div class="p_dish"> ${menu.name}
                             <fmt:formatNumber type="currency" currencyCode="RUB">${menu.price}</fmt:formatNumber>
                         </div>
@@ -55,7 +55,12 @@
         </div>
     </div>
 
+    <br>
+    <br>
 </main>
+<c:if test="isAdmin">
+    <jsp:include page="fragments/addDish.jsp"/>
+</c:if>
 <footer>
     <jsp:include page="fragments/bottom.jsp"/>
 </footer>
