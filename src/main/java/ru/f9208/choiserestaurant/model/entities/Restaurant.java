@@ -31,11 +31,21 @@ public class Restaurant extends AbstractNamedEntity {
     public Restaurant() {
     }
 
-    public Restaurant(Integer id, String name, ImageLabel label) {
+    public Restaurant(Integer id, String name, ImageLabel label, String description) {
         super(name);
         this.id = id;
         this.label = label;
+        this.description = description;
         this.enabled = true;
+    }
+
+    public Restaurant(Integer id, String name, ImageLabel label, String description, boolean enabled) {
+        this(id, name, label, description);
+        this.setEnabled(enabled);
+    }
+
+    public Restaurant(Restaurant copyRestaurant) {
+        this(null, copyRestaurant.getName(), copyRestaurant.getLabel(),copyRestaurant.getDescription(), copyRestaurant.isEnabled());
     }
 
     public List<Vote> getVote() {
@@ -95,7 +105,7 @@ public class Restaurant extends AbstractNamedEntity {
                 ", name='" + name +
                 "\', enabled='" + enabled +
                 "\', imageLabel{'" + label +
-                "\'}"
-                ;
+                "\'}, description='{" + description +
+                "\'}";
     }
 }

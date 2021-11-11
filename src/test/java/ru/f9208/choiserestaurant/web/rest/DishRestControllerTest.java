@@ -1,4 +1,4 @@
-package ru.f9208.choiserestaurant.web;
+package ru.f9208.choiserestaurant.web.rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +8,7 @@ import ru.f9208.choiserestaurant.TestUtil;
 import ru.f9208.choiserestaurant.repository.DishRepository;
 import ru.f9208.choiserestaurant.repository.testData.RestaurantTestData;
 import ru.f9208.choiserestaurant.repository.testData.UserTestData;
+import ru.f9208.choiserestaurant.web.rest.AbstractRestControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -15,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.f9208.choiserestaurant.repository.testData.DishTestData.*;
 import static ru.f9208.choiserestaurant.web.PathConstants.RESTAURANTS;
 
-public class DishControllerTest extends AbstractRestControllerTest {
+public class DishRestControllerTest extends AbstractRestControllerTest {
     private static final String REST_URL = RESTAURANTS + "/";
     private static final String DISHES = "/dishes/";
 

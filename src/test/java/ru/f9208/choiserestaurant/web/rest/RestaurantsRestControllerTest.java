@@ -1,4 +1,4 @@
-package ru.f9208.choiserestaurant.web;
+package ru.f9208.choiserestaurant.web.rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,7 @@ import ru.f9208.choiserestaurant.repository.RestaurantRepository;
 import ru.f9208.choiserestaurant.repository.testData.RestaurantTestData;
 import ru.f9208.choiserestaurant.repository.testData.UserTestData;
 import ru.f9208.choiserestaurant.repository.testData.VoteTestData;
+import ru.f9208.choiserestaurant.web.rest.AbstractRestControllerTest;
 
 import java.util.List;
 

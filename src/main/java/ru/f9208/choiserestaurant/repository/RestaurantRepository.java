@@ -69,7 +69,7 @@ public class RestaurantRepository {
         return crudRestaurantRepository.getAllWithVote();
     }
 
-    public Restaurant prepareRestaurantToUpdate(Restaurant newRestaurant, Restaurant oldRestaurant) {
+    private Restaurant prepareRestaurantToUpdate(Restaurant newRestaurant, Restaurant oldRestaurant) {
         if (newRestaurant.getName() == null) newRestaurant.setName(oldRestaurant.getName());
         if (newRestaurant.getVote() == null) newRestaurant.setVote(oldRestaurant.getVote());
         if (newRestaurant.getLabel() == null || newRestaurant.getLabel().isNew())

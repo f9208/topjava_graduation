@@ -1,4 +1,4 @@
-package ru.f9208.choiserestaurant.web;
+package ru.f9208.choiserestaurant.web.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,9 +14,9 @@ import java.util.List;
 import static ru.f9208.choiserestaurant.model.entities.to.VoteTo.convert;
 
 @RestController
-@RequestMapping(value = AdminVoteController.ADMIN_VOTES, produces = MediaType.APPLICATION_JSON_VALUE)
-public class AdminVoteController {
-    public static final String ADMIN_VOTES = "/admin/votes";
+@RequestMapping(value = AdminVoteRestController.ADMIN_VOTES, produces = MediaType.APPLICATION_JSON_VALUE)
+public class AdminVoteRestController {
+    public static final String ADMIN_VOTES = "/rest/admin/votes";
     @Autowired
     private VoteRepository voteRepository;
 

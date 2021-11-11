@@ -4,24 +4,30 @@
              xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <http pattern="/**" use-expressions="true" name="restSecurityFilterChain">
+
+    <http pattern="/rest/**" use-expressions="true" name="restSecurityFilterChain">
+        <http-basic/>
+        <!--        //todo пересмотреть права доступа, пока что оставил так.-->
+        <intercept-url pattern="/rest/admin/**" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/rest/restaurants/**" access="permitAll()" method="GET"/>
+        <intercept-url pattern="/rest/register" access="isAnonymous()" method="POST"/>
+        <csrf disabled="true"/>
+    </http>
+    <http pattern="/**" use-expressions="true" name="uiSecurityFilterChain">
         <http-basic/>
         <intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
-
         <intercept-url pattern="/restaurants/**" access="permitAll()" method="GET"/>
         <intercept-url pattern="/register" access="isAnonymous()" method="POST"/>
         <intercept-url pattern="/profile/**" access="isAuthenticated()"/>
-
-        <!--        //todo добавить сюда rest составляющую-->
-
         <intercept-url pattern="/votes/**" access="isAuthenticated()"/>
 
-        <form-login login-page="/login" default-target-url="/"
+        <form-login login-page="/login" default-target-url="/**"
                     authentication-failure-url="/?error=true"
                     login-processing-url="/spring_security_check"/>
         <logout logout-success-url="/"/>
         <csrf disabled="true"/>
     </http>
+
 
     <beans:bean class="org.springframework.security.crypto.factory.PasswordEncoderFactories" id="passwordEncoder"
                 factory-method="createDelegatingPasswordEncoder"/>

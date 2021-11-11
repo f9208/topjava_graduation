@@ -29,6 +29,10 @@ public class ImageLabel extends AbstractNamedEntity {
         this.linkReduced = linkReduced;
     }
 
+    public ImageLabel(ImageLabel imageLabel) {
+        this(imageLabel.getName(), imageLabel.getLinkOrigin(), imageLabel.getLinkReduced());
+    }
+
     @Override
     public void setId(Integer id) {
         this.id = id;

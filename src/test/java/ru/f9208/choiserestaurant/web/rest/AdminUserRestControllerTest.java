@@ -1,4 +1,4 @@
-package ru.f9208.choiserestaurant.web;
+package ru.f9208.choiserestaurant.web.rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.f9208.choiserestaurant.web.AdminUserController.ADMIN_USERS;
+import static ru.f9208.choiserestaurant.web.rest.AdminUserRestController.ADMIN_USERS;
 
-class AdminUserControllerTest extends AbstractRestControllerTest {
+class AdminUserRestControllerTest extends AbstractRestControllerTest {
     private static final String REST_URL = ADMIN_USERS + '/';
     @Autowired
     UserRepository userRepository;

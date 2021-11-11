@@ -1,4 +1,4 @@
-package ru.f9208.choiserestaurant.web;
+package ru.f9208.choiserestaurant.web.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,7 +30,7 @@ import static ru.f9208.choiserestaurant.utils.SecurityUtil.chekNotAdmin;
 @RequestMapping(value = ProfileRestController.PROFILE)
 public class ProfileRestController {
     public static final String PROFILE = "/rest/profile";
-    public static final String VOTES = "/rest/votes";
+    public static final String VOTES = "/votes";
     @Autowired
     private UserRepository userRepository;
     @Autowired

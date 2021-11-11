@@ -1,4 +1,4 @@
-package ru.f9208.choiserestaurant.web;
+package ru.f9208.choiserestaurant.web.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,7 +25,7 @@ import static ru.f9208.choiserestaurant.web.PathConstants.ADMIN_RESTAURANTS;
 
 @RestController
 @RequestMapping(value = ADMIN_RESTAURANTS, produces = MediaType.APPLICATION_JSON_VALUE)
-public class AdminRestaurantController {
+public class AdminRestaurantRestController {
     @Autowired
     RestaurantRepository restaurantRepository;
     @Autowired

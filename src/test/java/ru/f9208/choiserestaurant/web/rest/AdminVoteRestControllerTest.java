@@ -1,4 +1,4 @@
-package ru.f9208.choiserestaurant.web;
+package ru.f9208.choiserestaurant.web.rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +10,12 @@ import ru.f9208.choiserestaurant.repository.VoteRepository;
 import ru.f9208.choiserestaurant.repository.testData.UserTestData;
 import ru.f9208.choiserestaurant.repository.testData.VoteTestData;
 
-import java.io.File;
-import java.util.Arrays;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static ru.f9208.choiserestaurant.model.entities.to.VoteTo.convert;
-import static ru.f9208.choiserestaurant.web.AdminVoteController.ADMIN_VOTES;
+import static ru.f9208.choiserestaurant.web.rest.AdminVoteRestController.ADMIN_VOTES;
 
-class AdminVoteControllerTest extends AbstractRestControllerTest {
+class AdminVoteRestControllerTest extends AbstractRestControllerTest {
     @Autowired
     VoteRepository voteRepository;
     private final String REST_URL = ADMIN_VOTES + "/";

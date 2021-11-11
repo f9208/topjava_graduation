@@ -19,6 +19,6 @@ public class ImageLabelRepository {
     }
 
     public ImageLabel getOne(Integer id) {
-        return crudImageLabelRepository.getOne(id);
+        return crudImageLabelRepository.findById(id).orElse(new ImageLabel());
     }
 }

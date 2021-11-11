@@ -1,4 +1,4 @@
-package ru.f9208.choiserestaurant.web;
+package ru.f9208.choiserestaurant.web.rest;
 
 import ru.f9208.choiserestaurant.TestUtil;
 import ru.f9208.choiserestaurant.repository.testData.UserTestData;
@@ -21,8 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.f9208.choiserestaurant.model.entities.to.VoteTo.convert;
-import static ru.f9208.choiserestaurant.web.ProfileRestController.PROFILE;
-import static ru.f9208.choiserestaurant.web.ProfileRestController.VOTES;
+import static ru.f9208.choiserestaurant.web.rest.ProfileRestController.PROFILE;
+import static ru.f9208.choiserestaurant.web.rest.ProfileRestController.VOTES;
 
 class ProfileRestControllerTest extends AbstractRestControllerTest {
     @Autowired
@@ -30,11 +30,9 @@ class ProfileRestControllerTest extends AbstractRestControllerTest {
     @Autowired
     VoteRepository voteRepository;
 
-    private static final String REST_URL = PROFILE;
-
     @Test
     void getProfile() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL)
+        perform(MockMvcRequestBuilders.get(PROFILE)
                 .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -44,7 +42,7 @@ class ProfileRestControllerTest extends AbstractRestControllerTest {
     @Test
     void createProfile() throws Exception {
         User newUser = UserTestData.getNew();
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "/register")
+        ResultActions action = perform(MockMvcRequestBuilders.post(PROFILE + "/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newUser)))
                 .andDo(print())
@@ -58,7 +56,7 @@ class ProfileRestControllerTest extends AbstractRestControllerTest {
 
     @Test
     void deleteProfile() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL)
+        perform(MockMvcRequestBuilders.delete(PROFILE)
                 .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
                 .andExpect(status().isNoContent());
         UserTestData.USER_MATCHER.assertMatch(userRepository.getAll(), List.of(UserTestData.admin, UserTestData.userKet, UserTestData.userLeo));
@@ -67,7 +65,7 @@ class ProfileRestControllerTest extends AbstractRestControllerTest {
     @Test
     void updateUser() throws Exception {
         User updated = UserTestData.getUpdated();
-        perform(MockMvcRequestBuilders.put(REST_URL)
+        perform(MockMvcRequestBuilders.put(PROFILE)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(JsonUtil.writeValue(updated))
                 .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
@@ -77,7 +75,7 @@ class ProfileRestControllerTest extends AbstractRestControllerTest {
 
     @Test
     void getMyVotes() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "/votes/")
+        perform(MockMvcRequestBuilders.get(PROFILE+VOTES)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
                 .andDo(print())
@@ -87,7 +85,7 @@ class ProfileRestControllerTest extends AbstractRestControllerTest {
 
     @Test
     void getOneVote() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "/votes/" + VoteTestData.VOTE_3_ID)
+        perform(MockMvcRequestBuilders.get(VOTES +"/"+ VoteTestData.VOTE_3_ID)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
                 .andDo(print())
@@ -97,7 +95,7 @@ class ProfileRestControllerTest extends AbstractRestControllerTest {
 
     @Test
     void getMyVotesFilter() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + VOTES)
+        perform(MockMvcRequestBuilders.get(PROFILE+VOTES)
                 .param("start", "2021-04-21")
                 .param("end", "2021-04-26")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
@@ -109,7 +107,7 @@ class ProfileRestControllerTest extends AbstractRestControllerTest {
 
     @Test
     void deleteVote() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + VOTES + "/" + VoteTestData.VOTE_3_ID)
+        perform(MockMvcRequestBuilders.delete(PROFILE+VOTES + "/" + VoteTestData.VOTE_3_ID)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(String.valueOf(VoteTestData.VOTE_3_ID))
                 .with(TestUtil.userHttpBasic(UserTestData.userJonny)))

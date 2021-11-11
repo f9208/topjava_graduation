@@ -7,6 +7,7 @@ import java.util.List;
 
 import static ru.f9208.choiserestaurant.model.entities.AbstractNamedEntity.START_SEQ;
 import static ru.f9208.choiserestaurant.repository.testData.DishTestData.*;
+import static ru.f9208.choiserestaurant.repository.testData.ImageLabelData.*;
 
 public class RestaurantTestData {
 
@@ -16,8 +17,9 @@ public class RestaurantTestData {
     public static final int MEAT_HOME_ID = START_SEQ + 1;
     public static final int NOT_FOUND = 10;
 
-    public static final Restaurant bearGrizzly = new Restaurant(BEAR_GRIZZLY_ID, "Bear Grizzly", null);
-    public static final Restaurant meatHome = new Restaurant(MEAT_HOME_ID, "Meat Home", null);
+    public static final Restaurant bearGrizzly = new Restaurant(BEAR_GRIZZLY_ID, "bearGrizzly", bearGrizzlyLabel, "Здесь вы найдете малину, шишки и немного сырой зайчатины!", true);
+    public static final Restaurant meatHome = new Restaurant(MEAT_HOME_ID, "meatHome", meatHomeLabel, "много мясо, мяса и еще больше мяса! да с огоньком!", false);
+    public static final Restaurant teaHome = new Restaurant(null, "teaHomeCafe", null, "традиционная кухня!", true);
 
     static {
         bearGrizzly.setMenu(List.of(BORSCHT, CUTLET, COMPOTE, PASTA, PANCAKE));
@@ -27,12 +29,11 @@ public class RestaurantTestData {
     }
 
     public static Restaurant getNewRestaurant() {
-        return new Restaurant(null, "BurgerKing", null);
+        return new Restaurant(null, "BurgerKing", null, null);
     }
 
     public static Restaurant getUpdatedRestaurant() {
-        Restaurant updated = new Restaurant(bearGrizzly.getId(), "White Bear", null);
-        updated.setMenu(bearGrizzly.getMenu());
+        Restaurant updated = new Restaurant(bearGrizzly.getId(), "White Bear", whiteBear, "какое то новое место");
         return updated;
     }
 }

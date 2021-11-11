@@ -14,7 +14,7 @@ import static ru.f9208.choiserestaurant.repository.testData.RestaurantTestData.m
         "classpath:spring/spring-db.xml"
 })
 @ExtendWith(SpringExtension.class)
-@Sql(scripts = {"classpath:db/initDB.sql", "classpath:db/populateDB.sql"}, config = @SqlConfig(encoding = "UTF-8"))
+@Sql(scripts = {"classpath:db/initDB.sql", "classpath:db/testPopulateDB.sql"}, config = @SqlConfig(encoding = "UTF-8"))
 public abstract class AbstractStarterTest {
     @BeforeAll
     static void init() {

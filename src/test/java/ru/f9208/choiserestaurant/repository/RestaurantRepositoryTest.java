@@ -2,12 +2,13 @@ package ru.f9208.choiserestaurant.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.f9208.choiserestaurant.web.exceptions.NotFoundException;
 import ru.f9208.choiserestaurant.model.entities.Restaurant;
+import ru.f9208.choiserestaurant.web.exceptions.NotFoundException;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.f9208.choiserestaurant.repository.testData.DishTestData.DISH_MATCHER;
 import static ru.f9208.choiserestaurant.repository.testData.RestaurantTestData.*;
 
 
@@ -61,5 +62,21 @@ class RestaurantRepositoryTest extends AbstractStarterTest {
     @Test
     void getAllWithVotes() {
         System.out.println(restaurantRepository.getAllWithVotes().get(1).getVote());
+    }
+
+    @Test
+    void save() {
+        Restaurant original = new Restaurant(teaHome);
+        Restaurant saved = restaurantRepository.save(teaHome);
+        original.setId(saved.getId());
+        RESTAURANT_MATCHER.assertMatch(restaurantRepository.getOne(saved.getId()), original);
+    }
+
+    @Test
+    void getWithMenu() {
+        Restaurant indm = restaurantRepository.getWithMenu(MEAT_HOME_ID);
+        RESTAURANT_MATCHER.assertMatch(
+                indm, meatHome);
+        DISH_MATCHER.assertMatch(indm.getMenu(), meatHome.getMenu());
     }
 }

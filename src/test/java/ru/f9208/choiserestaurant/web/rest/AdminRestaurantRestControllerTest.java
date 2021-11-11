@@ -1,4 +1,4 @@
-package ru.f9208.choiserestaurant.web;
+package ru.f9208.choiserestaurant.web.rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.f9208.choiserestaurant.web.PathConstants.ADMIN_RESTAURANTS;
 
-class AdminRestaurantControllerTest extends AbstractRestControllerTest {
+class AdminRestaurantRestControllerTest extends AbstractRestControllerTest {
+    private static final String REST_URL = ADMIN_RESTAURANTS;
+
     @Autowired
     RestaurantRepository restaurantRepository;
-    private static String REST_URL = ADMIN_RESTAURANTS;
 
     @Test
     void create() throws Exception {
@@ -44,7 +45,7 @@ class AdminRestaurantControllerTest extends AbstractRestControllerTest {
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newRestaurant))
-                .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
+                .with(TestUtil.userHttpBasic(UserTestData.userKet)))
                 .andDo(print())
                 .andExpect(status().isForbidden());
         RestaurantTestData.RESTAURANT_MATCHER.assertMatch(restaurantRepository.getAll(), List.of(RestaurantTestData.meatHome, RestaurantTestData.bearGrizzly));
@@ -63,10 +64,10 @@ class AdminRestaurantControllerTest extends AbstractRestControllerTest {
 
     @Test
     void deleteIsForbidden() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + RestaurantTestData.MEAT_HOME_ID)
+        perform(MockMvcRequestBuilders.delete(REST_URL +"/"+ RestaurantTestData.MEAT_HOME_ID)
                 .content(String.valueOf(RestaurantTestData.MEAT_HOME_ID))
                 .contentType(MediaType.APPLICATION_JSON)
-                .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
+                .with(TestUtil.userHttpBasic(UserTestData.userKet)))
                 .andDo(print())
                 .andExpect(status().isForbidden());
         RestaurantTestData.RESTAURANT_MATCHER.assertMatch(restaurantRepository.getAll(), List.of(RestaurantTestData.meatHome, RestaurantTestData.bearGrizzly));

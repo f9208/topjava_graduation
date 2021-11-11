@@ -1,4 +1,4 @@
-package ru.f9208.choiserestaurant.web;
+package ru.f9208.choiserestaurant.web.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ import static ru.f9208.choiserestaurant.web.PathConstants.RESTAURANTS;
 
 @RestController
 @RequestMapping(value = ADMIN_RESTAURANT_DISHES, produces = MediaType.APPLICATION_JSON_VALUE)
-public class AdminDishesController {
+public class AdminDishesRestController {
 
     @Autowired
     DishRepository dishRepository;

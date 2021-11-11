@@ -1,4 +1,4 @@
-package ru.f9208.choiserestaurant.web;
+package ru.f9208.choiserestaurant.web.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping(AdminUserController.ADMIN_USERS)
-public class AdminUserController {
-    public static final String ADMIN_USERS = "/admin/users";
+@RequestMapping(AdminUserRestController.ADMIN_USERS)
+public class AdminUserRestController {
+    public static final String ADMIN_USERS = "/rest/admin/users";
     @Autowired
     private UserRepository userRepository;
 

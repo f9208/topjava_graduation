@@ -1,4 +1,4 @@
-package ru.f9208.choiserestaurant.web;
+package ru.f9208.choiserestaurant.web.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +18,8 @@ import java.time.LocalTime;
 import static ru.f9208.choiserestaurant.utils.DateTimeUtils.TOO_LATE;
 
 @RestController
-@RequestMapping(value = VoteController.VOTES, produces = MediaType.APPLICATION_JSON_VALUE)
-public class VoteController {
+@RequestMapping(value = VoteRestController.VOTES, produces = MediaType.APPLICATION_JSON_VALUE)
+public class VoteRestController {
     public static final String VOTES = "/votes";
     @Autowired
     private VoteRepository voteRepository;

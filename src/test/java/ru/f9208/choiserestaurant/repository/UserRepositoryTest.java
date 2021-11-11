@@ -55,7 +55,7 @@ class UserRepositoryTest extends AbstractStarterTest {
 //    @Test
 //    void update() {
 //        User updated = UserTestData.getUpdated();
-//        userRepository.update(updated); //todo обновление переделал, тест будет падать
+//        userRepository.update(updated);
 //        UserTestData.USER_MATCHER.assertMatch(userRepository.findById(UserTestData.USER_JONNY_ID), UserTestData.getUpdated());
 //    }
 

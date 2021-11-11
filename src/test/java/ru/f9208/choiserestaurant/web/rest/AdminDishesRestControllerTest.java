@@ -1,4 +1,4 @@
-package ru.f9208.choiserestaurant.web;
+package ru.f9208.choiserestaurant.web.rest;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import static ru.f9208.choiserestaurant.repository.testData.RestaurantTestData.M
 import static ru.f9208.choiserestaurant.web.PathConstants.ADMIN_RESTAURANTS;
 import static ru.f9208.choiserestaurant.web.PathConstants.DISHES;
 
-class AdminDishesControllerTest extends AbstractRestControllerTest {
+class AdminDishesRestControllerTest extends AbstractRestControllerTest {
     public static final String REST_URL = ADMIN_RESTAURANTS + "/";
     @Autowired
     DishRepository dishRepository;
