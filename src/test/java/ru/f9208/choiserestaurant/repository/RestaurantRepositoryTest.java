@@ -5,11 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.f9208.choiserestaurant.model.entities.Restaurant;
 import ru.f9208.choiserestaurant.web.exceptions.NotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static ru.f9208.choiserestaurant.model.entities.AbstractNamedEntity.START_SEQ;
 import static ru.f9208.choiserestaurant.repository.testData.DishTestData.DISH_MATCHER;
 import static ru.f9208.choiserestaurant.repository.testData.RestaurantTestData.*;
+import static ru.f9208.choiserestaurant.repository.testData.VoteTestData.*;
 
 
 class RestaurantRepositoryTest extends AbstractStarterTest {
@@ -78,5 +81,14 @@ class RestaurantRepositoryTest extends AbstractStarterTest {
         RESTAURANT_MATCHER.assertMatch(
                 indm, meatHome);
         DISH_MATCHER.assertMatch(indm.getMenu(), meatHome.getMenu());
+    }
+
+    @Test
+    void
+    getAllWithVotesBetween() {
+        List<Restaurant> restaurants = restaurantRepository.getAllWithVotesBetween(LocalDate.now(), LocalDate.now());
+        RESTAURANT_MATCHER.assertMatch(restaurants, meatHome, bearGrizzly);
+        VOTE_TEST_MATCHER.assertMatch(restaurants.get(MEAT_HOME_ID-START_SEQ).getVote(), VOTE14_TODAY, VOTE15_TODAY);
+        VOTE_TEST_MATCHER.assertMatch(restaurants.get(BEAR_GRIZZLY_ID-START_SEQ).getVote(), VOTE13_TODAY);
     }
 }

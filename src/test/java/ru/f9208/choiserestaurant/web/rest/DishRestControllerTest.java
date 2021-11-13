@@ -8,16 +8,15 @@ import ru.f9208.choiserestaurant.TestUtil;
 import ru.f9208.choiserestaurant.repository.DishRepository;
 import ru.f9208.choiserestaurant.repository.testData.RestaurantTestData;
 import ru.f9208.choiserestaurant.repository.testData.UserTestData;
-import ru.f9208.choiserestaurant.web.rest.AbstractRestControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.f9208.choiserestaurant.repository.testData.DishTestData.*;
-import static ru.f9208.choiserestaurant.web.PathConstants.RESTAURANTS;
+import static ru.f9208.choiserestaurant.web.PathConstants.REST_RESTAURANTS;
 
 public class DishRestControllerTest extends AbstractRestControllerTest {
-    private static final String REST_URL = RESTAURANTS + "/";
+    private static final String REST_URL = REST_RESTAURANTS + "/";
     private static final String DISHES = "/dishes/";
 
     @Autowired

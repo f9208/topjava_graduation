@@ -48,4 +48,8 @@ public interface CrudVoteRepository extends JpaRepository<Vote, Integer> {
     @EntityGraph(attributePaths = {"restaurant"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("Select v From Vote v where v.userId=:userId")
     List<Vote> getAllByUserId(@Param("userId") int userId);
+
+    @EntityGraph(attributePaths = {"restaurant"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT v FROM  Vote v where v.userId=:userId and v.day=:day")
+    Vote getVoteByUserIdOnDay(@Param("userId") int userId, @Param("day") LocalDate day);
 }

@@ -20,7 +20,7 @@ import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
-import static ru.f9208.choiserestaurant.web.PathConstants.RESTAURANTS;
+import static ru.f9208.choiserestaurant.web.PathConstants.REST_RESTAURANTS;
 import static ru.f9208.choiserestaurant.web.PathConstants.ADMIN_RESTAURANTS;
 
 @RestController
@@ -41,7 +41,7 @@ public class AdminRestaurantRestController {
         ValidatorUtil.checkNew(restaurant);
         Restaurant created = restaurantRepository.create(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(RESTAURANTS + "/{id}")
+                .path(REST_RESTAURANTS + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
 
         return ResponseEntity.created(uriOfNewResource).body(created);

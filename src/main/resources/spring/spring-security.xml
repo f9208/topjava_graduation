@@ -13,15 +13,18 @@
         <intercept-url pattern="/rest/register" access="isAnonymous()" method="POST"/>
         <csrf disabled="true"/>
     </http>
+
+
     <http pattern="/**" use-expressions="true" name="uiSecurityFilterChain">
         <http-basic/>
         <intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
-        <intercept-url pattern="/restaurants/**" access="permitAll()" method="GET"/>
+<!--        <intercept-url pattern="/restaurants/**" access="isAuthenticated()" method="GET"/>-->
+        <intercept-url pattern="/restaurants/**/vote" access="isAuthenticated()" method="POST"/>
         <intercept-url pattern="/register" access="isAnonymous()" method="POST"/>
         <intercept-url pattern="/profile/**" access="isAuthenticated()"/>
         <intercept-url pattern="/votes/**" access="isAuthenticated()"/>
 
-        <form-login login-page="/login" default-target-url="/**"
+        <form-login login-page="/login" default-target-url="/"
                     authentication-failure-url="/?error=true"
                     login-processing-url="/spring_security_check"/>
         <logout logout-success-url="/"/>

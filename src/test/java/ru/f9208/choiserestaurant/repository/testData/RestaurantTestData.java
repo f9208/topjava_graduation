@@ -24,8 +24,8 @@ public class RestaurantTestData {
     static {
         bearGrizzly.setMenu(List.of(BORSCHT, CUTLET, COMPOTE, PASTA, PANCAKE));
         meatHome.setMenu(List.of(SOUP, FISH, POTATO, MUFFIN));
-        bearGrizzly.setVote(List.of(VoteTestData.VOTE2, VoteTestData.VOTE3, VoteTestData.VOTE4, VoteTestData.VOTE10, VoteTestData.VOTE12, VoteTestData.VOTE14_TODAY_RE_VOTE));
-        meatHome.setVote(List.of(VoteTestData.VOTE5, VoteTestData.VOTE6, VoteTestData.VOTE7, VoteTestData.VOTE8, VoteTestData.VOTE9, VoteTestData.VOTE11, VoteTestData.VOTE13, VoteTestData.VOTE15_TODAY));
+        bearGrizzly.setVote(List.of(VoteTestData.VOTE1, VoteTestData.VOTE2, VoteTestData.VOTE3, VoteTestData.VOTE9, VoteTestData.VOTE11, VoteTestData.VOTE13_TODAY_RE_VOTE));
+        meatHome.setVote(List.of(VoteTestData.VOTE4, VoteTestData.VOTE5, VoteTestData.VOTE6, VoteTestData.VOTE7, VoteTestData.VOTE8, VoteTestData.VOTE10, VoteTestData.VOTE12, VoteTestData.VOTE14_TODAY));
     }
 
     public static Restaurant getNewRestaurant() {

@@ -22,12 +22,12 @@ class AdminVoteRestControllerTest extends AbstractRestControllerTest {
 
     @Test
     void getOne() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + VoteTestData.VOTE_2_ID)
+        perform(MockMvcRequestBuilders.get(REST_URL + VoteTestData.VOTE_1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .with(TestUtil.userHttpBasic(UserTestData.admin)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(new VoteTo(VoteTestData.VOTE2)));
+                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(new VoteTo(VoteTestData.VOTE1)));
     }
 
     @Test
@@ -38,7 +38,7 @@ class AdminVoteRestControllerTest extends AbstractRestControllerTest {
                 .with(TestUtil.userHttpBasic(UserTestData.admin)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(convert(VoteTestData.VOTE8, VoteTestData.VOTE9, VoteTestData.VOTE10, VoteTestData.VOTE11)));
+                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(convert(VoteTestData.VOTE7, VoteTestData.VOTE8, VoteTestData.VOTE9, VoteTestData.VOTE10)));
     }
 
     @Test
@@ -47,7 +47,7 @@ class AdminVoteRestControllerTest extends AbstractRestControllerTest {
                 .with(TestUtil.userHttpBasic(UserTestData.admin)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(convert(VoteTestData.VOTE14_TODAY, VoteTestData.VOTE15_TODAY)));
+                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(convert(VoteTestData.VOTE13_TODAY, VoteTestData.VOTE14_TODAY, VoteTestData.VOTE15_TODAY)));
     }
 
     @Test
@@ -73,6 +73,6 @@ class AdminVoteRestControllerTest extends AbstractRestControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(VoteTo.convert(VoteTestData.VOTE14_TODAY)));
+                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(VoteTo.convert(VoteTestData.VOTE13_TODAY)));
     }
 }

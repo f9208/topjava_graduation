@@ -9,14 +9,14 @@
     <title>Не можете выбрать в какой кабак пойти? мы поможем!</title>
     <link rel="stylesheet" type="text/css" href=
     <c:url value="/resources/css/styles.css"/>
-            </head>
+</head>
 
 <body>
 <header>
     <jsp:include page="fragments/head.jsp"/>
 </header>
 <main>
-    <sec:authorize access="isAuthenticated()" var="isAdmin"/>
+    <sec:authorize access="hasRole('ADMIN')" var="isAdmin"/>
     <div class="main_restaurants_list">
         <c:forEach items="${restaurants}" var="restaurant">
             <c:if test="${restaurant.enabled==true || isAdmin==true}">
@@ -31,6 +31,7 @@
                     <a href="restaurants/${restaurant.id}">
                         <img class="restaurant_label_img" src="${restaurant_label}">
                     </a>
+                    <div id="vote"> количество голосов: ${restaurant.vote.size()}</div>
                 </div>
             </c:if>
         </c:forEach>

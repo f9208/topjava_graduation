@@ -14,7 +14,7 @@ import java.net.URI;
 import java.time.LocalDate;
 
 import static ru.f9208.choiserestaurant.web.PathConstants.ADMIN_RESTAURANT_DISHES;
-import static ru.f9208.choiserestaurant.web.PathConstants.RESTAURANTS;
+import static ru.f9208.choiserestaurant.web.PathConstants.REST_RESTAURANTS;
 
 @RestController
 @RequestMapping(value = ADMIN_RESTAURANT_DISHES, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,7 +37,7 @@ public class AdminDishesRestController {
         Dish created = dishRepository.create(dish, restaurantId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(RESTAURANTS + "/" + restaurantId + "/dishes" + "/{dish_id}")
+                .path(REST_RESTAURANTS + "/" + restaurantId + "/dishes" + "/{dish_id}")
                 .buildAndExpand(created.getId()).toUri();
 
         return ResponseEntity.created(uriOfNewResource).body(created);

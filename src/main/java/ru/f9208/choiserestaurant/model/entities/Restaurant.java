@@ -18,7 +18,7 @@ public class Restaurant extends AbstractNamedEntity {
     private List<Dish> menu;
     @JsonManagedReference
     @Nullable
-    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<Vote> vote;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id")

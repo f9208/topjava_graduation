@@ -80,17 +80,17 @@ class ProfileRestControllerTest extends AbstractRestControllerTest {
                 .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(VoteTo.convert(VoteTestData.VOTE14_TODAY)));
+                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(VoteTo.convert(VoteTestData.VOTE13_TODAY)));
     }
 
     @Test
     void getOneVote() throws Exception {
-        perform(MockMvcRequestBuilders.get(VOTES +"/"+ VoteTestData.VOTE_3_ID)
+        perform(MockMvcRequestBuilders.get(VOTES +"/"+ VoteTestData.VOTE_2_ID)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(new VoteTo(VoteTestData.VOTE3)));
+                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(new VoteTo(VoteTestData.VOTE2)));
     }
 
     @Test
@@ -102,17 +102,17 @@ class ProfileRestControllerTest extends AbstractRestControllerTest {
                 .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(convert(VoteTestData.VOTE11, VoteTestData.VOTE7)));
+                .andExpect(VoteTestData.VOTE_TO_TEST_MATCHER.contentJson(convert(VoteTestData.VOTE10, VoteTestData.VOTE6)));
     }
 
     @Test
     void deleteVote() throws Exception {
-        perform(MockMvcRequestBuilders.delete(PROFILE+VOTES + "/" + VoteTestData.VOTE_3_ID)
+        perform(MockMvcRequestBuilders.delete(PROFILE+VOTES + "/" + VoteTestData.VOTE_2_ID)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(String.valueOf(VoteTestData.VOTE_3_ID))
+                .content(String.valueOf(VoteTestData.VOTE_2_ID))
                 .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertThrows(NotFoundException.class, () -> voteRepository.get(VoteTestData.VOTE_3_ID));
+        assertThrows(NotFoundException.class, () -> voteRepository.get(VoteTestData.VOTE_2_ID));
     }
 }

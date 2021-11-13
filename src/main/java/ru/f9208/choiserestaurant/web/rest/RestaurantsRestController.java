@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = PathConstants.RESTAURANTS, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = PathConstants.REST_RESTAURANTS, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantsRestController {
     @Autowired
     private RestaurantRepository restaurantRepository;

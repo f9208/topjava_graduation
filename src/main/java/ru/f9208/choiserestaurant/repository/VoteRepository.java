@@ -72,8 +72,8 @@ public class VoteRepository {
         return ValidatorUtil.checkNotFoundWithId(crudVoteRepository.getAllByUserId(userId), userId);
     }
 
-    public List<Vote> getAllForRestaurantBetween(LocalDate start, LocalDate end, int userId) {
-        return crudVoteRepository.getAllByDayBetweenAndRestaurantId(start, end, userId);
+    public List<Vote> getAllForRestaurantBetween(LocalDate start, LocalDate end, int restaurantId) {
+        return crudVoteRepository.getAllByDayBetweenAndRestaurantId(start, end, restaurantId);
     }
 
     public Vote getVoteForUserOnDate(int userId, LocalDate date) {
@@ -100,5 +100,9 @@ public class VoteRepository {
 
     public List<Vote> getAllByDateBetweenAndUserId(LocalDate start, LocalDate end, int userId) {
         return ValidatorUtil.checkNotFoundForDate(crudVoteRepository.getAllByDayBetweenAndUserId(start, end, userId), start, end);
+    }
+
+    public Vote getVoteByUserIdToday(int userId) {
+        return crudVoteRepository.getVoteByUserIdOnDay(userId, LocalDate.now());
     }
 }

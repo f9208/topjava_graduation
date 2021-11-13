@@ -1,23 +1,27 @@
 package ru.f9208.choiserestaurant.web.UI;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ru.f9208.choiserestaurant.model.entities.Dish;
-import ru.f9208.choiserestaurant.model.entities.ImageLabel;
-import ru.f9208.choiserestaurant.model.entities.Restaurant;
-import ru.f9208.choiserestaurant.model.entities.User;
+import ru.f9208.choiserestaurant.model.AuthorizedUser;
+import ru.f9208.choiserestaurant.model.entities.*;
 import ru.f9208.choiserestaurant.repository.DishRepository;
 import ru.f9208.choiserestaurant.repository.RestaurantRepository;
+import ru.f9208.choiserestaurant.repository.VoteRepository;
 import ru.f9208.choiserestaurant.utils.imageUtils.HandlerImage;
 import ru.f9208.choiserestaurant.web.Validation;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -29,10 +33,19 @@ public class RestaurantUIController {
     private DishRepository dishRepository;
     @Autowired
     private HandlerImage handlerImage;
+    @Autowired
+    private VoteRepository voteRepository;
 
     @GetMapping("/restaurants/{id}")
-    public String getRestaurant(@PathVariable Integer id, Model model) {
-        Restaurant restaurant = restaurantRepository.getWithMenu(id);
+    public String getRestaurant(@PathVariable Integer id,
+                                Model model,
+                                @AuthenticationPrincipal AuthorizedUser authorizedUser) {
+        Restaurant restaurant = restaurantRepository.getWithMenuAndVoteForToday(id);
+        //тут ловим экспешн если юзер не голосовал сегодня вообще
+        int userId = authorizedUser.getUserTo().getId();
+        Vote vote = voteRepository.getVoteByUserIdToday(userId);
+
+        model.addAttribute("vote", vote);
         model.addAttribute("restaurant", restaurant);
         model.addAttribute("dish", new Dish());
         return "restaurant";
@@ -41,7 +54,7 @@ public class RestaurantUIController {
     @GetMapping("/restaurants/{id}/edit")
     public String editRestaurantGet(Model model,
                                     @PathVariable int id,
-                                    @AuthenticationPrincipal User user) {
+                                    @AuthenticationPrincipal UserDetails user) {
         Restaurant restaurant = restaurantRepository.getWithMenu(id);
         model.addAttribute("restaurant", restaurant);
         model.addAttribute("dish", new Dish());
@@ -54,7 +67,7 @@ public class RestaurantUIController {
                                      @PathVariable Integer id,
                                      Model model,
                                      @RequestParam("inputFile") MultipartFile inputFile,
-                                     @AuthenticationPrincipal User user,
+                                     @AuthenticationPrincipal UserDetails user,
                                      HttpServletRequest request) throws Exception {
         ImageLabel imageLabel = null;
         if (!inputFile.isEmpty()) {
@@ -66,6 +79,7 @@ public class RestaurantUIController {
 
         Map<Integer, Boolean> errors = new HashMap<>();
         if (restaurant.getMenu() != null) {
+            //todo если вводим два одинаковых названия то ловим эксепшн
             List<Dish> menu = restaurant.getMenu();
             menu = deleteEmpty(menu, restaurant.getId());
             errors = Validation.validateMenu(menu);
@@ -85,13 +99,16 @@ public class RestaurantUIController {
                           BindingResult bindingResult,
                           Model model,
                           @PathVariable Integer restId,
-                          HttpServletRequest httpServletRequest) {
+                          HttpServletRequest httpServletRequest,
+                          @AuthenticationPrincipal UserDetails user) {
         Restaurant restaurant = restaurantRepository.getWithMenu(restId);
         if (bindingResult.hasErrors()) {
             model.addAttribute("restaurant", restaurant);
             return "restaurant";
         }
         dish.setDay(LocalDate.now());
+        //todo если сохраняем блюдо с повторящюимся названием - эксепшн
+
         Dish saved = dishRepository.save(dish, restId);
         restaurant.getMenu().add(saved);
         model.addAttribute("restaurant", restaurant);

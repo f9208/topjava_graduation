@@ -2,6 +2,7 @@ package ru.f9208.choiserestaurant.repository;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,7 @@ import org.springframework.util.Assert;
 import ru.f9208.choiserestaurant.model.entities.Restaurant;
 import ru.f9208.choiserestaurant.utils.ValidatorUtil;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -17,6 +19,8 @@ public class RestaurantRepository {
     private final Logger log = LoggerFactory.getLogger(getClass());
     CrudRestaurantRepository crudRestaurantRepository;
     DishRepository dishRepository;
+    @Autowired
+    VoteRepository voteRepository;
 
     public RestaurantRepository(CrudRestaurantRepository crudRestaurantRepository, DishRepository dishRepository) {
         this.crudRestaurantRepository = crudRestaurantRepository;
@@ -85,6 +89,18 @@ public class RestaurantRepository {
     public Restaurant getWithMenu(int id) {
         Restaurant result = getOne(id);
         result.setMenu(dishRepository.getMenu(id));
+        return result;
+    }
+
+    public Restaurant getWithMenuAndVoteForToday(int id) {
+        Restaurant result = getWithMenu(id);
+        result.setVote(voteRepository.getAllForRestaurantBetween(LocalDate.now(), LocalDate.now(), id));
+        return result;
+    }
+
+    public List<Restaurant> getAllWithVotesBetween(LocalDate start, LocalDate end) {
+        List<Restaurant> result = getAll(); //todo подумать над циклом в цикле из двух листов с выходом break по факту вставки
+        result.forEach(restaurant -> restaurant.setVote(voteRepository.getAllForRestaurantBetween(start, end, restaurant.getId())));
         return result;
     }
 }

@@ -20,10 +20,13 @@
     <jsp:include page="fragments/head.jsp"/>
 </header>
 
-<sec:authorize access="isAuthenticated()" var="isAdmin"/>
+<sec:authorize access="isAuthenticated()" var="isAuthenticated"/>
+<sec:authorize access="hasRole('ADMIN')" var="isAdmin"/>
 <sec:authorize access="isAnonymous()" var="isAnon"/>
 <c:set value="${restaurant}" var="restaurant"/>
 <c:url value="${restaurant.label.linkReduced}" var="restaurant_label"/>
+<c:url value="/vote/restaurant/${restaurant.id}/" var="toVoteUrl"/>
+<c:url value="/vote/restaurant/delete/${restaurant.id}/" var="deleteVoteUrl"/>
 
 <main>
     <div>
@@ -51,16 +54,45 @@
                         </form>
                     </c:if>
                 </div>
+                голосов за этот ресторан: ${restaurant.vote.size()}
+                <br>
+                <br>
+                <c:if test="${restaurant.enabled==true}">
+                    <c:if test="${isAuthenticated==false}"> войдите, чтобы проголосовать за этот ресторан</c:if>
+                    <c:if test="${isAuthenticated}">
+                        <%--                уже проголосовал за этот--%>
+                        <c:if test="${vote.restaurant.id==restaurant.id}">
+                            вы проголосовали за этот ресторан!
+                            <form action="${deleteVoteUrl}" method="post">
+                                <form:input type="hidden" path="vote.id"/>
+                                <button>передумал, отозвать голос</button>
+                            </form>
+                        </c:if>
+
+                        <%--                 уже проголосовал за другой--%>
+                        <c:if test="${vote!=null && vote.restaurant.id!=restaurant.id}" var="statment">
+                            вы уже сегодня голосовали за другой ресторан
+                            <form action="${toVoteUrl}" method="post">
+                                <form:input type="hidden" path="restaurant.id"/>
+                                <button>передумал, выбираю этот</button>
+                            </form>
+                        </c:if>
+                        <%--                 еще не голосовал сегодня вообще --%>
+                        <c:if test="${vote==null}" var="statment">
+                            <form action="${toVoteUrl}" method="post">
+                                <form:input type="hidden" path="restaurant.id"/>
+                                <button>выбираю этот</button>
+                            </form>
+                        </c:if>
+                    </c:if>
+                </c:if>
+                <br>
             </div>
         </div>
     </div>
-
     <br>
     <br>
 </main>
-<c:if test="isAdmin">
-    <jsp:include page="fragments/addDish.jsp"/>
-</c:if>
 <footer>
     <jsp:include page="fragments/bottom.jsp"/>
 </footer>

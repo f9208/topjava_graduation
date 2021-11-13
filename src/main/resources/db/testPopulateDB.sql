@@ -55,5 +55,6 @@ VALUES (10000, 10000, '2020-04-10'),
 -- populate vote now()
 INSERT INTO vote (restaurant_id, user_id)
 VALUES (10000, 10001),
-       (10001, 10000);
+       (10001, 10000),
+       (10001, 10002);
 

@@ -8,7 +8,7 @@ INSERT INTO users (name, email, password)
 VALUES ('Admin', 'admin@gmail.com', '{noop}12345'),
        ('Jonny', 'jonny@gmail.com', '{noop}passwordJonny'),
        ('Ket', 'kety@gmail.com', '{noop}passwordKety'),
-       ('leo', 'leonard@gmail.com', '{noop}passwordLeon');
+       ('leo', 'leonard@gmail.com', '{noop}12345');
 
 INSERT INTO image_labels(name, link_reduced)
 VALUES ('Cone wood', '/resources/pic/cone.JPG'),
@@ -60,5 +60,6 @@ VALUES (10000, 10000, '2020-04-10'),
 -- populate vote now()
 INSERT INTO vote (restaurant_id, user_id)
 VALUES (10000, 10001),
-       (10001, 10000);
+       (10001, 10000),
+       (10001, 10002);
 

@@ -9,20 +9,19 @@ import ru.f9208.choiserestaurant.repository.RestaurantRepository;
 import ru.f9208.choiserestaurant.repository.testData.RestaurantTestData;
 import ru.f9208.choiserestaurant.repository.testData.UserTestData;
 import ru.f9208.choiserestaurant.repository.testData.VoteTestData;
-import ru.f9208.choiserestaurant.web.rest.AbstractRestControllerTest;
 
 import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.f9208.choiserestaurant.repository.testData.RestaurantTestData.MEAT_HOME_ID;
-import static ru.f9208.choiserestaurant.web.PathConstants.RESTAURANTS;
+import static ru.f9208.choiserestaurant.web.PathConstants.REST_RESTAURANTS;
 
 class RestaurantsRestControllerTest extends AbstractRestControllerTest {
     @Autowired
     RestaurantRepository restaurantRepository;
 
-    private final String REST_URL = RESTAURANTS + "/";
+    private final String REST_URL = REST_RESTAURANTS + "/";
 
     @Test
     void getAll() throws Exception {
@@ -52,6 +51,6 @@ class RestaurantsRestControllerTest extends AbstractRestControllerTest {
                 .with(TestUtil.userHttpBasic(UserTestData.admin)))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(VoteTestData.VOTE_TEST_MATCHER.contentJson(List.of(VoteTestData.VOTE6, VoteTestData.VOTE7, VoteTestData.VOTE11, VoteTestData.VOTE8, VoteTestData.VOTE9)));
+                .andExpect(VoteTestData.VOTE_TEST_MATCHER.contentJson(List.of(VoteTestData.VOTE5, VoteTestData.VOTE6, VoteTestData.VOTE10, VoteTestData.VOTE7, VoteTestData.VOTE8)));
     }
 }

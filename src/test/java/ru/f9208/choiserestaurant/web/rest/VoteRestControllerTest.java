@@ -29,11 +29,11 @@ public class VoteRestControllerTest extends AbstractRestControllerTest {
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_PATH)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(String.valueOf(RestaurantTestData.MEAT_HOME_ID))
-                .with(TestUtil.userHttpBasic(UserTestData.userKet)))
+                .with(TestUtil.userHttpBasic(UserTestData.userLeo)))
                 .andDo(print())
                 .andExpect(status().isCreated());
         VoteTo created = TestUtil.readFromJson(action, VoteTo.class);
-        VoteTestData.VOTE_TO_TEST_MATCHER.assertMatch(created, new VoteTo(voteRepository.getVoteByIdAndUserId(created.getVoteId(), UserTestData.USER_KET_ID)));
+        VoteTestData.VOTE_TO_TEST_MATCHER.assertMatch(created, new VoteTo(voteRepository.getVoteByIdAndUserId(created.getVoteId(), UserTestData.USER_LEO_ID)));
     }
 
     @Test
@@ -62,25 +62,25 @@ public class VoteRestControllerTest extends AbstractRestControllerTest {
     void changeMind() throws Exception {
         if (LocalTime.now().isAfter(TOO_LATE)) return;
 
-        VoteTestData.VOTE_TEST_MATCHER.assertMatch(VoteTestData.VOTE14_TODAY, voteRepository.get(VoteTestData.VOTE_14_ID));
-        perform(MockMvcRequestBuilders.put(REST_PATH + "/" + VoteTestData.VOTE_14_ID)
+        VoteTestData.VOTE_TEST_MATCHER.assertMatch(VoteTestData.VOTE13_TODAY, voteRepository.get(VoteTestData.VOTE_13_ID));
+        perform(MockMvcRequestBuilders.put(REST_PATH + "/" + VoteTestData.VOTE_13_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(String.valueOf(RestaurantTestData.MEAT_HOME_ID))
                 .with(TestUtil.userHttpBasic(UserTestData.userJonny)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        VoteTestData.VOTE_TEST_MATCHER.assertMatch(VoteTestData.VOTE14_TODAY_RE_VOTE, voteRepository.get(VoteTestData.VOTE_14_ID));
+        VoteTestData.VOTE_TEST_MATCHER.assertMatch(VoteTestData.VOTE13_TODAY_RE_VOTE, voteRepository.get(VoteTestData.VOTE_13_ID));
     }
 
     @Test
     void reVoteNotOwner() throws Exception {
         if (LocalTime.now().isAfter(TOO_LATE)) return;
-        perform(MockMvcRequestBuilders.put(REST_PATH + "/" + VoteTestData.VOTE_14_ID)
+        perform(MockMvcRequestBuilders.put(REST_PATH + "/" + VoteTestData.VOTE_13_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(String.valueOf(RestaurantTestData.MEAT_HOME_ID))
                 .with(TestUtil.userHttpBasic(UserTestData.userKet)))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
-        VoteTestData.VOTE_TEST_MATCHER.assertMatch(VoteTestData.VOTE14_TODAY, voteRepository.get(VoteTestData.VOTE_14_ID));
+        VoteTestData.VOTE_TEST_MATCHER.assertMatch(VoteTestData.VOTE13_TODAY, voteRepository.get(VoteTestData.VOTE_13_ID));
     }
 }
