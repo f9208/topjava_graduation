@@ -81,11 +81,11 @@ public class RestaurantRepository {
         if (newRestaurant.getDescription() == null) newRestaurant.setDescription((oldRestaurant.getDescription()));
         if (newRestaurant.getMenu() != null) {
             dishRepository.prepareMenuToUpdate(newRestaurant.getMenu(), newRestaurant.getId());
+            newRestaurant.setMenu(dishRepository.getMenu(newRestaurant.getId()));
         }
         return newRestaurant;
     }
 
-    //todo закэшить
     public Restaurant getWithMenu(int id) {
         Restaurant result = getOne(id);
         result.setMenu(dishRepository.getMenu(id));

@@ -18,7 +18,7 @@ public class Dish extends AbstractNamedEntity {
     protected Integer id;
 
     @NumberFormat
-    @NotNull
+    @NotNull(message = "введите положительную стоимость")
     @Positive
     private Integer price;
 

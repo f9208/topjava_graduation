@@ -17,58 +17,60 @@
 <sec:authorize access="isAuthenticated()" var="isAdmin"/>
 <c:set value="${restaurant}" var="restaurant"/>
 <c:url value="${restaurant.label.linkReduced}" var="label"/>
+<c:url value="/restaurants/${restaurant.id}/edit" var="editRestaurant"/>
 <c:set value="${errors}" var="errors"/>
 
 <header>
     <jsp:include page="fragments/head.jsp"/>
 </header>
 <c:if test="${isAdmin}">
-<div><h2 style="text-align: center;"> ${restaurant.name}</h2></div>
-<div><img class="label_img_fixed" src="${label}"/></div>
-<%--@elvariable id="restaurant" type="ru.f9208.choiserestaurant.model.entities.Restaurant"--%>
-<form:form modelAttribute="restaurant" method="post"
-           cssStyle="margin-left: auto;margin-right: auto;width: 1400px;" enctype="multipart/form-data">
+    <div><h2 style="text-align: center;"> ${restaurant.name}</h2></div>
+    <div><img class="label_img_fixed" src="${label}"/></div>
+    <%--@elvariable id="restaurant" type="ru.f9208.choiserestaurant.model.entities.Restaurant"--%>
+    <form:form modelAttribute="restaurant" method="post" action="${editRestaurant}"
+               cssStyle="margin-left: auto;margin-right: auto;width: 1400px;" enctype="multipart/form-data">
 
-    <table><c:forEach items="${restaurant.menu}" var="dish" varStatus="status">
-        <tr>
-            <td><input name="menu[${status.index}].name" value="${dish.name}"></td>
-            <td><input name="menu[${status.index}].price" value="${dish.price}"></td>
-            <td><c:if test="${errors[(dish.id)]==true}">необходимо ввести название и цену продукта!</c:if></td>
-            <input type="hidden" name="menu[${status.index}].id" value="${dish.id}"/>
-        </tr>
-    </c:forEach>
-    </table>
-    <table>
-        <tr>
-            <td><label for="name">Name</label></td>
-            <td><form:input path="name"/> <form:errors path="name"/></td>
-        </tr>
-        <tr>
-            <td><label for="description">description: </label></td>
-            <td><form:input path="description"/></td>
-        </tr>
-        <tr>
-            <td><form:checkbox path="enabled"/></td>
-            <td> доступность для голосования</td>
-        </tr>
-        <tr>
-            <td><label>сменить картинку: </label>
-                <input type="file" name="inputFile" accept=".jpg, .jpeg, .png"><br/>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button type="submit">сохранить изменения</button>
-            </td>
-        </tr>
-    </table>
-    <form:input type="hidden" path="label.name"/>
-    <form:input type="hidden" path="label.id"/>
-    <form:input type="hidden" path="label.linkOrigin"/>
-    <form:input type="hidden" path="label.linkReduced"/>
+        <table><c:forEach items="${restaurant.menu}" var="dish" varStatus="status">
+            <tr>
+                <td><input name="menu[${status.index}].name" value="${dish.name}"></td>
+                <td><input name="menu[${status.index}].price" value="${dish.price}"></td>
+                <td><c:if
+                        test="${errors[(dish.id)]==true}">необходимо ввести уникальное название и цену продукта!</c:if></td>
+                <input type="hidden" name="menu[${status.index}].id" value="${dish.id}"/>
+            </tr>
+        </c:forEach>
+        </table>
+        <table>
+            <tr>
+                <td><label for="name">Name</label></td>
+                <td><form:input path="name"/> <form:errors path="name"/></td>
+            </tr>
+            <tr>
+                <td><label for="description">description: </label></td>
+                <td><form:input path="description"/></td>
+            </tr>
+            <tr>
+                <td><form:checkbox path="enabled"/></td>
+                <td> доступность для голосования</td>
+            </tr>
+            <tr>
+                <td><label>сменить картинку: </label>
+                    <input type="file" name="inputFile" accept=".jpg, .jpeg, .png"><br/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button type="submit">сохранить изменения</button>
+                </td>
+            </tr>
+        </table>
+        <form:input type="hidden" path="label.name"/>
+        <form:input type="hidden" path="label.id"/>
+        <form:input type="hidden" path="label.linkOrigin"/>
+        <form:input type="hidden" path="label.linkReduced"/>
 
-</form:form>
-<jsp:include page="fragments/addDish.jsp"/>
+    </form:form>
+    <jsp:include page="fragments/addDish.jsp"/>
 
 </c:if>
 

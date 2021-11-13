@@ -41,10 +41,11 @@ public class RestaurantUIController {
                                 Model model,
                                 @AuthenticationPrincipal AuthorizedUser authorizedUser) {
         Restaurant restaurant = restaurantRepository.getWithMenuAndVoteForToday(id);
-        //тут ловим экспешн если юзер не голосовал сегодня вообще
-        int userId = authorizedUser.getUserTo().getId();
-        Vote vote = voteRepository.getVoteByUserIdToday(userId);
-
+        Vote vote = null;
+        if (authorizedUser != null) {
+            int userId = authorizedUser.getUserTo().getId();
+            vote = voteRepository.getVoteByUserIdToday(userId);
+        }
         model.addAttribute("vote", vote);
         model.addAttribute("restaurant", restaurant);
         model.addAttribute("dish", new Dish());
@@ -79,7 +80,6 @@ public class RestaurantUIController {
 
         Map<Integer, Boolean> errors = new HashMap<>();
         if (restaurant.getMenu() != null) {
-            //todo если вводим два одинаковых названия то ловим эксепшн
             List<Dish> menu = restaurant.getMenu();
             menu = deleteEmpty(menu, restaurant.getId());
             errors = Validation.validateMenu(menu);
@@ -88,6 +88,7 @@ public class RestaurantUIController {
 
         if (bindingResult.hasErrors() || !errors.isEmpty()) {
             model.addAttribute("errors", errors);
+            model.addAttribute("dish", new Dish());
             return "restaurantEdit";
         }
         restaurantRepository.update(restaurant);
@@ -104,11 +105,14 @@ public class RestaurantUIController {
         Restaurant restaurant = restaurantRepository.getWithMenu(restId);
         if (bindingResult.hasErrors()) {
             model.addAttribute("restaurant", restaurant);
-            return "restaurant";
+            return "restaurantEdit";
+        }
+        if (dishRepository.containDishByNameAndRestaurantId(dish.getName(), restId)) {
+            model.addAttribute("restaurant", restaurant);
+            model.addAttribute("dish", new Dish());
+            return "restaurantEdit";
         }
         dish.setDay(LocalDate.now());
-        //todo если сохраняем блюдо с повторящюимся названием - эксепшн
-
         Dish saved = dishRepository.save(dish, restId);
         restaurant.getMenu().add(saved);
         model.addAttribute("restaurant", restaurant);
@@ -126,7 +130,7 @@ public class RestaurantUIController {
         List<Dish> results = new ArrayList<>();
         for (Dish d : dishes) {
             if (d.getPrice() == null && d.getName().isBlank()) dishRepository.delete(d.getId(), restId);
-            if (d.getPrice() != null && !d.getName().isBlank()) {
+            else {
                 results.add(d);
             }
         }

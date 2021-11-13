@@ -27,26 +27,7 @@ public class MainPageController {
 
     @GetMapping("/")
     public String welcome(Model model) {
-        //закидываем ресторан с результатами сегодяншенго голосования
         model.addAttribute("restaurants", restaurantRepository.getAllWithVotesBetween(LocalDate.now(), LocalDate.now()));
         return "index";
-    }
-
-    @GetMapping("test")
-    public String test(HttpServletRequest request) {
-        return "test";
-    }
-
-    @PostMapping("test")
-    public String testPost(@RequestParam("name") @NotNull String name,
-                           @RequestParam("inputFile") MultipartFile inputFile,
-                           HttpServletRequest request, Model model) throws Exception {
-        if (!inputFile.isEmpty()) {
-            ImageLabel savedImageLabel = handlerImage.serviceSaveInputFileImage(inputFile,
-                    request.getServletContext().getRealPath(""),
-                    name);
-            model.addAttribute("reducedImagePath", savedImageLabel.getLinkReduced());
-        }
-        return "test";
     }
 }

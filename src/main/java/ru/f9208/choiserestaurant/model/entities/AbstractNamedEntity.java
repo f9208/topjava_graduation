@@ -14,8 +14,8 @@ import javax.validation.constraints.Size;
 public abstract class AbstractNamedEntity implements HasId {
     public static final int START_SEQ = 10_000;
 
-    @NotBlank
-    @Size(min = 1, max = 100)
+    @NotBlank(message = "введите название длиной не больше 100 символов")
+    @Size(min = 1, max = 100, message = "")
     @Column(name = "name", nullable = false)
     String name;
 

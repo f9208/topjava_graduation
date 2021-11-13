@@ -11,6 +11,7 @@ import ru.f9208.choiserestaurant.model.entities.Dish;
 import ru.f9208.choiserestaurant.utils.ValidatorUtil;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -74,13 +75,22 @@ public class DishRepository {
 
     @CacheEvict(value = "getMenu", allEntries = true)
     public void prepareMenuToUpdate(List<Dish> dishes, int restaurantId) {
+        List<String> names = new ArrayList<>();
         for (Dish dish : dishes) {
             Dish oldDish = crudDishRepository.getOne(dish.getId());
             if (dish.getName() == null || dish.getName().isBlank()) dish.setName(oldDish.getName());
             if (dish.getDay() == null) dish.setDay(oldDish.getDay());
             if (dish.getPrice() == null || dish.getPrice() == 0) dish.setPrice((oldDish.getPrice()));
             if (dish.getRestaurant() == null) dish.setRestaurant(oldDish.getRestaurant());
-            save(dish, restaurantId);
+
+            if (!names.contains(dish.getName())) {
+                save(dish, restaurantId);
+                names.add(dish.getName());
+            }
         }
+    }
+
+    public boolean containDishByNameAndRestaurantId(String dishName, int restaurantId) {
+        return crudDishRepository.countDishByNameAndRestaurantId(dishName, restaurantId) > 0;
     }
 }

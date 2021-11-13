@@ -41,6 +41,9 @@
     </table>
     </form:form>
 
+    <c:forEach items="${votes}" var="vote">
+        ${vote.day} ${vote.restaurant.name} <br>
+    </c:forEach>
 
     <footer>
         <jsp:include page="fragments/bottom.jsp"/>

@@ -9,21 +9,28 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.f9208.choiserestaurant.model.AuthorizedUser;
 import ru.f9208.choiserestaurant.model.entities.User;
+import ru.f9208.choiserestaurant.model.entities.Vote;
 import ru.f9208.choiserestaurant.model.entities.to.UserTo;
 import ru.f9208.choiserestaurant.repository.UserService;
+import ru.f9208.choiserestaurant.repository.VoteRepository;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class ProfileUIController {
     @Autowired
     UserService userService;
+    @Autowired
+    VoteRepository voteRepository;
 
     @GetMapping("/profile")
     public String profile(Model model, @AuthenticationPrincipal AuthorizedUser authUser,
                           @RequestParam @Nullable boolean updated) {
         model.addAttribute("userTo", authUser.getUserTo());
         model.addAttribute("updated", updated);
+        List<Vote> votes = voteRepository.getAllForUser(authUser.getUserTo().getId());
+        model.addAttribute("votes", votes);
         return "profile";
     }
 
