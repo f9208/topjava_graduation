@@ -4,42 +4,64 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<head>
-    <meta charset="UTF-8">
-    <title>Не можете выбрать в какой кабак пойти? мы поможем!</title>
-    <link rel="stylesheet" type="text/css" href=
-    <c:url value="/resources/css/styles.css"/>
-</head>
-
+<jsp:include page="fragments/headTags.jsp"/>
 <body>
-<header>
-    <jsp:include page="fragments/head.jsp"/>
-</header>
+<jsp:include page="fragments/head.jsp"/>
 <main>
-    <sec:authorize access="hasRole('ADMIN')" var="isAdmin"/>
-    <div class="main_restaurants_list">
-        <c:forEach items="${restaurants}" var="restaurant">
-            <c:if test="${restaurant.enabled==true || isAdmin==true}">
-                <c:url value="${restaurant.label.linkReduced}" var="restaurant_label"/>
-                <div class="restaurant_item">
-                    <jsp:useBean id="restaurant" class="ru.f9208.choiserestaurant.model.entities.Restaurant"/>
-                    <div id="name" style="font-weight: 700; padding-bottom: 5px">${restaurant.name}</div>
-                    <div id="description"> ${restaurant.description} </div>
-                    <c:if test="${restaurant.enabled==false}">
-                        <div id="disabled"> не доступен для пользователей </div>
-                    </c:if>
-                    <a href="restaurants/${restaurant.id}">
-                        <img class="restaurant_label_img" src="${restaurant_label}">
-                    </a>
-                    <div id="vote"> количество голосов: ${restaurant.vote.size()}</div>
+    <div class="container">
+        <div class="row py-3 text-center">
+            <div class="col-6 mx-auto">
+                <p class="h1 fw-light">Голосовалка</p>
+                <p class="lead pt-2">Посмотрите описание и меню представленных ресторанов </p>
+            </div>
+        </div>
+        <sec:authorize access="hasRole('ADMIN')" var="isAdmin"/>
+        <div class="row pt-2 justify-content-center">
+            <div class="col-8">
+                <div class="row row-cols-1 row-cols-md-3 g-3">
+                    <c:forEach items="${restaurants}" var="restaurant">
+                        <c:if test="${restaurant.enabled==true || isAdmin==true}">
+                            <c:url value="${restaurant.label.linkReduced}" var="restaurant_label"/>
+                            <div class="col">
+                                <jsp:useBean id="restaurant3"
+                                             class="ru.f9208.choiserestaurant.model.entities.Restaurant"/>
+                                <h5 id="name">${restaurant.name}</h5>
+                                <a href="restaurants/${restaurant.id}">
+                                    <img class="col-11 g-3" src="${restaurant_label}">
+                                </a>
+                                <div class="card-body" id="description">
+                                    <p class="card-text" style=""> ${restaurant.description} </p>
+                                    <div class="row ">
+                                        <div class="btn-group col-5" id="vote">
+                                            голосов: ${restaurant.vote.size()}</div>
+                                        <div class="col-2 text-danger" id="disabled">
+                                            <c:if test="${restaurant.enabled==false}" var="enabled">
+                                                скрыт
+                                            </c:if></div>
+                                        <a class="btn btn-sm btn-outline-secondary col-3 offset-1"
+                                           href="restaurants/${restaurant.id}">меню</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:if>
+                    </c:forEach>
                 </div>
-            </c:if>
-        </c:forEach>
+            </div>
+        </div>
     </div>
-    <a href="test">to test</a>
+    <%--    <div class="main" typeof="hidden" style="height: 200px;">--%>
+    <%--        &lt;%&ndash;        Некоторый контент...&ndash;%&gt;--%>
+    <%--    </div>--%>
+    <%--    <!-- ... -->--%>
+    <%--    <script src="jquery.dotdotdot.min.js"></script>--%>
+    <%--    <script>--%>
+    <%--        $(function () {--%>
+    <%--            $('.main').dotdotdot();--%>
+    <%--        });--%>
+    <%--    </script>--%>
 </main>
 <footer>
-    <jsp:include page="fragments/bottom.jsp"/>
+    <jsp:include page="fragments/footer.jsp"/>
 </footer>
 </body>
 </html>

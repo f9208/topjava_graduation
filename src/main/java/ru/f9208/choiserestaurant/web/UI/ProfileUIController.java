@@ -36,12 +36,15 @@ public class ProfileUIController {
 
     @PostMapping("/profile")
     public String updateProfile(@Valid UserTo userTo, BindingResult bindingResult,
-                                @AuthenticationPrincipal AuthorizedUser userAuth, Model model) {
+                                @AuthenticationPrincipal AuthorizedUser authUser, Model model) {
         if (bindingResult.hasErrors()) {
+            List<Vote> votes = voteRepository.getAllForUser(authUser.getUserTo().getId());
+            model.addAttribute("votes", votes);
             return "profile";
         }
-        userService.update(userTo, userAuth.getUserTo().getId());
-        userAuth.setUserTo(userTo);
+        userTo.setId(authUser.getUserTo().getId());
+        userService.update(userTo, authUser.getUserTo().getId());
+        authUser.setUserTo(userTo);
         model.addAttribute("updated", true);
         return "redirect:/profile";
     }

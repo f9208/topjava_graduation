@@ -1,132 +1,26 @@
 html {
-    position: relative;
-    min-height: 100%;
-}
-
-.headForm {
-    display: inline-block;
-}
-
-.header {
-    /*height: 100%;*/
-    display: block;
-    /*!*background-image: url("../../resources/pic/theater.png");*!*/
-    /*background-repeat: no-repeat;*/
-    /*background-position: center;*/
-    /*background-size: cover;*/
-    margin-bottom: 10px;
-}
-
-.headerbutton {
-    alignment: right;
-    padding-bottom: 10px;
-}
-
-.headerimg {
-    object-fit: cover;
-    width: 100%;
-    height: 100px;
+    height: 100% !important
 }
 
 body {
     background-color: #e9e4c9ba;
-    margin: 10px;
-    margin-bottom: 60px !important; /* Margin bottom by footer height */
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
 }
 
-.main_restaurants_list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: stretch;
-    align-content: stretch;
-    min-height: 300px;
-    margin: auto;
-    max-width: 795px;
-}
-
-.restaurant_item {
-    margin: 2px;
-    min-width: 250px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
-    width: 250px;
-    padding: 2px;
-    border: ridge beige;
+footer {
+    margin-top: auto !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+    background-color: rgba(221, 216, 188, 0.73);
+    color: rgba(162, 162, 162, 0.51);
 }
 
 section {
     flex-direction: column;
-
 }
 
-h1 {
-    color: blue;
-    font-family: verdana;
-    border-width: 3px;
-    border-left-width: 10px;
-    border-right-width: 10px;
-    border-color: red;
-}
-
-h1.ridge {
-    border-style: ridge;
-}
-
-h1.double {
-    border-style: double;
-}
-
-.footer {
-    position: absolute;
-    color: blueviolet;
-    font-family: "Bell MT";
-    font-size: 30px;
-    background-color: #cfcfcf;
-    bottom: 0;
-    width: 100%;
-    height: 60px; /* Set the fixed height of the footer here */
-    line-height: 60px; /* Vertically center the text there */
-}
-
-.footerText {
-    color: rgba(122, 33, 22, 0.25);
-    position: absolute;
-    font-size: 20px;
-    font-family: Candara;
-    right: 130px;
-}
-
-.restaurant_label_img {
-    width: 100%;
-    align-content: center;
-    margin: auto;
-    display: block;
-}
-
-.label_img_fixed {
-    max-width: 300px;
-    max-height: 200px;
-    display: block;
-    margin: 0 auto;
-}
-
-.restaurant_menu {
-    display: flex;
-    flex-direction: column;
-    padding-left: 100px
-}
-
-.p_menu {
-    font-weight: bolder;
-    font-size: x-large;
-    margin: unset;
-}
-
-.p_dish {
-    padding: 2px;
-    margin-bottom: 6px;
-    margin-block-end: 6px;
+textarea {
+    resize: none;
 }

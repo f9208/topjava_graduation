@@ -86,7 +86,7 @@ public class RestaurantUIController {
             restaurant.setMenu(menu);
         }
 
-        if (bindingResult.hasErrors() || !errors.isEmpty()) {
+        if (bindingResult.hasErrors() || !errors.isEmpty()) { //todo когда вводим пустое название то в заголовке пропадает это же название
             model.addAttribute("errors", errors);
             model.addAttribute("dish", new Dish());
             return "restaurantEdit";

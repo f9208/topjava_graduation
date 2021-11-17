@@ -21,7 +21,7 @@ INSERT INTO restaurant(name, image_id, description, enabled)
 values ('Cone wood', 1, 'Маленький ресторанчик в лесу', true),
        ('Blueberry swamp', 2, 'маленький ресторанчик на болоте', true),
        ('Vegetarian heaven', 3, 'рай для вегетарианца', false),
-       ('Village bar', 4, 'деревенский кабак', true),
+       ('Village bar', 4, 'деревенский кабак в центральном урюпинске', true),
        ('Cafe-bar', 5, 'коктейль-бар', false);
 
 INSERT INTO dishes (name, price, restaurant_id)

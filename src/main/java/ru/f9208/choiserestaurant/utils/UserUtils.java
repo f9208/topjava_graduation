@@ -5,6 +5,7 @@ import ru.f9208.choiserestaurant.model.entities.to.UserTo;
 
 public class UserUtils {
     public static User updateFromTo(User user, UserTo userTo) {
+
         user.setEmail(userTo.getEmail().toLowerCase());
         user.setName(userTo.getName());
         user.setPassword(userTo.getPassword());
