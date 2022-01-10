@@ -4,7 +4,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <jsp:include page="fragments/headTags.jsp"/>
+<head>
+    <script src="resources/js/index.js"></script>
+</head>
 <body>
 <jsp:include page="fragments/head.jsp"/>
 <main>
@@ -24,7 +28,7 @@
                             <c:url value="${restaurant.label.linkReduced}" var="restaurant_label"/>
                             <div class="col">
                                 <jsp:useBean id="restaurant3"
-                                             class="ru.f9208.choiserestaurant.model.entities.Restaurant"/>
+                                             class="ru.f9208.choicerestaurant.model.entities.Restaurant"/>
                                 <h5 id="name">${restaurant.name}</h5>
                                 <a href="restaurants/${restaurant.id}">
                                     <img class="col-11 g-3" src="${restaurant_label}">
@@ -39,7 +43,7 @@
                                                 скрыт
                                             </c:if></div>
                                         <a class="btn btn-sm btn-outline-secondary col-3 offset-1"
-                                           href="restaurants/${restaurant.id}">меню</a>
+                                           href="restaurants/${restaurant.id}#showMenu">меню</a>
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +63,6 @@
     <%--            $('.main').dotdotdot();--%>
     <%--        });--%>
     <%--    </script>--%>
-</main>
 <footer>
     <jsp:include page="fragments/footer.jsp"/>
 </footer>

@@ -17,17 +17,13 @@
 <c:url value="/restaurants/${restaurant.id}/edit" var="editRestaurant"/>
 <c:set value="${errors}" var="errors"/>
 
-
 <main>
     <div class="container">
         <c:if test="${isAdmin}">
-
         <div class="row">
             <div class="h2  text text-center col-12"> ${restaurant.name}</div>
         </div>
-
-            <%--@elvariable id="restaurant" type="ru.f9208.choiserestaurant.model.entities.Restaurant"--%>
-
+            <%--@elvariable id="restaurant" type="ru.f9208.choicerestaurant.model.entities.Restaurant"--%>
         <form:form cssClass="row justify-content-center" modelAttribute="restaurant" method="post"
                    action="${editRestaurant}"
                    enctype="multipart/form-data">
@@ -41,7 +37,6 @@
                     <form:input cssClass="col-4 form-control-sm" path="name"/>
                     <form:errors cssClass="col-5" path="name"/>
                 </div>
-
                 <div class="row py-3">
                     <p class="col-4 h6 offset-1">Доступность для голосования</p>  <form:checkbox
                         cssClass="col-1 text-center" path="enabled"/>
@@ -54,15 +49,13 @@
                     <button class="offset-3 btn btn-outline-primary col-5" type="submit">сохранить изменения</button>
                 </div>
             </div>
-
-
             <form:input type="hidden" path="label.name"/>
             <form:input type="hidden" path="label.id"/>
             <form:input type="hidden" path="label.linkOrigin"/>
             <form:input type="hidden" path="label.linkReduced"/>
         </div>
 
-        <div class="pt-2"></div>
+        <div class="pt-2" id="showMenu"></div>
         <div class="row py-4">
             <div class="col">
                 <hr>
@@ -86,7 +79,6 @@
                            value="${dish.name}">
                     <input class="col-2 ms-2 text-end form-control-sm" align="right" name="menu[${status.index}].price"
                            value="${dish.price}"> &#160;&#8381;
-
                     <input type="hidden" name="menu[${status.index}].id" value="${dish.id}"/>
                 </div>
             </c:forEach>
@@ -102,9 +94,7 @@
             </div>
         </div>
             <jsp:include page="fragments/addDish.jsp"/>
-
         </c:if>
-
 </main>
 <footer>
     <jsp:include page="fragments/footer.jsp"/>

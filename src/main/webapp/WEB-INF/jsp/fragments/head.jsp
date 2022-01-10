@@ -8,6 +8,7 @@
         <c:url value="/register" var="signup"/>
         <c:url value="/logout" var="logout"/>
         <c:url value="/profile" var="profile"/>
+        <c:url value="/" var="root"/>
 
 
         <sec:authorize access="isAnonymous()">
@@ -34,7 +35,7 @@
         </sec:authorize></form:form>
 
     </div>
-    <div class="card-img-top opacity-75"><a href="/choicerestaurant">
+    <div class="card-img-top opacity-75"><a href="${root}">
         <img class="img-fluid" src=
         <c:url value="/resources/pic/theater.JPG"/>></a></div>
     </div>

@@ -6,7 +6,7 @@
 <c:set value="${requestScope['org.springframework.web.servlet.HandlerMapping.pathWithinHandlerMapping']}"
        var="parentUrl"/>
 
-<%--@elvariable id="dish" type="ru.f9208.choiserestaurant.model.entities.Dish"--%>
+<%--@elvariable id="dish" type="ru.f9208.choicerestaurant.model.entities.Dish"--%>
 <c:url var="add" value="/restaurants/${restaurant.id}/add"/>
 
     <div class="row justify-content-center">
@@ -29,4 +29,3 @@
             </form:form>
         </div>
 </div>
-

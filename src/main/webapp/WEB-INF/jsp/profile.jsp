@@ -23,7 +23,7 @@
                         <br>
                     </c:forEach></div>
             </div>
-            <%--@elvariable id="userTo" type="ru.f9208.choiserestaurant.model.entities.to.UserTo"--%>
+            <%--@elvariable id="userTo" type="ru.f9208.choicerestaurant.model.entities.to.UserTo"--%>
             <div class="col-8">
                 <form:form cssClass="row" modelAttribute="userTo" method="post" action="profile">
                     <input name="updated" value="${updated=true}" type="hidden">

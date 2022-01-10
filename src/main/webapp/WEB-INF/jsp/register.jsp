@@ -11,7 +11,7 @@
     <div class="container">
         <section class="row">
             <div class="col h3 text-black text-center pt-4">Регистрация</div>
-            <%--@elvariable id="userTo" type="ru.f9208.choiserestaurant.model.entities.to.UserTo"--%>
+            <%--@elvariable id="userTo" type="ru.f9208.choicerestaurant.model.entities.to.UserTo"--%>
             <form:form cssClass="row row-cols-1 justify-content-center" modelAttribute="userTo" method="post"
                        action="register">
             <div class="row justify-content-center">

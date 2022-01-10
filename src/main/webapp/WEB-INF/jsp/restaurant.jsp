@@ -30,7 +30,7 @@
                     <div class="col-5 g-3 text-black-50 ms-5 mt-3"><p>${restaurant.description}</p>
                     </div>
                 </div>
-                <div class="col pt-4">
+                <div class="col pt-4" id="showMenu">
                     <p class="text-black text-center fs-3">Меню на сегодня</p>
                     <div class="row row-cols-2">
                         <c:forEach items="${restaurant.menu}" var="menu">
@@ -90,7 +90,7 @@
                 </c:if>
                 </c:if>
                 <br>
-                <%--                панель администратора--%>
+                <%--                панель администратора           --%>
                 <div>
                     <c:if test="${isAdmin}">
                         <div class="row">
@@ -115,6 +115,7 @@
                         </div>
                     </c:if>
                 </div>
+                <%--               конец панели администратора           --%>
             </div>
         </div>
     </div>

@@ -1,22 +1,22 @@
 # unregistered Users
 #-----------------------------------------------------
 ### show all restaurants
-GET http://localhost:8080/topjava_graduation/restaurants/
+GET http://localhost:8080/choicerestaurant/restaurants/
 
 ### show restaurant with id 10001
-GET http://localhost:8080/topjava_graduation/restaurants/10001
+GET http://localhost:8080/choicerestaurant/restaurants/10001
 
 ### show restaurant with id 10001
-GET http://localhost:8080/topjava_graduation/restaurants/10001/dishes
+GET http://localhost:8080/choicerestaurant/restaurants/10001/dishes
 
 ### show votes for today at restaurant 10000.
-GET http://localhost:8080/topjava_graduation/restaurants/10000/votes
+GET http://localhost:8080/choicerestaurant/restaurants/10000/votes
 
 #By admin:
 #--------------------------------------------------------------------------------
 
 ### create new restaurant
-POST http://localhost:8080/topjava_graduation/admin/restaurants
+POST http://localhost:8080/choicerestaurant/admin/restaurants
 Authorization: Basic admin@gmail.com 123456789
 Content-Type: application/json
 
@@ -25,7 +25,7 @@ Content-Type: application/json
 }
 
 ### update restaurant
-PUT http://localhost:8080/topjava_graduation/admin/restaurants/10001
+PUT http://localhost:8080/choicerestaurant/admin/restaurants/10001
 Authorization: Basic admin@gmail.com 123456789
 Content-Type: application/json
 
@@ -35,7 +35,7 @@ Content-Type: application/json
 }
 
 ### add new dish for restaurant
-POST http://localhost:8080/topjava_graduation/admin/restaurants/10001/dishes/
+POST http://localhost:8080/choicerestaurant/admin/restaurants/10001/dishes/
 Authorization: Basic admin@gmail.com 123456789
 Content-Type: application/json
 
@@ -47,7 +47,7 @@ Content-Type: application/json
 
 
 ### update dish with id
-PUT http://localhost:8080/topjava_graduation/admin/restaurants/10001/dishes/
+PUT http://localhost:8080/choicerestaurant/admin/restaurants/10001/dishes/
 Authorization: Basic admin@gmail.com 123456789
 Content-Type: application/json
 
@@ -59,23 +59,23 @@ Content-Type: application/json
 }
 
 ### delete dish
-DELETE http://localhost:8080/topjava_graduation/admin/restaurants/10001/dishes/10005
+DELETE http://localhost:8080/choicerestaurant/admin/restaurants/10001/dishes/10005
 Authorization: Basic admin@gmail.com 123456789
 Content-Type: application/json
 
 ### show list users
-GET http://localhost:8080/topjava_graduation/admin/users/
+GET http://localhost:8080/choicerestaurant/admin/users/
 Authorization: Basic admin@gmail.com 123456789
 
 ### delete user by admin
-DELETE  http://localhost:8080/topjava_graduation/admin/users/10002
+DELETE  http://localhost:8080/choicerestaurant/admin/users/10002
 Authorization: Basic admin@gmail.com 123456789
 
 #By User:
 #--------------------------------------------------------------------------------
 
 ############## voteing for restaurant by user Kety
-POST http://localhost:8080/topjava_graduation/votes
+POST http://localhost:8080/choicerestaurant/votes
 Authorization: Basic kety@gmail.com passwordKety
 Content-Type: application/json
 
@@ -83,24 +83,24 @@ Content-Type: application/json
 
 
 #### re-vote for restaurant by user Jonny (He has already voted today by defaul)
-PUT http://localhost:8080/topjava_graduation/votes/10013
+PUT http://localhost:8080/choicerestaurant/votes/10013
 Authorization: Basic jonny@gmail.com passwordJonny
 Content-Type: application/json
 
 10001
 
 #### show user profile
-GET http://localhost:8080/topjava_graduation/profile
+GET http://localhost:8080/choicerestaurant/profile
 Authorization: Basic jonny@gmail.com passwordJonny
 
 
 #### delete vote by user youself
-DELETE http://localhost:8080/topjava_graduation/profile/votes/10013
+DELETE http://localhost:8080/choicerestaurant/profile/votes/10013
 Content-Type: application/json
 Authorization: Basic jonny@gmail.com passwordJonny
 
 ### update User profile
-PUT http://localhost:8080/topjava_graduation/profile
+PUT http://localhost:8080/choicerestaurant/profile
 Content-Type: application/json
 Authorization: Basic jonny@gmail.com passwordJonny
 

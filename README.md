@@ -80,6 +80,6 @@ User may change his profile:
 And delete yourself:
 > DELETE http://localhost:8080/topjava_graduation/profile
 
-For change voting dead_line user constant ru.f9208.choiserestaurant.utils.DateTimeUtils.TOO_LATE
+For change voting dead_line user constant ru.f9208.choicerestaurant.utils.DateTimeUtils.TOO_LATE
 
 Extra curl-commands: /config/curl.md and /config/requests_examples
