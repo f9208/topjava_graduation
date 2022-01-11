@@ -72,6 +72,10 @@ public class VoteRepository {
         return ValidatorUtil.checkNotFoundWithId(crudVoteRepository.getAllByUserId(userId), userId);
     }
 
+    /**
+     * возвращает голоса за указанный интервал [start;end);
+     * т.е. если start=end то вернет результат за один день
+     */
     public List<Vote> getAllForRestaurantBetween(LocalDate start, LocalDate end, int restaurantId) {
         return crudVoteRepository.getAllByDayBetweenAndRestaurantId(start, end, restaurantId);
     }

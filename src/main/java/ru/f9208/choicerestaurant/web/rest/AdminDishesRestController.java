@@ -1,6 +1,5 @@
 package ru.f9208.choicerestaurant.web.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +19,22 @@ import static ru.f9208.choicerestaurant.web.PathConstants.REST_RESTAURANTS;
 @RestController
 @RequestMapping(value = ADMIN_RESTAURANT_DISHES, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminDishesRestController {
+    private final DishRepository dishRepository;
 
-    @Autowired
-    DishRepository dishRepository;
+    public AdminDishesRestController(DishRepository dishRepository) {
+        this.dishRepository = dishRepository;
+    }
 
     @GetMapping("/{dishId}")
-    public Dish getOne(@PathVariable("dishId") int dishId, @PathVariable("restaurantId") int restaurantId) {
+    public Dish getOne(@PathVariable("dishId") int dishId,
+                       @PathVariable("restaurantId") int restaurantId) {
         return dishRepository.get(dishId, restaurantId);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Dish> add(@RequestBody @Valid Dish dish,
-                             @PathVariable("restaurantId")
-                                     int restaurantId) {
+                                    @PathVariable("restaurantId")
+                                            int restaurantId) {
         ValidatorUtil.checkNew(dish);
         if (dish.getDay() == null) dish.setDay(LocalDate.now());
         Dish created = dishRepository.create(dish, restaurantId);

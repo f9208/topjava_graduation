@@ -1,6 +1,5 @@
 package ru.f9208.choicerestaurant.web.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,17 +15,19 @@ import static ru.f9208.choicerestaurant.web.PathConstants.RESTAURANTS_ID_DISHES;
 @RestController
 @RequestMapping(value = RESTAURANTS_ID_DISHES, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishRestController {
+    private final DishRepository dishRepository;
 
-    @Autowired
-    private DishRepository dishRepository;
+    public DishRestController(DishRepository dishRepository) {
+        this.dishRepository = dishRepository;
+    }
 
     @GetMapping
-    public List<Dish> getDishes(@PathVariable("restaurant_id") int restaurantId) {
+    public List<Dish> getDishes(@PathVariable("restaurantId") int restaurantId) {
         return dishRepository.getMenu(restaurantId);
     }
 
     @GetMapping("/{dishId}")
-    public Dish getOne(@PathVariable("dishId") int dishId, @PathVariable("restaurant_id") int restaurantId) {
+    public Dish getOne(@PathVariable("dishId") int dishId, @PathVariable("restaurantId") int restaurantId) {
         return dishRepository.get(dishId, restaurantId);
     }
 }

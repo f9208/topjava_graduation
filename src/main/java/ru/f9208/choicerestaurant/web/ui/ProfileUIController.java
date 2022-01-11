@@ -1,6 +1,5 @@
 package ru.f9208.choicerestaurant.web.ui;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -21,18 +20,21 @@ import java.util.List;
 
 @Controller
 public class ProfileUIController {
-    @Autowired
-    UserService userService;
-    @Autowired
-    VoteRepository voteRepository;
+    private final UserService userService;
+    private final VoteRepository voteRepository;
+
+    public ProfileUIController(UserService userService, VoteRepository voteRepository) {
+        this.userService = userService;
+        this.voteRepository = voteRepository;
+    }
 
     @GetMapping("/profile")
     public String profile(Model model, @AuthenticationPrincipal AuthorizedUser authUser,
                           @RequestParam @Nullable boolean updated) {
-        model.addAttribute("userTo", authUser.getUserTo());
-        model.addAttribute("updated", updated);
         List<Vote> votes = voteRepository.getAllForUser(authUser.getUserTo().getId());
         model.addAttribute("votes", votes);
+        model.addAttribute("userTo", authUser.getUserTo());
+        model.addAttribute("updated", updated);
         return "profile";
     }
 

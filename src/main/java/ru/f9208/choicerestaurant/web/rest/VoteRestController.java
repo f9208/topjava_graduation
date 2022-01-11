@@ -1,6 +1,5 @@
 package ru.f9208.choicerestaurant.web.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,11 +20,14 @@ import static ru.f9208.choicerestaurant.utils.DateTimeUtils.TOO_LATE;
 @RequestMapping(value = VoteRestController.VOTES, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteRestController {
     public static final String VOTES = "/votes";
-    @Autowired
-    private VoteRepository voteRepository;
+    private final VoteRepository voteRepository;
 
-    @GetMapping("/{vote_id}")
-    public VoteTo getVoteTo(@PathVariable(name = "vote_id") int id) {
+    public VoteRestController(VoteRepository voteRepository) {
+        this.voteRepository = voteRepository;
+    }
+
+    @GetMapping("/{voteId}")
+    public VoteTo getVoteTo(@PathVariable(name = "voteId") int id) {
         return new VoteTo(voteRepository.getVoteByIdAndUserId(id, SecurityUtil.getAuthUserId()));
     }
 

@@ -41,18 +41,10 @@
                     <p class="col-4 h6 offset-1">Доступность для голосования</p>  <form:checkbox
                         cssClass="col-1 text-center" path="enabled"/>
                 </div>
-                <div class="row py-3">
-                    <label class="col-3 offset-1 h6">Сменить картинку: </label>
-                    <input class="col-5" type="file" name="inputFile" accept=".jpg, .jpeg, .png">
-                </div>
                 <div class="pt-4">
                     <button class="offset-3 btn btn-outline-primary col-5" type="submit">сохранить изменения</button>
                 </div>
             </div>
-            <form:input type="hidden" path="label.name"/>
-            <form:input type="hidden" path="label.id"/>
-            <form:input type="hidden" path="label.linkOrigin"/>
-            <form:input type="hidden" path="label.linkReduced"/>
         </div>
 
         <div class="pt-2" id="showMenu"></div>

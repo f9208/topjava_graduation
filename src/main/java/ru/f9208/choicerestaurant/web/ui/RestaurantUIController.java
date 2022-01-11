@@ -1,22 +1,17 @@
 package ru.f9208.choicerestaurant.web.ui;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import ru.f9208.choicerestaurant.model.AuthorizedUser;
 import ru.f9208.choicerestaurant.model.entities.Dish;
-import ru.f9208.choicerestaurant.model.entities.ImageLabel;
 import ru.f9208.choicerestaurant.model.entities.Restaurant;
 import ru.f9208.choicerestaurant.model.entities.Vote;
 import ru.f9208.choicerestaurant.repository.DishRepository;
 import ru.f9208.choicerestaurant.repository.RestaurantRepository;
 import ru.f9208.choicerestaurant.repository.VoteRepository;
-import ru.f9208.choicerestaurant.utils.imageUtils.HandlerImage;
 import ru.f9208.choicerestaurant.web.Validation;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,18 +22,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
-public class RestaurantUIController {
-    @Autowired
-    private RestaurantRepository restaurantRepository;
-    @Autowired
-    private DishRepository dishRepository;
-    @Autowired
-    private HandlerImage handlerImage;
-    @Autowired
-    private VoteRepository voteRepository;
+import static ru.f9208.choicerestaurant.web.PathConstants.RESTAURANTS;
 
-    @GetMapping("/restaurants/{id}")
+@Controller
+@RequestMapping(value = RESTAURANTS)
+public class RestaurantUIController {
+    private final RestaurantRepository restaurantRepository;
+    private final DishRepository dishRepository;
+    private final VoteRepository voteRepository;
+
+    public RestaurantUIController(RestaurantRepository restaurantRepository, DishRepository dishRepository, VoteRepository voteRepository) {
+        this.restaurantRepository = restaurantRepository;
+        this.dishRepository = dishRepository;
+        this.voteRepository = voteRepository;
+    }
+
+    @GetMapping("/{id}")
     public String getRestaurant(@PathVariable Integer id,
                                 Model model,
                                 @AuthenticationPrincipal AuthorizedUser authorizedUser) {
@@ -54,32 +53,20 @@ public class RestaurantUIController {
         return "restaurant";
     }
 
-    @GetMapping("/restaurants/{id}/edit")
+    @GetMapping("/{id}/edit")
     public String editRestaurantGet(Model model,
-                                    @PathVariable int id,
-                                    @AuthenticationPrincipal UserDetails user) {
+                                    @PathVariable int id) {
         Restaurant restaurant = restaurantRepository.getWithMenu(id);
         model.addAttribute("restaurant", restaurant);
         model.addAttribute("dish", new Dish());
         return "restaurantEdit";
     }
 
-    @PostMapping("/restaurants/{id}/edit")
+    @PostMapping("/{id}/edit")
     public String editRestaurantPost(@ModelAttribute("restaurant") @Valid Restaurant restaurant,
                                      BindingResult bindingResult,
                                      @PathVariable Integer id,
-                                     Model model,
-                                     @RequestParam("inputFile") MultipartFile inputFile,
-                                     @AuthenticationPrincipal UserDetails user,
-                                     HttpServletRequest request) throws Exception {
-        ImageLabel imageLabel = null;
-        if (!inputFile.isEmpty()) {
-            imageLabel = handlerImage.serviceSaveInputFileImage(inputFile,
-                    request.getServletContext().getRealPath(""),
-                    inputFile.getOriginalFilename());
-        }
-        if (imageLabel != null) restaurant.setLabel(imageLabel);
-
+                                     Model model) {
         Map<Integer, Boolean> errors = new HashMap<>();
         if (restaurant.getMenu() != null) {
             List<Dish> menu = restaurant.getMenu();
@@ -97,13 +84,12 @@ public class RestaurantUIController {
         return "redirect:/restaurants/" + id;
     }
 
-    @PostMapping("/restaurants/{restId}/add")
+    @PostMapping("/{restId}/add")
     public String addDish(@ModelAttribute("dish") @Valid Dish dish,
                           BindingResult bindingResult,
                           Model model,
                           @PathVariable Integer restId,
-                          HttpServletRequest httpServletRequest,
-                          @AuthenticationPrincipal UserDetails user) {
+                          HttpServletRequest httpServletRequest) {
         Restaurant restaurant = restaurantRepository.getWithMenu(restId);
         if (bindingResult.hasErrors()) {
             model.addAttribute("restaurant", restaurant);
@@ -123,7 +109,7 @@ public class RestaurantUIController {
         return "redirect:" + parentUrl + "#showMenu";
     }
 
-    @GetMapping("/restaurants/{restId}/add")
+    @GetMapping("/{restId}/add")
     public String addDishGet(@PathVariable(name = "restId") Integer id) {
         return "redirect:/restaurants/" + id;
     }

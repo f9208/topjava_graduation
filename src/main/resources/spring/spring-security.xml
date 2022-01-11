@@ -20,6 +20,8 @@
         <intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
 <!--        <intercept-url pattern="/restaurants/**" access="isAuthenticated()" method="GET"/>-->
         <intercept-url pattern="/restaurants/**/vote" access="isAuthenticated()" method="POST"/>
+        <intercept-url pattern="/restaurants/**/edit" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/restaurants/**/add" access="hasRole('ADMIN')"/>
         <intercept-url pattern="/register" access="isAnonymous()" method="POST"/>
         <intercept-url pattern="/profile/**" access="isAuthenticated()"/>
         <intercept-url pattern="/votes/**" access="isAuthenticated()"/>

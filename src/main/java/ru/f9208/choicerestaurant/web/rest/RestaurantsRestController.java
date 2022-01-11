@@ -1,6 +1,5 @@
 package ru.f9208.choicerestaurant.web.rest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.lang.Nullable;
@@ -17,10 +16,13 @@ import java.util.List;
 @RestController
 @RequestMapping(value = PathConstants.REST_RESTAURANTS, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantsRestController {
-    @Autowired
-    private RestaurantRepository restaurantRepository;
-    @Autowired
-    VoteRepository voteRepository;
+    private final RestaurantRepository restaurantRepository;
+    private final VoteRepository voteRepository;
+
+    public RestaurantsRestController(RestaurantRepository restaurantRepository, VoteRepository voteRepository) {
+        this.restaurantRepository = restaurantRepository;
+        this.voteRepository = voteRepository;
+    }
 
     @GetMapping
     public List<Restaurant> getAll() {
