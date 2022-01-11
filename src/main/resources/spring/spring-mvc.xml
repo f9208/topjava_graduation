@@ -33,7 +33,6 @@
 
     </mvc:annotation-driven>
     <mvc:resources mapping="/resources/**" location="/resources/"/>
-    <mvc:resources mapping="/uploads/**" location="/uploads/"/>
     <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
@@ -42,5 +41,4 @@
     <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
           id="multipartResolver"
           p:maxUploadSize="1000000000"/>
-    <!--          p:uploadTempDir-ref="uploadDirResource"-->
 </beans>
