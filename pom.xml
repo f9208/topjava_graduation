@@ -37,6 +37,8 @@
         <!--Cache-->
         <ehcache.version>3.9.2</ehcache.version>
         <!--DB-->
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
     <dependencies>
         <!-- Logging with SLF4J & LogBack -->
